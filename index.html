@@ -1,749 +1,1245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ashish Soni — AI/ML Engineer</title>
-  <meta name="description" content="Ashish Soni — Aspiring AI/ML Engineer. B.Tech student specializing in Deep Learning, LangChain, and RAG systems. Open to internships." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <meta name="description" content="Ashish Soni — Aspiring AI/ML Engineer. B.Tech student specializing in Deep Learning, LangChain, and RAG systems."/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #080c10; --bg2: #0d1117; --surface: #111820;
-      --border: #1e2d3d; --accent: #00e5ff; --accent2: #7b61ff;
-      --accent3: #ff6b35; --text: #e0eaf5; --muted: #5a7a99;
-      --code: #a8d8ea; --font-head: 'Syne', sans-serif;
-      --font-mono: 'Space Mono', monospace; --font-body: 'DM Sans', sans-serif;
+    /* =============================================
+       ASHISH SONI PORTFOLIO
+       Theme: Editorial Magazine × Tech
+       Dual Mode: Light (Ivory) + Dark (Obsidian)
+       Chatbot: Floating bubble bottom-right
+    ============================================= */
+
+    /* ── THEME VARIABLES ── */
+    [data-theme="light"] {
+      --bg:        #faf8f4;
+      --bg2:       #f2ede4;
+      --bg3:       #e8e0d0;
+      --surface:   #ffffff;
+      --border:    #d4c9b8;
+      --text:      #1a1410;
+      --text2:     #4a3f35;
+      --muted:     #8c7b6e;
+      --accent:    #c8410a;
+      --accent2:   #1a6b3a;
+      --accent3:   #1e4d8c;
+      --tag-bg:    #ede8e0;
+      --tag-color: #4a3f35;
+      --card-bg:   #ffffff;
+      --shadow:    rgba(26,20,16,0.08);
+      --shadow2:   rgba(26,20,16,0.15);
+      --nav-bg:    rgba(250,248,244,0.92);
+      --chat-bg:   #ffffff;
+      --chat-user: #1a6b3a;
+      --toggle-bg: #1a1410;
+      --toggle-icon: '🌙';
     }
+
+    [data-theme="dark"] {
+      --bg:        #0f0d0a;
+      --bg2:       #161310;
+      --bg3:       #1e1a15;
+      --surface:   #1a1610;
+      --border:    #2e2820;
+      --text:      #f0ebe2;
+      --text2:     #c4b8a8;
+      --muted:     #6e6055;
+      --accent:    #ff6b2b;
+      --accent2:   #3dd68c;
+      --accent3:   #5ba3f5;
+      --tag-bg:    #252018;
+      --tag-color: #c4b8a8;
+      --card-bg:   #1a1610;
+      --shadow:    rgba(0,0,0,0.3);
+      --shadow2:   rgba(0,0,0,0.5);
+      --nav-bg:    rgba(15,13,10,0.92);
+      --chat-bg:   #1a1610;
+      --chat-user: #3dd68c;
+      --toggle-bg: #f0ebe2;
+      --toggle-icon: '☀️';
+    }
+
+    /* ── BASE ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9999; opacity: 0.4;
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; border-bottom: 1px solid rgba(30,45,61,0.5); backdrop-filter: blur(20px); background: rgba(8,12,16,0.85); }
-    .nav-logo { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-    .nav-links a { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-resume { font-family: var(--font-mono); font-size: 0.68rem; padding: 0.42rem 1rem; border: 1px solid var(--accent); border-radius: 3px; color: var(--accent) !important; transition: all 0.2s; }
-    .nav-resume:hover { background: rgba(0,229,255,0.1) !important; }
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.5rem;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--toggle-bg);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px var(--shadow2);
+      transition: all 0.3s ease;
+    }
+    .theme-toggle:hover { transform: scale(1.1) rotate(20deg); }
 
-    /* HERO */
-    #hero { min-height: 100vh; display: flex; align-items: center; padding: 0 3rem; position: relative; overflow: hidden; }
-    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
-    .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%); top: 50%; left: 40%; transform: translate(-50%,-50%); pointer-events: none; }
-    .hero-content { position: relative; z-index: 1; max-width: 860px; }
-    .hero-eyebrow { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
-    .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
-    .hero-name { font-family: var(--font-head); font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; color: var(--text); opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
-    .hero-name span { background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-role { font-family: var(--font-head); font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 600; color: var(--muted); margin-top: 1rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s; }
-    .hero-desc { font-size: 1.02rem; color: var(--muted); max-width: 560px; margin-top: 1.2rem; line-height: 1.85; opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s; }
-    .hero-ctas { display: flex; gap: 0.85rem; margin-top: 2.2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s ease forwards 1s; }
-    .btn { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.7rem; border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.25s ease; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 0.5rem; }
-    .btn-primary { background: var(--accent); color: #000; font-weight: 700; }
-    .btn-primary:hover { background: transparent; color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
-    .btn-outline { border-color: var(--border); color: var(--text); }
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 3rem;
+      height: 64px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); font-style: italic; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transition: transform 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-resume {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.45rem 1.2rem;
+      border: 1.5px solid var(--accent);
+      border-radius: 2px;
+      color: var(--accent) !important;
+      transition: all 0.2s;
+    }
+    .nav-resume:hover { background: var(--accent); color: white !important; }
+    .nav-resume::after { display: none !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 64px;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 3rem;
+      position: relative;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      top: 15%; bottom: 15%;
+      right: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+    }
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 3rem 5rem 4rem;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-right::before {
+      content: 'AI';
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 18rem;
+      font-weight: 900;
+      color: var(--border);
+      right: -2rem;
+      bottom: -3rem;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      transition: color 0.4s;
+    }
+
+    .hero-issue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.2s;
+    }
+    .hero-issue::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.4s;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-divider {
+      width: 60px; height: 3px;
+      background: var(--accent);
+      margin: 1.5rem 0;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.5s;
+    }
+
+    .hero-role {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--text2);
+      letter-spacing: 0.05em;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.6s;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-top: 1.2rem;
+      max-width: 420px;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.7s;
+    }
+
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin-top: 2rem;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.9s;
+    }
+
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.75rem 1.6rem;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: 1.5px solid transparent;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-outline { border-color: var(--border); color: var(--text2); }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-purple { border-color: var(--accent2); color: var(--accent2); background: rgba(123,97,255,0.08); }
-    .btn-purple:hover { background: rgba(123,97,255,0.18); }
-    .hero-stats { display: flex; gap: 3rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s; }
-    .stat-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; }
-    .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); }
+    .btn-green { border-color: var(--accent2); color: var(--accent2); }
+    .btn-green:hover { background: var(--accent2); color: white; }
 
-    /* SECTIONS */
+    /* Right hero — stats */
+    .hero-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.6s;
+    }
+    .hero-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .hero-stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--accent2);
+      border-radius: 2px;
+      padding: 0.6rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent2);
+      margin-top: 1.5rem;
+      position: relative; z-index: 1;
+      opacity: 0; animation: slideIn 0.7s ease forwards 0.9s;
+    }
+    .pulse { width: 8px; height: 8px; background: var(--accent2); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+    /* ── SECTION BASE ── */
     section { padding: 7rem 3rem; }
-    .section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 200px; }
-    .section-title { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--text); line-height: 1.1; }
-    .section-sub { color: var(--muted); margin-top: 0.6rem; font-size: 0.98rem; }
+    .section-header { margin-bottom: 4rem; }
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .section-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .section-sub { color: var(--muted); margin-top: 0.75rem; font-size: 0.98rem; font-weight: 300; }
 
-    /* ABOUT */
+    /* ── ABOUT ── */
     #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; margin-top: 3rem; align-items: start; }
-    .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; line-height: 1.85; }
-    .about-text strong { color: var(--text); }
-    .about-sidebar { display: flex; flex-direction: column; gap: 0.9rem; }
-    .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.4rem; }
-    .info-card-label { font-family: var(--font-mono); color: var(--accent); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem; }
-    .info-card-value { font-family: var(--font-mono); color: var(--text); font-size: 0.8rem; line-height: 1.5; }
-    .availability-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.25); border-radius: 100px; padding: 0.4rem 1rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); margin-top: 1rem; }
-    .dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease infinite; }
+    .about-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6rem; align-items: start; }
+    .about-body p { color: var(--text2); font-size: 1rem; line-height: 1.9; margin-bottom: 1.2rem; font-weight: 300; }
+    .about-body strong { color: var(--text); font-weight: 600; }
+    .about-pull {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--text);
+      border-left: 3px solid var(--accent);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      line-height: 1.5;
+    }
+    .info-stack { display: flex; flex-direction: column; gap: 0; }
+    .info-row {
+      display: flex; flex-direction: column;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-row:first-child { border-top: 1px solid var(--border); }
+    .info-key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .info-val { font-size: 0.9rem; color: var(--text); font-weight: 400; }
+    .avail-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(var(--accent2-rgb, 29,107,58), 0.1);
+      border: 1px solid var(--accent2);
+      border-radius: 100px;
+      padding: 0.45rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent2);
+      margin-top: 1.5rem;
+    }
 
-    /* PROJECTS */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.3s ease; }
-    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
-    .project-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-    .project-card:hover::before { transform: scaleX(1); }
-    .project-num { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 0.8rem; }
-    .project-title { font-family: var(--font-head); font-size: 1.22rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
-    .project-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.1rem; }
-    .project-arch { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 4px; padding: 0.7rem 1rem; margin-bottom: 1.1rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--code); line-height: 1.7; }
-    .project-arch-label { color: var(--accent); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
-    .tag { font-family: var(--font-mono); font-size: 0.6rem; padding: 0.26rem 0.68rem; border-radius: 3px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.15); color: var(--code); }
-    .tag-purple { background: rgba(123,97,255,0.08); border-color: rgba(123,97,255,0.22); color: #a78bfa; }
-    .tag-orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.22); color: #fb923c; }
-    .project-footer { display: flex; align-items: center; justify-content: space-between; }
-    .project-status { font-family: var(--font-mono); font-size: 0.64rem; color: var(--accent3); }
-    .project-status.done { color: #4ade80; }
-    .project-link { font-family: var(--font-mono); font-size: 0.64rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .project-link:hover { color: var(--accent); }
+    /* ── PROJECTS ── */
+    .projects-list { display: flex; flex-direction: column; gap: 0; }
+    .project-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .project-item:first-child { border-top: 1px solid var(--border); }
+    .project-item:hover { background: var(--bg2); margin: 0 -3rem; padding: 2.5rem 3rem; }
+    .project-num-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--border);
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .project-item:hover .project-num-big { color: var(--accent); }
+    .project-content {}
+    .project-domain {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .project-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .project-desc-text { font-size: 0.9rem; color: var(--muted); line-height: 1.75; max-width: 560px; margin-bottom: 1rem; font-weight: 300; }
+    .project-arch-box {
+      background: var(--bg3);
+      border-left: 3px solid var(--accent3);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text2);
+      line-height: 1.7;
+      border-radius: 0 2px 2px 0;
+    }
+    .arch-label { color: var(--accent3); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.2rem; }
+    .project-tags-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .ptag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 2px;
+      background: var(--tag-bg);
+      color: var(--tag-color);
+      border: 1px solid var(--border);
+      letter-spacing: 0.04em;
+    }
+    .ptag-accent { border-color: var(--accent); color: var(--accent); background: transparent; }
+    .ptag-green { border-color: var(--accent2); color: var(--accent2); background: transparent; }
+    .project-side { display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem; padding-top: 0.5rem; }
+    .project-status-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .status-done { background: rgba(29,107,58,0.1); color: var(--accent2); border: 1px solid var(--accent2); }
+    .status-wip { background: rgba(200,65,10,0.1); color: var(--accent); border: 1px solid var(--accent); }
+    .project-gh {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .project-gh:hover { color: var(--accent); }
 
-    /* SKILLS */
+    /* ── SKILLS ── */
     #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .skills-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
-    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
-    .skill-group-title { font-family: var(--font-mono); font-size: 0.67rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.1rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
-    .skill-list { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-    .skill-tag { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.3rem 0.78rem; border-radius: 3px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); transition: all 0.2s; cursor: default; }
-    .skill-tag:hover { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.3); color: var(--accent); }
-    .bar-section { margin-top: 4rem; max-width: 680px; }
-    .bar-section-title { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; }
-    .bar-row { margin-bottom: 1.1rem; }
-    .bar-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text); display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
-    .bar-label span { color: var(--muted); font-size: 0.66rem; }
-    .bar-bg { background: rgba(255,255,255,0.05); border-radius: 2px; height: 4px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .skills-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .skill-category { margin-bottom: 2.5rem; }
+    .skill-cat-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .skill-cat-name span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.32rem 0.8rem;
+      border-radius: 2px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--bg); }
 
-    /* CONTACT */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 3rem; align-items: start; }
-    .contact-meta { color: var(--muted); font-size: 1rem; line-height: 1.85; margin-bottom: 1rem; }
-    .contact-meta strong { color: var(--text); }
-    .contact-links { display: flex; flex-direction: column; gap: 0.85rem; }
-    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-family: var(--font-mono); font-size: 0.8rem; transition: all 0.25s; }
-    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(6px); }
-    .contact-icon { width: 36px; height: 36px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
-    .contact-detail { font-size: 0.66rem; color: var(--muted); margin-top: 2px; }
+    /* Proficiency bars */
+    .prof-section { margin-top: 1rem; }
+    .prof-row { margin-bottom: 1.2rem; }
+    .prof-top { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.35rem; }
+    .prof-name { color: var(--text); font-weight: 500; }
+    .prof-level { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+    .prof-track { background: var(--bg3); height: 3px; border-radius: 1px; overflow: hidden; }
+    .prof-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 1px; transition: width 1.2s ease; }
 
-    /* CHATBOT */
-    #chatbot { background: var(--bg2); border-top: 1px solid var(--border); }
-    .chatbot-wrapper { max-width: 780px; margin: 2.5rem auto 0; }
-    .chat-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .chat-header { padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; background: rgba(0,0,0,0.2); }
-    .chat-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
-    .chat-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); }
-    .chat-subtitle { font-size: 0.66rem; color: var(--muted); }
-    .chat-status { margin-left: auto; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.62rem; color: #4ade80; }
-    .chat-messages { padding: 1.5rem; min-height: 360px; max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.1rem; }
-    .chat-messages::-webkit-scrollbar { width: 4px; }
-    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-    .message { display: flex; gap: 0.7rem; max-width: 88%; animation: fadeUp 0.3s ease; }
-    .message.user { align-self: flex-end; flex-direction: row-reverse; }
-    .msg-avatar { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-family: var(--font-mono); }
-    .msg-avatar.bot { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-    .msg-avatar.user-av { background: rgba(123,97,255,0.3); border: 1px solid var(--accent2); color: var(--accent2); }
-    .msg-bubble { padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.88rem; line-height: 1.7; }
-    .message.bot .msg-bubble { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); border-radius: 2px 8px 8px 8px; }
-    .message.user .msg-bubble { background: rgba(0,229,255,0.09); border: 1px solid rgba(0,229,255,0.2); color: var(--text); border-radius: 8px 2px 8px 8px; }
-    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.4rem 0; }
-    .typing-dot { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; animation: typing 1.4s ease infinite; }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    .chat-input-area { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.75rem; align-items: flex-end; }
-    #chat-input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem 1rem; color: var(--text); font-family: var(--font-body); font-size: 0.88rem; resize: none; outline: none; transition: border-color 0.2s; max-height: 100px; }
+    /* ── CONTACT ── */
+    .contact-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: start; }
+    .contact-intro p { font-size: 1rem; color: var(--text2); line-height: 1.9; font-weight: 300; margin-bottom: 1rem; }
+    .contact-intro strong { color: var(--text); font-weight: 600; }
+    .target-roles {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .target-roles-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .role-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .role-item {
+      font-size: 0.88rem;
+      color: var(--text2);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .role-item::before { content: '→'; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+    .contact-cards { display: flex; flex-direction: column; gap: 0.85rem; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: 0 4px 16px var(--shadow); }
+    .cc-icon {
+      width: 38px; height: 38px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      transition: all 0.25s;
+    }
+    .contact-card:hover .cc-icon { background: var(--accent); border-color: var(--accent); }
+    .cc-name { font-weight: 500; font-size: 0.9rem; }
+    .cc-detail { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+
+    /* ── RESUME SECTION ── */
+    #resume { border-top: 1px solid var(--border); }
+    .resume-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 2.5rem;
+    }
+    .resume-card-top {
+      padding: 1.2rem 2rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .resume-file-info { display: flex; align-items: center; gap: 0.75rem; }
+    .resume-file-icon { font-size: 1.3rem; }
+    .resume-file-name { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text); }
+    .resume-file-desc { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+    .resume-btns { display: flex; gap: 0.75rem; }
+    .resume-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .rb-view { border: 1.5px solid var(--border); color: var(--text2); }
+    .rb-view:hover { border-color: var(--accent); color: var(--accent); }
+    .rb-dl { background: var(--accent); color: white; border: 1.5px solid var(--accent); font-weight: 600; }
+    .rb-dl:hover { background: transparent; color: var(--accent); }
+    .resume-card-body {
+      min-height: 380px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.2rem; padding: 3rem; text-align: center;
+      background: var(--bg);
+    }
+    .resume-big-icon { font-size: 3rem; }
+    .resume-instruction {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 400px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .resume-instruction code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      color: var(--accent);
+    }
+    .resume-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-left {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .footer-left span { color: var(--accent); font-style: italic; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       FLOATING CHATBOT BUBBLE
+    ══════════════════════════════════════ */
+    #chat-bubble {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+    }
+
+    /* Trigger button */
+    .chat-trigger {
+      width: 62px; height: 62px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 32px rgba(200,65,10,0.35);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .chat-trigger:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(200,65,10,0.45); }
+    .chat-trigger .notif-dot {
+      position: absolute;
+      top: 4px; right: 4px;
+      width: 12px; height: 12px;
+      background: var(--accent2);
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      animation: pulse 2s ease infinite;
+    }
+
+    /* Tooltip on hover */
+    .chat-tooltip {
+      position: absolute;
+      bottom: 72px;
+      right: 0;
+      background: var(--text);
+      color: var(--bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.2s;
+    }
+    .chat-trigger:hover + .chat-tooltip { opacity: 1; transform: translateY(0); }
+
+    /* Chat window */
+    .chat-window {
+      position: absolute;
+      bottom: 76px;
+      right: 0;
+      width: 380px;
+      background: var(--chat-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px var(--shadow2);
+      display: none;
+      flex-direction: column;
+      max-height: 560px;
+      animation: popUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .chat-window.open { display: flex; }
+
+    @keyframes popUp {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); transform-origin: bottom right; }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .chat-win-header {
+      padding: 1rem 1.2rem;
+      background: var(--accent);
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .chat-win-avatar {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .chat-win-name { font-weight: 600; font-size: 0.9rem; color: white; }
+    .chat-win-sub { font-size: 0.68rem; color: rgba(255,255,255,0.75); font-family: 'JetBrains Mono', monospace; }
+    .chat-win-close {
+      margin-left: auto;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .chat-win-close:hover { background: rgba(255,255,255,0.35); }
+
+    .chat-win-msgs {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-height: 300px;
+      max-height: 340px;
+    }
+    .chat-win-msgs::-webkit-scrollbar { width: 3px; }
+    .chat-win-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .cmsg { display: flex; gap: 0.5rem; max-width: 88%; animation: fadeUp 0.3s ease; }
+    .cmsg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .cmsg-av {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .cmsg.bot .cmsg-av { background: var(--accent); color: white; }
+    .cmsg.user .cmsg-av { background: var(--accent2); color: white; font-size: 0.55rem; }
+    .cmsg-bubble {
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      line-height: 1.65;
+    }
+    .cmsg.bot .cmsg-bubble { background: var(--bg2); border: 1px solid var(--border); color: var(--text); border-radius: 2px 10px 10px 10px; }
+    .cmsg.user .cmsg-bubble { background: var(--accent); color: white; border-radius: 10px 2px 10px 10px; }
+
+    .typing-dots { display: flex; gap: 3px; align-items: center; padding: 0.3rem 0; }
+    .tdot { width: 5px; height: 5px; background: var(--muted); border-radius: 50%; animation: typing 1.4s ease infinite; }
+    .tdot:nth-child(2) { animation-delay: 0.2s; }
+    .tdot:nth-child(3) { animation-delay: 0.4s; }
+
+    .chat-suggestions {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      padding: 0 1rem 0.75rem;
+    }
+    .csug {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      padding: 0.28rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .csug:hover { border-color: var(--accent); color: var(--accent); }
+
+    .chat-win-input {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 0.6rem; align-items: flex-end;
+      background: var(--surface);
+    }
+    #chat-input {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 0.85rem;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.83rem;
+      resize: none;
+      outline: none;
+      transition: border-color 0.2s;
+      max-height: 80px;
+    }
     #chat-input:focus { border-color: var(--accent); }
     #chat-input::placeholder { color: var(--muted); }
-    #send-btn { background: var(--accent); color: #000; border: none; border-radius: 6px; padding: 0.7rem 1.2rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; transition: all 0.2s; white-space: nowrap; }
-    #send-btn:hover { opacity: 0.85; }
-    #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .sq-area { display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0 1.5rem 1rem; }
-    .sq-btn { font-family: var(--font-mono); font-size: 0.6rem; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 100px; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
-    .sq-btn:hover { border-color: var(--accent); color: var(--accent); }
+    #chat-send {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    #chat-send:hover { opacity: 0.85; }
+    #chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* RESUME */
-    #resume { border-top: 1px solid var(--border); }
-    .resume-box { margin-top: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-    .resume-topbar { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); flex-wrap: wrap; gap: 1rem; }
-    .resume-topbar-left { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; }
-    .resume-topbar-left strong { color: var(--text); }
-    .resume-btn-group { display: flex; gap: 0.75rem; }
-    .resume-btn { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.48rem 1.1rem; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
-    .resume-btn-view { background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); }
-    .resume-btn-view:hover { background: rgba(0,229,255,0.14); }
-    .resume-btn-dl { background: var(--accent); border: 1px solid var(--accent); color: #000; font-weight: 700; }
-    .resume-btn-dl:hover { opacity: 0.85; }
-    .resume-body { background: #090e14; min-height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; padding: 3rem; text-align: center; }
-    .resume-icon { font-size: 3.5rem; }
-    .resume-filename { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text); background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.15); border-radius: 4px; padding: 0.5rem 1.2rem; }
-    .resume-hint { font-size: 0.87rem; color: var(--muted); max-width: 420px; line-height: 1.8; }
-    .resume-hint code { font-family: var(--font-mono); color: var(--accent); background: rgba(0,229,255,0.07); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem; }
-    .resume-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-
-    /* FOOTER */
-    footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); flex-wrap: wrap; gap: 1rem; }
-    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    footer a:hover { color: var(--accent); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.8); } }
-    @keyframes typing { 0%,60%,100% { transform:translateY(0); opacity:0.4; } 30% { transform:translateY(-6px); opacity:1; } }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
+    /* ── ANIMATIONS ── */
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.8); } }
+    @keyframes typing { 0%,60%,100% { transform:translateY(0); opacity:0.4; } 30% { transform:translateY(-5px); opacity:1; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.5rem; }
       .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 3rem 1.5rem; }
       section { padding: 5rem 1.5rem; }
-      #hero { padding: 0 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+      .about-layout, .contact-split, .skills-two-col { grid-template-columns: 1fr; gap: 3rem; }
+      .project-item { grid-template-columns: 60px 1fr; }
+      .project-side { display: none; }
+      .chat-window { width: 320px; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 1rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── THEME TOGGLE ── -->
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">🌙</button>
+
+<!-- ── NAV ── -->
 <nav>
-  <a href="#hero" class="nav-logo">ashish.soni_</a>
+  <a href="#hero" class="nav-logo">Ashish <span>Soni</span></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#chatbot">AI Chat</a></li>
     <li><a href="ashish_soni_resume.pdf" download class="nav-resume">Resume ↓</a></li>
   </ul>
 </nav>
 
-<!-- ══════════════════════════════════════════════
-     HERO SECTION
-══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
 <section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-content">
 
-    <div class="hero-eyebrow">B.Tech Student &nbsp;·&nbsp; India &nbsp;·&nbsp; Open to Internships</div>
-
-    <h1 class="hero-name">
-      Ashish<br />
-      <span>Soni</span>
-    </h1>
-
+  <div class="hero-left">
+    <div class="hero-issue">Portfolio · 2025 · India</div>
+    <h1 class="hero-name">Ashish<br/><em>Soni</em></h1>
+    <div class="hero-divider"></div>
     <p class="hero-role">Aspiring AI / ML Engineer</p>
-
     <p class="hero-desc">
-      I build end-to-end AI systems — <strong style="color:var(--text)">CNN image captioners</strong>,
-      <strong style="color:var(--text)">deepfake detectors</strong>, <strong style="color:var(--text)">audio classifiers</strong>,
-      and <strong style="color:var(--text)">LangChain RAG pipelines</strong>.
-      Passionate about turning cutting-edge AI research into real, production-grade products.
+      Building end-to-end intelligent systems — from CNN image captioners and deepfake detectors
+      to LangChain RAG pipelines. A B.Tech student turning AI research into real products.
     </p>
-
     <div class="hero-ctas">
-      <a href="#projects" class="btn btn-primary">View My Projects</a>
-      <a href="#chatbot" class="btn btn-outline">Chat with My AI ↗</a>
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
       <a href="ashish_soni_resume.pdf" target="_blank" class="btn btn-outline">👁 View Resume</a>
-      <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="btn btn-purple">⬇ Download Resume</a>
+      <a href="ashish_soni_resume.pdf" download class="btn btn-green">⬇ Download CV</a>
     </div>
+    <div class="hero-badge">
+      <div class="pulse"></div>
+      Open to Internships &amp; AI/ML Roles
+    </div>
+  </div>
 
-    <div class="hero-stats">
-      <div>
-        <span class="stat-num">4</span>
+  <div class="hero-right">
+    <div class="hero-stat-grid">
+      <div class="hero-stat-card">
+        <span class="stat-number">4</span>
         <span class="stat-label">AI Projects</span>
       </div>
-      <div>
-        <span class="stat-num">10+</span>
-        <span class="stat-label">AI Frameworks</span>
+      <div class="hero-stat-card">
+        <span class="stat-number">10+</span>
+        <span class="stat-label">Frameworks</span>
       </div>
-      <div>
-        <span class="stat-num">3</span>
+      <div class="hero-stat-card">
+        <span class="stat-number">3</span>
         <span class="stat-label">AI Domains</span>
       </div>
-      <div>
-        <span class="stat-num">RAG</span>
+      <div class="hero-stat-card">
+        <span class="stat-number">RAG</span>
         <span class="stat-label">Specialized</span>
       </div>
     </div>
-
+    <div class="hero-badge" style="margin-top:2rem;">
+      <div class="pulse"></div>
+      RAG Chatbot live on this page ↘
+    </div>
   </div>
+
 </section>
 
-<!-- ══════════════════════════════════════════════
-     ABOUT SECTION
-══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     ABOUT
+══════════════════════════════════ -->
 <section id="about">
-  <div class="section-label">01. About</div>
-  <h2 class="section-title">Who Is Ashish Soni?</h2>
+  <div class="section-header reveal">
+    <div class="section-eyebrow">01. About</div>
+    <h2 class="section-title">The Mind Behind<br/><em>the Machine</em></h2>
+  </div>
 
-  <div class="about-grid reveal">
-
-    <div class="about-text">
-      <p>
-        I'm <strong>Ashish Soni</strong>, a B.Tech student from <strong>India</strong> on a mission to
-        become a top-tier AI/ML Engineer. My focus is on building <strong>complete, production-ready
-        AI systems</strong> — not just running experiments in notebooks.
-      </p>
-      <p>
-        My work spans three AI domains: <strong>Computer Vision</strong> — including an image captioning
-        system using a CNN (Xception) + LSTM architecture and a deepfake face detector using binary
-        classification; <strong>Audio ML</strong> — music genre classification using MFCC and spectrogram
-        features; and <strong>LLM Engineering</strong> — building RAG pipelines with LangChain, vector
-        stores, embeddings, and retrieval chains.
-      </p>
-      <p>
-        What sets me apart is that I understand AI architectures <strong>from first principles</strong>.
-        I know why Xception is superior for feature extraction, why MFCC captures audio better than
-        raw waveforms, and how the attention mechanism in Transformers actually works. I build to
-        understand deeply, and I understand deeply to build better.
-      </p>
-      <p>
-        I'm actively seeking <strong>AI/ML internships</strong> at product companies, research labs,
-        ML engineering teams, and AI-first startups where I can do real work, ship real models,
-        and grow alongside experienced engineers building the future of AI.
-      </p>
-      <div class="availability-badge">
-        <div class="dot"></div>
-        ✅ Available for Internships &amp; Opportunities — India / Remote
-      </div>
+  <div class="about-layout">
+    <div class="about-body reveal">
+      <p>I'm <strong>Ashish Soni</strong>, a B.Tech student from <strong>India</strong> on a mission to become a top-tier AI/ML Engineer. I don't just run experiments in notebooks — I build <strong>complete, production-ready AI systems</strong> from scratch.</p>
+      <p>My work spans three AI domains: <strong>Computer Vision</strong> (image captioning with CNN+LSTM, deepfake face detection), <strong>Audio ML</strong> (music genre classification with MFCC and spectrograms), and <strong>LLM Engineering</strong> (LangChain RAG pipelines, vector stores, retrieval chains).</p>
+      <div class="about-pull">"I build to understand deeply, and I understand deeply to build better."</div>
+      <p>What sets me apart is that I understand AI architectures <strong>from first principles</strong> — why Xception outperforms VGG for feature extraction, why MFCC captures audio better than raw waveforms, and how Transformer attention actually works at the matrix level.</p>
+      <p>I'm actively seeking <strong>AI/ML internships</strong> at product companies, research labs, and AI-first startups where I can ship real models and grow fast.</p>
+      <div class="avail-pill"><div class="pulse"></div>✅ Available for Internships — India / Remote</div>
     </div>
 
-    <div class="about-sidebar">
-      <div class="info-card">
-        <div class="info-card-label">Full Name</div>
-        <div class="info-card-value">Ashish Soni</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Current Status</div>
-        <div class="info-card-value">B.Tech Student 🎓</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Location</div>
-        <div class="info-card-value">India 🇮🇳</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Primary Domain</div>
-        <div class="info-card-value">AI / ML Engineering</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Core Stack</div>
-        <div class="info-card-value">Python · TensorFlow · Keras · LangChain · RAG · ChromaDB</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">AI Specializations</div>
-        <div class="info-card-value">Deep Learning · Computer Vision · Audio ML · LLM Engineering</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Interests</div>
-        <div class="info-card-value">AI Products · ML Engineering · Applied AI Research · Startup AI Teams</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Career Goal</div>
-        <div class="info-card-value">Top AI Engineer building intelligent systems at scale 🚀</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-label">Response Time</div>
-        <div class="info-card-value">Within 24 hours ⚡</div>
-      </div>
+    <div class="info-stack reveal">
+      <div class="info-row"><div class="info-key">Name</div><div class="info-val">Ashish Soni</div></div>
+      <div class="info-row"><div class="info-key">Status</div><div class="info-val">B.Tech Student 🎓</div></div>
+      <div class="info-row"><div class="info-key">Location</div><div class="info-val">India 🇮🇳</div></div>
+      <div class="info-row"><div class="info-key">Domain</div><div class="info-val">AI / ML Engineering</div></div>
+      <div class="info-row"><div class="info-key">Core Stack</div><div class="info-val">Python · TensorFlow · LangChain · RAG</div></div>
+      <div class="info-row"><div class="info-key">Specialization</div><div class="info-val">Deep Learning · LLM Engineering · Computer Vision</div></div>
+      <div class="info-row"><div class="info-key">Goal</div><div class="info-val">Top AI Engineer at scale 🚀</div></div>
+      <div class="info-row"><div class="info-key">Response Time</div><div class="info-val">Within 24 hours ⚡</div></div>
+      <div class="info-row"><div class="info-key">Email</div><div class="info-val">ashishsoni243k@gmail.com</div></div>
     </div>
-
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     PROJECTS SECTION
-══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     PROJECTS
+══════════════════════════════════ -->
 <section id="projects">
-  <div class="section-label">02. Projects</div>
-  <h2 class="section-title">What I've Built</h2>
-  <p class="section-sub">4 end-to-end AI projects across Computer Vision, Audio ML, and LLM Engineering — all built from scratch.</p>
+  <div class="section-header reveal">
+    <div class="section-eyebrow">02. Projects</div>
+    <h2 class="section-title">Four AI Systems<br/><em>Built from Scratch</em></h2>
+    <p class="section-sub">End-to-end across Computer Vision, Audio ML, and LLM Engineering.</p>
+  </div>
 
-  <div class="projects-grid">
+  <div class="projects-list">
 
-    <!-- PROJECT 1 — IMAGE CAPTIONING -->
-    <div class="project-card reveal">
-      <div class="project-num">PROJECT / 001 · COMPUTER VISION · NLP</div>
-      <h3 class="project-title">🖼️ Image Captioning Model</h3>
-      <p class="project-desc">
-        An end-to-end image-to-text system that takes any photograph and automatically generates
-        a natural language caption describing the scene. Trained on 8,000 images and 40,000
-        human-written captions from the Flickr8k dataset.
-      </p>
-      <div class="project-arch">
-        <div class="project-arch-label">Architecture Pipeline</div>
-        Input Image → Xception CNN Encoder (pretrained, ImageNet)<br />
-        → 2048-dim Feature Vector → LSTM Decoder (teacher forcing)<br />
-        → Word-by-word Caption Generation (Beam Search at inference)
+    <div class="project-item reveal">
+      <div class="project-num-big">01</div>
+      <div class="project-content">
+        <div class="project-domain">Computer Vision · NLP</div>
+        <h3 class="project-name">Image Captioning Model</h3>
+        <p class="project-desc-text">An end-to-end image-to-text system trained on 8,000 images and 40,000 human captions from Flickr8k. Takes any photograph and automatically generates a natural language description of the scene.</p>
+        <div class="project-arch-box">
+          <div class="arch-label">Architecture</div>
+          Input Image → Xception CNN (pretrained, ImageNet) → 2048-dim Feature Vector → LSTM Decoder (teacher forcing) → Beam Search → Caption
+        </div>
+        <div class="project-tags-row">
+          <span class="ptag">CNN</span><span class="ptag">LSTM</span><span class="ptag">Xception</span>
+          <span class="ptag-accent">TensorFlow</span><span class="ptag-accent">Keras</span>
+          <span class="ptag-green">Flickr8k</span><span class="ptag">Transfer Learning</span><span class="ptag">Beam Search</span>
+        </div>
       </div>
-      <div class="project-tags">
-        <span class="tag">CNN</span>
-        <span class="tag">LSTM</span>
-        <span class="tag">Xception</span>
-        <span class="tag tag-purple">TensorFlow</span>
-        <span class="tag tag-purple">Keras</span>
-        <span class="tag tag-orange">Flickr8k Dataset</span>
-        <span class="tag">Transfer Learning</span>
-        <span class="tag">Beam Search</span>
-      </div>
-      <div class="project-footer">
-        <span class="project-status done">✓ Completed</span>
-        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      <div class="project-side">
+        <span class="project-status-badge status-done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-gh">GitHub ↗</a>
       </div>
     </div>
 
-    <!-- PROJECT 2 — DEEPFAKE DETECTION -->
-    <div class="project-card reveal">
-      <div class="project-num">PROJECT / 002 · COMPUTER VISION · SECURITY</div>
-      <h3 class="project-title">🎭 Real vs Fake Face Detection</h3>
-      <p class="project-desc">
-        A deep learning binary classifier that detects whether a face is a real human photograph
-        or an AI-generated / manipulated deepfake image. Uses a CNN architecture with a robust
-        face preprocessing pipeline for alignment and normalization.
-      </p>
-      <div class="project-arch">
-        <div class="project-arch-label">Architecture Pipeline</div>
-        Raw Image → Face Detection → Alignment + Normalization<br />
-        → CNN Feature Extractor (Transfer Learning backbone)<br />
-        → Dense Layers → Sigmoid Output → Real (1) / Fake (0)
+    <div class="project-item reveal">
+      <div class="project-num-big">02</div>
+      <div class="project-content">
+        <div class="project-domain">Computer Vision · Security</div>
+        <h3 class="project-name">Real vs Fake Face Detection</h3>
+        <p class="project-desc-text">A CNN binary classifier that detects whether a face is a real photograph or an AI-generated deepfake. Built with a robust preprocessing pipeline for face alignment and normalization.</p>
+        <div class="project-arch-box">
+          <div class="arch-label">Architecture</div>
+          Raw Image → Face Detection → Alignment + Normalization → CNN Feature Extractor → Dense Layers → Sigmoid → Real (1) / Fake (0)
+        </div>
+        <div class="project-tags-row">
+          <span class="ptag">CNN</span><span class="ptag">Binary Classification</span>
+          <span class="ptag-accent">TensorFlow</span><span class="ptag-accent">Keras</span>
+          <span class="ptag-green">Deepfake Detection</span><span class="ptag">Transfer Learning</span>
+        </div>
       </div>
-      <div class="project-tags">
-        <span class="tag">CNN</span>
-        <span class="tag">Binary Classification</span>
-        <span class="tag tag-purple">TensorFlow</span>
-        <span class="tag tag-purple">Keras</span>
-        <span class="tag tag-orange">Deepfake Detection</span>
-        <span class="tag">Transfer Learning</span>
-        <span class="tag">Preprocessing Pipeline</span>
-      </div>
-      <div class="project-footer">
-        <span class="project-status done">✓ Completed</span>
-        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      <div class="project-side">
+        <span class="project-status-badge status-done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-gh">GitHub ↗</a>
       </div>
     </div>
 
-    <!-- PROJECT 3 — AUDIO GENRE -->
-    <div class="project-card reveal">
-      <div class="project-num">PROJECT / 003 · AUDIO ML · SIGNAL PROCESSING</div>
-      <h3 class="project-title">🎵 Audio Genre Classification</h3>
-      <p class="project-desc">
-        A music genre recognition system that classifies audio clips into genres by extracting
-        meaningful acoustic features. Uses MFCC (Mel-Frequency Cepstral Coefficients) and Mel
-        spectrograms — which capture frequency, rhythm, and tonal structure far better than raw waveforms.
-      </p>
-      <div class="project-arch">
-        <div class="project-arch-label">Architecture Pipeline</div>
-        Audio File → MFCC Extraction + Mel Spectrogram<br />
-        → Feature Matrix (frequency × time) → Neural Network<br />
-        → Softmax Output → Genre Label (Rock, Jazz, Pop, etc.)
+    <div class="project-item reveal">
+      <div class="project-num-big">03</div>
+      <div class="project-content">
+        <div class="project-domain">Audio ML · Signal Processing</div>
+        <h3 class="project-name">Audio Genre Classification</h3>
+        <p class="project-desc-text">Music genre recognition using acoustic feature extraction. Uses MFCC and Mel spectrograms which capture frequency, rhythm, and tonal structure far better than raw waveforms.</p>
+        <div class="project-arch-box">
+          <div class="arch-label">Architecture</div>
+          Audio File → MFCC + Mel Spectrogram → Feature Matrix → Neural Network → Softmax → Genre Label
+        </div>
+        <div class="project-tags-row">
+          <span class="ptag">MFCC</span><span class="ptag">Mel Spectrogram</span>
+          <span class="ptag-accent">Neural Network</span><span class="ptag-accent">TensorFlow</span>
+          <span class="ptag-green">Audio ML</span><span class="ptag">Feature Engineering</span>
+        </div>
       </div>
-      <div class="project-tags">
-        <span class="tag">MFCC</span>
-        <span class="tag">Mel Spectrogram</span>
-        <span class="tag tag-purple">Neural Network</span>
-        <span class="tag tag-purple">TensorFlow</span>
-        <span class="tag tag-orange">Audio ML</span>
-        <span class="tag">Signal Processing</span>
-        <span class="tag">Feature Engineering</span>
-      </div>
-      <div class="project-footer">
-        <span class="project-status done">✓ Completed</span>
-        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      <div class="project-side">
+        <span class="project-status-badge status-done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-gh">GitHub ↗</a>
       </div>
     </div>
 
-    <!-- PROJECT 4 — RAG CHATBOT -->
-    <div class="project-card reveal">
-      <div class="project-num">PROJECT / 004 · LLM ENGINEERING · RAG</div>
-      <h3 class="project-title">🤖 RAG Portfolio Chatbot</h3>
-      <p class="project-desc">
-        An AI chatbot powered by Retrieval-Augmented Generation (RAG) trained on personal portfolio
-        data. Portfolio documents are embedded into a ChromaDB vector store. At query time, the
-        top-3 most relevant chunks are retrieved as context and passed to an LLM — enabling
-        accurate, hallucination-free, source-aware answers about Ashish.
-      </p>
-      <div class="project-arch">
-        <div class="project-arch-label">RAG Pipeline</div>
-        Documents → Text Splitter → HuggingFace Embeddings<br />
-        → ChromaDB Vector Store → Retriever (top-k chunks)<br />
-        → LangChain Chain → Groq LLM → Accurate Answer
+    <div class="project-item reveal">
+      <div class="project-num-big">04</div>
+      <div class="project-content">
+        <div class="project-domain">LLM Engineering · RAG</div>
+        <h3 class="project-name">RAG Portfolio Chatbot</h3>
+        <p class="project-desc-text">AI chatbot powered by Retrieval-Augmented Generation. Portfolio documents are embedded into ChromaDB. At query time, top-3 relevant chunks are retrieved and passed as context to an LLM — enabling accurate, hallucination-free answers. You can talk to it right now (↘ bottom right).</p>
+        <div class="project-arch-box">
+          <div class="arch-label">RAG Pipeline</div>
+          Docs → Text Splitter → HuggingFace Embeddings → ChromaDB → Retriever (top-k) → LangChain Chain → Groq LLM → Answer
+        </div>
+        <div class="project-tags-row">
+          <span class="ptag">RAG</span><span class="ptag">LangChain</span>
+          <span class="ptag-accent">ChromaDB</span><span class="ptag-accent">Embeddings</span>
+          <span class="ptag-green">Groq LLM</span><span class="ptag">FastAPI</span><span class="ptag">Vector Store</span>
+        </div>
       </div>
-      <div class="project-tags">
-        <span class="tag">RAG</span>
-        <span class="tag">LangChain</span>
-        <span class="tag tag-purple">ChromaDB</span>
-        <span class="tag tag-purple">Embeddings</span>
-        <span class="tag tag-orange">Groq LLM</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">Vector Store</span>
-        <span class="tag">Retriever</span>
-      </div>
-      <div class="project-footer">
-        <span class="project-status">⟳ In Progress</span>
-        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      <div class="project-side">
+        <span class="project-status-badge status-wip">⟳ In Progress</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-gh">GitHub ↗</a>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SKILLS SECTION
-══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     SKILLS
+══════════════════════════════════ -->
 <section id="skills">
-  <div class="section-label">03. Skills &amp; Stack</div>
-  <h2 class="section-title">Technical Arsenal</h2>
-  <p class="section-sub">Everything I use to design, build, and ship AI systems — from raw data to deployed models.</p>
-
-  <div class="skills-layout reveal">
-
-    <div class="skill-group">
-      <div class="skill-group-title">🐍 Programming Languages</div>
-      <div class="skill-list">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">C</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-group-title">🧠 AI / ML Models</div>
-      <div class="skill-list">
-        <span class="skill-tag">Machine Learning</span>
-        <span class="skill-tag">Deep Learning</span>
-        <span class="skill-tag">CNN</span>
-        <span class="skill-tag">RNN</span>
-        <span class="skill-tag">LSTM</span>
-        <span class="skill-tag">Transformers</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-group-title">📦 Libraries &amp; Frameworks</div>
-      <div class="skill-list">
-        <span class="skill-tag">TensorFlow</span>
-        <span class="skill-tag">Keras</span>
-        <span class="skill-tag">NumPy</span>
-        <span class="skill-tag">Pandas</span>
-        <span class="skill-tag">Matplotlib</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-group-title">🔗 LangChain &amp; RAG</div>
-      <div class="skill-list">
-        <span class="skill-tag">LangChain</span>
-        <span class="skill-tag">Chains</span>
-        <span class="skill-tag">Runnables</span>
-        <span class="skill-tag">RAG Architecture</span>
-        <span class="skill-tag">Vector Stores</span>
-        <span class="skill-tag">Retrievers</span>
-        <span class="skill-tag">Embeddings</span>
-        <span class="skill-tag">Tool Calling</span>
-        <span class="skill-tag">Text Splitters</span>
-        <span class="skill-tag">Output Parsers</span>
-        <span class="skill-tag">Structured Outputs</span>
-        <span class="skill-tag">Prompt Engineering</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-group-title">⚙️ ML Engineering Concepts</div>
-      <div class="skill-list">
-        <span class="skill-tag">Model Training</span>
-        <span class="skill-tag">Evaluation Metrics</span>
-        <span class="skill-tag">Feature Engineering</span>
-        <span class="skill-tag">Transfer Learning</span>
-        <span class="skill-tag">Data Preprocessing</span>
-        <span class="skill-tag">Hyperparameter Tuning</span>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <div class="skill-group-title">🌱 Currently Learning</div>
-      <div class="skill-list">
-        <span class="skill-tag">MLOps</span>
-        <span class="skill-tag">FastAPI</span>
-        <span class="skill-tag">Docker</span>
-        <span class="skill-tag">Production AI</span>
-        <span class="skill-tag">Model Deployment</span>
-      </div>
-    </div>
-
+  <div class="section-header reveal">
+    <div class="section-eyebrow">03. Skills</div>
+    <h2 class="section-title">Technical <em>Arsenal</em></h2>
+    <p class="section-sub">From raw data preprocessing to production LLM pipelines.</p>
   </div>
 
-  <!-- Proficiency Bars -->
-  <div class="bar-section reveal">
-    <div class="bar-section-title">Proficiency Levels</div>
+  <div class="skills-two-col">
+    <div class="reveal">
+      <div class="skill-category">
+        <div class="skill-cat-name">Languages <span>CORE</span></div>
+        <div class="skill-chips"><span class="chip">Python</span><span class="chip">C</span></div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-name">AI / ML Models <span>DEEP LEARNING</span></div>
+        <div class="skill-chips">
+          <span class="chip">Machine Learning</span><span class="chip">Deep Learning</span>
+          <span class="chip">CNN</span><span class="chip">RNN</span><span class="chip">LSTM</span><span class="chip">Transformers</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-name">Libraries <span>ML STACK</span></div>
+        <div class="skill-chips">
+          <span class="chip">TensorFlow</span><span class="chip">Keras</span>
+          <span class="chip">NumPy</span><span class="chip">Pandas</span><span class="chip">Matplotlib</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-name">LangChain &amp; RAG <span>LLM ENGINEERING</span></div>
+        <div class="skill-chips">
+          <span class="chip">LangChain</span><span class="chip">Chains</span><span class="chip">Runnables</span>
+          <span class="chip">RAG Architecture</span><span class="chip">Vector Stores</span>
+          <span class="chip">Retrievers</span><span class="chip">Embeddings</span>
+          <span class="chip">Tool Calling</span><span class="chip">Text Splitters</span>
+          <span class="chip">Output Parsers</span><span class="chip">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <div class="skill-cat-name">Currently Learning <span>GROWING</span></div>
+        <div class="skill-chips">
+          <span class="chip">MLOps</span><span class="chip">FastAPI</span>
+          <span class="chip">Docker</span><span class="chip">Model Deployment</span>
+        </div>
+      </div>
+    </div>
 
-    <div class="bar-row">
-      <div class="bar-label">Python <span>Expert</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:92%"></div></div>
+    <div class="reveal">
+      <div class="skill-cat-name" style="margin-bottom:1.5rem;">Proficiency <span>SELF-ASSESSED</span></div>
+      <div class="prof-section">
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">Python</span><span class="prof-level">Expert</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:92%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">Deep Learning (CNN/LSTM/RNN)</span><span class="prof-level">Advanced</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:82%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">TensorFlow &amp; Keras</span><span class="prof-level">Advanced</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:80%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">NumPy / Pandas / Matplotlib</span><span class="prof-level">Advanced</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:85%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">LangChain &amp; RAG Engineering</span><span class="prof-level">Intermediate+</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:75%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">Feature Engineering</span><span class="prof-level">Advanced</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:78%"></div></div>
+        </div>
+        <div class="prof-row">
+          <div class="prof-top"><span class="prof-name">Transformers &amp; Attention</span><span class="prof-level">Intermediate</span></div>
+          <div class="prof-track"><div class="prof-fill" style="width:65%"></div></div>
+        </div>
+      </div>
     </div>
-    <div class="bar-row">
-      <div class="bar-label">Deep Learning — CNN / LSTM / RNN <span>Advanced</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:82%"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">TensorFlow &amp; Keras <span>Advanced</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">LangChain &amp; RAG Engineering <span>Intermediate–Advanced</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:75%"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Data Preprocessing &amp; Feature Engineering <span>Advanced</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">Transformers &amp; Attention Mechanisms <span>Intermediate</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:65%"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-label">NumPy / Pandas / Matplotlib <span>Advanced</span></div>
-      <div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div>
-    </div>
-
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     CONTACT SECTION
-══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     CONTACT
+══════════════════════════════════ -->
 <section id="contact">
-  <div class="section-label">04. Contact</div>
-  <h2 class="section-title">Let's Connect</h2>
+  <div class="section-header reveal">
+    <div class="section-eyebrow">04. Contact</div>
+    <h2 class="section-title">Let's Build<br/><em>Something Together</em></h2>
+  </div>
 
-  <div class="contact-grid reveal">
-
-    <div>
-      <p class="contact-meta">
-        I'm actively looking for <strong>AI/ML internship opportunities</strong> where I can work
-        on real systems alongside experienced engineers. If you're building something meaningful
-        with AI — a product, a research project, or a startup — I'd love to be part of it.
-      </p>
-      <p class="contact-meta">
-        I'm open to <strong>remote and on-site roles across India</strong>. I respond to every
-        message within <strong>24 hours</strong>.
-      </p>
-      <p class="contact-meta">
-        <strong>Target Roles:</strong><br />
-        AI/ML Engineer Intern &nbsp;·&nbsp; ML Research Intern<br />
-        LLM Engineer Intern &nbsp;·&nbsp; Applied AI Engineer<br />
-        Computer Vision Intern &nbsp;·&nbsp; NLP / RAG Engineer
-      </p>
+  <div class="contact-split">
+    <div class="contact-intro reveal">
+      <p>I'm actively looking for <strong>AI/ML internship opportunities</strong> where I can work on real systems alongside experienced engineers. If you're building something meaningful with AI — a product, research, or a startup — I'd love to contribute.</p>
+      <p>Available for <strong>remote and on-site roles across India</strong>. I reply to every message within <strong>24 hours</strong>.</p>
+      <div class="target-roles">
+        <div class="target-roles-title">Target Roles</div>
+        <div class="role-list">
+          <div class="role-item">AI/ML Engineer Intern</div>
+          <div class="role-item">ML Research Intern</div>
+          <div class="role-item">LLM / RAG Engineer Intern</div>
+          <div class="role-item">Applied AI Engineer</div>
+          <div class="role-item">Computer Vision Intern</div>
+        </div>
+      </div>
     </div>
 
-    <div class="contact-links">
-
-      <a href="mailto:ashishsoni243k@gmail.com" class="contact-link">
-        <div class="contact-icon">✉</div>
-        <div>
-          <div>Email Me</div>
-          <div class="contact-detail">ashishsoni243k@gmail.com</div>
-        </div>
+    <div class="contact-cards reveal">
+      <a href="mailto:ashishsoni243k@gmail.com" class="contact-card">
+        <div class="cc-icon">✉</div>
+        <div><div class="cc-name">Email Me</div><div class="cc-detail">ashishsoni243k@gmail.com</div></div>
       </a>
-
-      <a href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener" class="contact-link">
-        <div class="contact-icon" style="font-weight:800;font-size:0.7rem;">in</div>
-        <div>
-          <div>LinkedIn</div>
-          <div class="contact-detail">linkedin.com/in/ashish-soni-engineer</div>
-        </div>
+      <a href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener" class="contact-card">
+        <div class="cc-icon" style="font-weight:800;font-size:0.7rem;">in</div>
+        <div><div class="cc-name">LinkedIn</div><div class="cc-detail">linkedin.com/in/ashish-soni-engineer</div></div>
       </a>
-
-      <a href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener" class="contact-link">
-        <div class="contact-icon">⌥</div>
-        <div>
-          <div>GitHub</div>
-          <div class="contact-detail">github.com/ashishsoni-ai</div>
-        </div>
+      <a href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener" class="contact-card">
+        <div class="cc-icon">⌥</div>
+        <div><div class="cc-name">GitHub</div><div class="cc-detail">github.com/ashishsoni-ai</div></div>
       </a>
-
-      <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="contact-link" style="border-color:rgba(0,229,255,0.3);">
-        <div class="contact-icon">📄</div>
-        <div>
-          <div style="color:var(--accent);">Download Resume</div>
-          <div class="contact-detail">Ashish_Soni_Resume.pdf — always up to date</div>
-        </div>
+      <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="contact-card" style="border-color:var(--accent2);">
+        <div class="cc-icon">📄</div>
+        <div><div class="cc-name" style="color:var(--accent2)">Download Resume</div><div class="cc-detail">Ashish_Soni_Resume.pdf</div></div>
       </a>
-
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     CHATBOT SECTION
-══════════════════════════════════════════════ -->
-<section id="chatbot">
-  <div class="section-label">05. AI Assistant</div>
-  <h2 class="section-title">Ask About Ashish</h2>
-  <p class="section-sub">Powered by RAG — this AI assistant knows Ashish's full background, projects, skills, and career goals.</p>
-
-  <div class="chatbot-wrapper">
-    <div class="chat-container">
-
-      <div class="chat-header">
-        <div class="chat-avatar">🤖</div>
-        <div>
-          <div class="chat-title">Ashish's AI Portfolio Assistant</div>
-          <div class="chat-subtitle">RAG-powered · Trained on Ashish's portfolio data · Ask me anything</div>
-        </div>
-        <div class="chat-status"><div class="dot"></div>Online</div>
-      </div>
-
-      <div class="chat-messages" id="chat-messages">
-        <div class="message bot">
-          <div class="msg-avatar bot">🤖</div>
-          <div class="msg-bubble">
-            Hi! I'm Ashish's AI portfolio assistant, trained on his full background. I can tell you about his skills, projects (Image Captioning, Deepfake Detection, Audio ML, RAG Chatbot), career goals, and internship availability. What would you like to know?
-          </div>
-        </div>
-      </div>
-
-      <div class="sq-area" id="sq-area">
-        <button class="sq-btn" onclick="askQuestion('Who is Ashish Soni?')">Who is Ashish?</button>
-        <button class="sq-btn" onclick="askQuestion('What AI projects has he built?')">His projects</button>
-        <button class="sq-btn" onclick="askQuestion('What are his strongest skills?')">Top skills</button>
-        <button class="sq-btn" onclick="askQuestion('Is he open to internships?')">Open to work?</button>
-        <button class="sq-btn" onclick="askQuestion('Explain Image Captioning project in detail')">Image Captioning deep dive</button>
-        <button class="sq-btn" onclick="askQuestion('What is RAG and how does Ashish use it?')">RAG knowledge</button>
-        <button class="sq-btn" onclick="askQuestion('What are his career goals?')">Career goals</button>
-      </div>
-
-      <div class="chat-input-area">
-        <textarea id="chat-input" placeholder="Ask anything about Ashish..." rows="1"></textarea>
-        <button id="send-btn" onclick="sendMessage()">Send →</button>
-      </div>
-
-    </div>
+<!-- ══════════════════════════════════
+     RESUME
+══════════════════════════════════ -->
+<section id="resume" style="background:var(--bg2);border-top:1px solid var(--border);">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">05. Resume</div>
+    <h2 class="section-title">My <em>Resume</em></h2>
+    <p class="section-sub">View in browser or download as PDF — one click.</p>
   </div>
-</section>
 
-<!-- ══════════════════════════════════════════════
-     RESUME SECTION
-══════════════════════════════════════════════ -->
-<section id="resume">
-  <div class="section-label">06. Resume</div>
-  <h2 class="section-title">My Resume</h2>
-  <p class="section-sub">View in browser or download as PDF — one click, always fresh.</p>
-
-  <div class="resume-box reveal">
-    <div class="resume-topbar">
-      <div class="resume-topbar-left">
-        📄 &nbsp;<strong>Ashish_Soni_Resume.pdf</strong>&nbsp; · &nbsp;AI/ML Engineer · India
+  <div class="resume-card reveal">
+    <div class="resume-card-top">
+      <div class="resume-file-info">
+        <div class="resume-file-icon">📋</div>
+        <div>
+          <div class="resume-file-name">Ashish_Soni_Resume.pdf</div>
+          <div class="resume-file-desc">AI/ML Engineer · B.Tech Student · India</div>
+        </div>
       </div>
-      <div class="resume-btn-group">
-        <a href="ashish_soni_resume.pdf" target="_blank" class="resume-btn resume-btn-view">👁 View Online</a>
-        <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="resume-btn resume-btn-dl">⬇ Download PDF</a>
+      <div class="resume-btns">
+        <a href="ashish_soni_resume.pdf" target="_blank" class="resume-btn rb-view">👁 View</a>
+        <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="resume-btn rb-dl">⬇ Download</a>
       </div>
     </div>
-    <div class="resume-body">
-      <div class="resume-icon">📋</div>
-      <div class="resume-filename">ashish_soni_resume.pdf</div>
-      <p class="resume-hint">
-        Place your resume named <code>ashish_soni_resume.pdf</code> in the same folder as
-        <code>index.html</code>. Both the <strong>View</strong> and <strong>Download</strong>
-        buttons will work automatically — no code changes needed.
+    <div class="resume-card-body">
+      <div class="resume-big-icon">📋</div>
+      <p class="resume-instruction">
+        Place your resume named <code>ashish_soni_resume.pdf</code> in the same folder as <code>index.html</code> — both buttons work automatically.
       </p>
-      <div class="resume-actions">
+      <div class="resume-cta-row">
         <a href="ashish_soni_resume.pdf" target="_blank" class="btn btn-outline">👁 View Resume</a>
         <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="btn btn-primary">⬇ Download Resume</a>
       </div>
@@ -751,211 +1247,223 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
-  <span>© 2025 <strong style="color:var(--text)">Ashish Soni</strong> · AI/ML Engineer · India 🇮🇳</span>
-  <span>
-    <a href="mailto:ashishsoni243k@gmail.com">ashishsoni243k@gmail.com</a>
-    &nbsp;·&nbsp;
+  <div class="footer-left">Ashish <span>Soni</span> · AI/ML Engineer · India 🇮🇳</div>
+  <div class="footer-links">
+    <a href="mailto:ashishsoni243k@gmail.com">Email</a>
     <a href="https://github.com/ashishsoni-ai" target="_blank">GitHub</a>
-    &nbsp;·&nbsp;
     <a href="https://linkedin.com/in/ashish-soni-engineer" target="_blank">LinkedIn</a>
-  </span>
+    <a href="ashish_soni_resume.pdf" download>Resume</a>
+  </div>
 </footer>
 
+<!-- ══════════════════════════════════
+     FLOATING CHATBOT BUBBLE
+══════════════════════════════════ -->
+<div id="chat-bubble">
+  <button class="chat-trigger" onclick="toggleChat()" id="chat-trigger-btn">
+    🤖
+    <div class="notif-dot"></div>
+  </button>
+  <div class="chat-tooltip">Ask about Ashish!</div>
+
+  <div class="chat-window" id="chat-window">
+    <div class="chat-win-header">
+      <div class="chat-win-avatar">🤖</div>
+      <div>
+        <div class="chat-win-name">Ashish's AI Assistant</div>
+        <div class="chat-win-sub">RAG-powered · Ask me anything</div>
+      </div>
+      <button class="chat-win-close" onclick="toggleChat()">✕</button>
+    </div>
+
+    <div class="chat-win-msgs" id="chat-messages">
+      <div class="cmsg bot">
+        <div class="cmsg-av">🤖</div>
+        <div class="cmsg-bubble">Hi! I'm Ashish's AI assistant. Ask me about his skills, projects, background, or internship availability!</div>
+      </div>
+    </div>
+
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="csug" onclick="ask('Who is Ashish Soni?')">Who is Ashish?</button>
+      <button class="csug" onclick="ask('What projects has he built?')">Projects</button>
+      <button class="csug" onclick="ask('What are his strongest skills?')">Skills</button>
+      <button class="csug" onclick="ask('Is he open to internships?')">Hiring?</button>
+      <button class="csug" onclick="ask('Explain his Image Captioning project')">Image Captioning</button>
+      <button class="csug" onclick="ask('What is his RAG expertise?')">RAG knowledge</button>
+    </div>
+
+    <div class="chat-win-input">
+      <textarea id="chat-input" placeholder="Ask anything about Ashish..." rows="1"></textarea>
+      <button id="chat-send" onclick="sendMsg()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════ -->
 <script>
-  // ── Scroll Reveal ──────────────────────────────────
+  // ── Theme Toggle ──────────────────────────
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn  = document.getElementById('theme-btn');
+    if (html.getAttribute('data-theme') === 'light') {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '🌙';
+    }
+  }
+
+  // ── Scroll Reveal ─────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // ── Knowledge Base (RAG data for chatbot) ─────────
-  const KNOWLEDGE = `
-NAME: Ashish Soni
-ROLE: Aspiring AI/ML Engineer
-STATUS: B.Tech Student
-LOCATION: India
-EMAIL: ashishsoni243k@gmail.com
-GITHUB: https://github.com/ashishsoni-ai
-LINKEDIN: https://linkedin.com/in/ashish-soni-engineer
+  // ── Chat Toggle ───────────────────────────
+  let chatOpen = false;
+  function toggleChat() {
+    const win = document.getElementById('chat-window');
+    const btn = document.getElementById('chat-trigger-btn');
+    chatOpen = !chatOpen;
+    if (chatOpen) {
+      win.classList.add('open');
+      btn.innerHTML = '✕';
+      btn.style.background = 'var(--text)';
+      document.querySelector('.notif-dot') && document.querySelector('.notif-dot').remove();
+    } else {
+      win.classList.remove('open');
+      btn.innerHTML = '🤖';
+      btn.style.background = 'var(--accent)';
+    }
+  }
 
-ABOUT:
-Ashish Soni is a B.Tech student from India passionate about building real-world AI systems.
-He builds across Computer Vision (image captioning with CNN+LSTM, deepfake detection),
-Audio ML (genre classification using MFCC and spectrograms), and LLM Engineering
-(LangChain RAG pipelines, vector stores, embeddings, retrievers).
-He understands AI from first principles — why Xception extracts better visual features,
-why MFCC captures audio better than waveforms, how Transformer attention works.
-His goal is to build production-grade intelligent systems, not just notebook experiments.
+  // ── Knowledge Base ────────────────────────
+  const KB = `
+NAME: Ashish Soni | ROLE: Aspiring AI/ML Engineer | STATUS: B.Tech Student | LOCATION: India
+EMAIL: ashishsoni243k@gmail.com | GITHUB: github.com/ashishsoni-ai | LINKEDIN: linkedin.com/in/ashish-soni-engineer
 
-SKILLS:
-Languages: Python, C
-AI/ML: Machine Learning, Deep Learning, CNN, RNN, LSTM, Transformers
-Libraries: TensorFlow, Keras, NumPy, Pandas, Matplotlib
-LangChain: Chains, Runnables, Prompt Engineering, Output Parsers, Vector Stores,
-Retrievers, Tool Calling, RAG Architecture, Text Splitters, Structured Outputs, Embeddings
-ML Concepts: Model Training, Evaluation, Feature Engineering, Transfer Learning, Data Preprocessing
+ABOUT: Ashish Soni is a B.Tech student from India building real-world AI systems.
+He works across Computer Vision (image captioning CNN+LSTM, deepfake detection),
+Audio ML (genre classification MFCC+spectrograms), and LLM Engineering (LangChain RAG pipelines).
+Goal: become a top AI engineer building intelligent systems at scale.
+
+SKILLS: Python, C, TensorFlow, Keras, NumPy, Pandas, Matplotlib,
+CNN, RNN, LSTM, Transformers, Machine Learning, Deep Learning,
+LangChain, Chains, Runnables, RAG Architecture, Vector Stores, Retrievers,
+Embeddings, Tool Calling, Text Splitters, Output Parsers, Prompt Engineering,
+Transfer Learning, Feature Engineering, Data Preprocessing, Model Training/Evaluation.
 
 PROJECTS:
+1. Image Captioning (Done): Xception CNN encoder extracts 2048-dim features → LSTM decoder generates captions. Teacher forcing training, beam search inference. Flickr8k dataset (8K images, 40K captions). Stack: TensorFlow, Keras, Xception, LSTM.
+2. Real vs Fake Face Detection (Done): CNN binary classifier for deepfake detection. Pipeline: face detection → alignment → CNN → sigmoid → real/fake. Uses transfer learning. Stack: TensorFlow, Keras, CNN.
+3. Audio Genre Classification (Done): MFCC + Mel spectrogram features → Neural Network → genre label. Stack: NumPy, MFCC, Spectrogram, Neural Network.
+4. RAG Portfolio Chatbot (In Progress): Documents → embeddings → ChromaDB → retrieval → LangChain → Groq LLM → answer. Stack: LangChain, ChromaDB, FastAPI, HuggingFace embeddings, Groq.
 
-1. Image Captioning Model - Status: Completed
-Architecture: Xception CNN encoder extracts 2048-dim visual features → LSTM decoder generates
-captions word by word using teacher forcing. Beam search used at inference time.
-Dataset: Flickr8k — 8,000 images, 40,000 human-written captions.
-Tech: Python, TensorFlow, Keras, Xception, LSTM, Transfer Learning, Beam Search
-
-2. Real vs Fake Face Detection - Status: Completed
-Binary CNN classifier to detect real vs AI-generated (deepfake) faces.
-Pipeline: Raw image → face detection → alignment + normalization → CNN → sigmoid → real/fake.
-Uses transfer learning backbone with custom dense layers.
-Tech: Python, TensorFlow, Keras, CNN, Binary Classification, Transfer Learning
-
-3. Audio Genre Classification - Status: Completed
-Classifies music genres using MFCC and Mel spectrogram feature extraction.
-MFCC captures frequency, rhythm, and tonal properties — fed into neural network for prediction.
-Pipeline: Audio → MFCC + Spectrogram → Feature Matrix → Neural Network → Genre Label
-Tech: Python, NumPy, MFCC, Mel Spectrogram, Neural Network, Feature Engineering
-
-4. RAG Portfolio Chatbot - Status: In Progress
-Retrieval-Augmented Generation chatbot trained on portfolio documents.
-Portfolio docs → text splitter → HuggingFace embeddings → ChromaDB vector store.
-At query time: question → embedding → top-3 chunk retrieval → LangChain chain → Groq LLM → answer.
-Tech: LangChain, ChromaDB, HuggingFace Embeddings, Groq LLM, FastAPI, Python
-
-CAREER GOALS:
-Become a top AI engineer building real-world intelligent systems at scale.
-Interested in: AI product companies, ML engineering roles, applied AI research, startup AI teams.
+CAREER: Interested in AI product companies, ML engineering, applied AI research, startup AI teams.
 Target roles: AI/ML Engineer Intern, ML Research Intern, LLM Engineer Intern, Applied AI Engineer.
 
-AVAILABILITY:
-Yes, Ashish is actively open to internships and opportunities.
-Available for remote and on-site roles in India.
-Responds within 24 hours.
-Contact: ashishsoni243k@gmail.com
-
-STRONGEST SKILLS:
-Deep Learning (CNN, LSTM, Transformers), LangChain + RAG engineering, Python, TensorFlow.
-Breadth across Computer Vision, Audio ML, and NLP/LLM engineering.
+AVAILABILITY: Yes, actively open to internships. Remote and on-site in India. Responds within 24 hours.
   `.trim();
 
-  // ── Chatbot Logic ──────────────────────────────────
-  const messagesEl = document.getElementById('chat-messages');
-  const inputEl    = document.getElementById('chat-input');
-  const sendBtn    = document.getElementById('send-btn');
-  let isLoading    = false;
+  // ── Chat Logic ────────────────────────────
+  const msgsEl  = document.getElementById('chat-messages');
+  const inputEl = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+  let busy = false;
 
-  function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+  function scrollBottom() { msgsEl.scrollTop = msgsEl.scrollHeight; }
 
-  function addMessage(role, text) {
-    const wrap   = document.createElement('div');
-    wrap.className = `message ${role}`;
-    const avatar = document.createElement('div');
-    avatar.className = `msg-avatar ${role === 'user' ? 'user-av' : 'bot'}`;
-    avatar.textContent = role === 'user' ? 'You' : '🤖';
+  function addMsg(role, text) {
+    const wrap = document.createElement('div');
+    wrap.className = `cmsg ${role}`;
+    const av = document.createElement('div');
+    av.className = 'cmsg-av';
+    av.textContent = role === 'user' ? 'You' : '🤖';
     const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble';
+    bubble.className = 'cmsg-bubble';
     bubble.textContent = text;
-    wrap.appendChild(avatar);
-    wrap.appendChild(bubble);
-    messagesEl.appendChild(wrap);
-    scrollBottom();
+    wrap.appendChild(av); wrap.appendChild(bubble);
+    msgsEl.appendChild(wrap); scrollBottom();
   }
 
   function showTyping() {
-    const wrap   = document.createElement('div');
-    wrap.className = 'message bot'; wrap.id = 'typing';
-    const avatar = document.createElement('div');
-    avatar.className = 'msg-avatar bot'; avatar.textContent = '🤖';
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble';
-    bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-    wrap.appendChild(avatar); wrap.appendChild(bubble);
-    messagesEl.appendChild(wrap); scrollBottom();
+    const wrap = document.createElement('div');
+    wrap.className = 'cmsg bot'; wrap.id = 'typing';
+    const av = document.createElement('div'); av.className = 'cmsg-av'; av.textContent = '🤖';
+    const bubble = document.createElement('div'); bubble.className = 'cmsg-bubble';
+    bubble.innerHTML = '<div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
+    wrap.appendChild(av); wrap.appendChild(bubble);
+    msgsEl.appendChild(wrap); scrollBottom();
   }
+  function hideTyping() { const e = document.getElementById('typing'); if(e) e.remove(); }
 
-  function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
-
-  // Offline fallback answers
   function fallback(q) {
     q = q.toLowerCase();
     if (q.includes('who') || q.includes('about') || q.includes('ashish'))
-      return "Ashish Soni is a B.Tech student from India and aspiring AI/ML Engineer. He builds end-to-end AI systems across Computer Vision (image captioning, deepfake detection), Audio ML (genre classification), and LLM Engineering (LangChain, RAG pipelines). His goal: become a top AI engineer at scale.";
-    if (q.includes('project') || q.includes('built') || q.includes('work'))
-      return "Ashish has built 4 AI projects: (1) Image Captioning — Xception CNN + LSTM trained on Flickr8k, (2) Real vs Fake Face Detection — CNN binary classifier for deepfake detection, (3) Audio Genre Classification — MFCC + spectrogram neural network, (4) RAG Portfolio Chatbot — LangChain + ChromaDB (in progress).";
-    if (q.includes('skill') || q.includes('tech') || q.includes('stack') || q.includes('know'))
-      return "Ashish's skills: Python, TensorFlow, Keras, NumPy, Pandas (libraries); CNN, LSTM, RNN, Transformers (deep learning); LangChain, RAG, Embeddings, Vector Stores, Retrievers, Tool Calling, Prompt Engineering (LLM engineering). Strongest in Deep Learning and RAG pipelines.";
-    if (q.includes('intern') || q.includes('hire') || q.includes('open') || q.includes('available') || q.includes('opportunit'))
-      return "Yes! Ashish is actively open to internships and AI/ML opportunities. He's looking for AI/ML Engineer Intern, ML Research Intern, and LLM Engineer roles. Available remote or on-site in India. Contact: ashishsoni243k@gmail.com — responds within 24 hours.";
+      return "Ashish Soni is a B.Tech student from India and aspiring AI/ML Engineer. He builds across Computer Vision (image captioning, deepfake detection), Audio ML (genre classification), and LLM Engineering (LangChain RAG). Goal: become a top AI engineer at scale.";
+    if (q.includes('project') || q.includes('built'))
+      return "Ashish built 4 AI projects: (1) Image Captioning — Xception CNN + LSTM on Flickr8k, (2) Real vs Fake Face Detection — CNN binary classifier, (3) Audio Genre Classification — MFCC + spectrogram neural network, (4) RAG Portfolio Chatbot — LangChain + ChromaDB (in progress).";
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack'))
+      return "Skills: Python, TensorFlow, Keras, NumPy, Pandas — plus CNN, LSTM, Transformers for models, and LangChain, RAG, Vector Stores, Embeddings, Tool Calling for LLM engineering.";
+    if (q.includes('intern') || q.includes('hire') || q.includes('open') || q.includes('available'))
+      return "Yes! Ashish is actively open to internships in AI/ML. Available remote and on-site in India. Contact: ashishsoni243k@gmail.com — responds within 24 hours.";
     if (q.includes('caption') || q.includes('image cap'))
-      return "The Image Captioning project uses Xception (pretrained CNN) as encoder to extract 2048-dim visual feature vectors from photos. These feed into an LSTM decoder that generates captions word-by-word using teacher forcing during training. At inference, beam search is used for better quality captions. Trained on Flickr8k (8K images, 40K captions).";
-    if (q.includes('deepfake') || q.includes('fake face') || q.includes('real vs fake') || q.includes('face detect'))
-      return "The Real vs Fake Face Detection project is a CNN binary classifier. Pipeline: Raw image → face detection → alignment & normalization → CNN feature extraction (transfer learning) → sigmoid output → Real (1) or Fake (0). Built to detect AI-generated deepfake images with high accuracy.";
-    if (q.includes('audio') || q.includes('genre') || q.includes('music') || q.includes('mfcc') || q.includes('spectrogram'))
-      return "The Audio Genre Classification project extracts MFCC (Mel-Frequency Cepstral Coefficients) and Mel spectrograms from audio files. MFCC captures frequency, rhythm, and tonal structure — much more meaningful than raw waveforms. These features are fed into a neural network that predicts the music genre.";
-    if (q.includes('rag') || q.includes('langchain') || q.includes('vector') || q.includes('retriev') || q.includes('embed'))
-      return "Ashish has strong LangChain & RAG expertise: Chains, Runnables, Retrievers, Vector Stores (ChromaDB/FAISS), Embeddings (HuggingFace), Text Splitters, Output Parsers, Prompt Engineering, Tool Calling, and Structured Outputs. His RAG Chatbot project implements the full pipeline: documents → embeddings → vector store → retrieval → LLM → answer.";
-    if (q.includes('goal') || q.includes('future') || q.includes('career') || q.includes('dream'))
-      return "Ashish's career goal is to become a top AI engineer building real-world intelligent systems at scale. He's interested in AI product companies, ML engineering roles, applied AI research, and startup AI teams.";
-    if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('linkedin') || q.includes('github'))
-      return "Contact Ashish: ✉ ashishsoni243k@gmail.com · LinkedIn: linkedin.com/in/ashish-soni-engineer · GitHub: github.com/ashishsoni-ai. He replies within 24 hours!";
-    if (q.includes('strongest') || q.includes('best at') || q.includes('speciali'))
-      return "Ashish's strongest areas are Deep Learning (CNNs, LSTMs, Transformers) and LLM Engineering (LangChain, RAG, vector stores, embeddings). He has breadth across Computer Vision, Audio ML, and NLP domains.";
-    return "I'm Ashish's AI assistant. I can answer questions about his skills, projects (Image Captioning, Deepfake Detection, Audio Classification, RAG Chatbot), internship availability, tech stack, or career goals. What would you like to know?";
+      return "Image Captioning uses Xception CNN (pretrained on ImageNet) as encoder to extract 2048-dim visual features. An LSTM decoder generates captions word-by-word with teacher forcing. Beam search used at inference. Trained on Flickr8k (8K images, 40K captions).";
+    if (q.includes('deepfake') || q.includes('fake') || q.includes('face'))
+      return "Real vs Fake Face Detection is a CNN binary classifier. Pipeline: Raw image → face detection → alignment → CNN feature extraction (transfer learning) → sigmoid → Real(1)/Fake(0).";
+    if (q.includes('audio') || q.includes('genre') || q.includes('mfcc'))
+      return "Audio Genre Classification extracts MFCC and Mel spectrogram features from audio files. MFCC captures frequency, rhythm, tonal structure — fed into a neural network to predict music genre.";
+    if (q.includes('rag') || q.includes('langchain') || q.includes('vector'))
+      return "Ashish knows LangChain deeply: Chains, Runnables, Retrievers, Vector Stores, Embeddings, Text Splitters, Output Parsers, Prompt Engineering, Tool Calling, Structured Outputs. His RAG Chatbot embeds docs into ChromaDB, retrieves top-k chunks, feeds to Groq LLM for accurate answers.";
+    if (q.includes('goal') || q.includes('career'))
+      return "Ashish's goal is to become a top AI engineer building real-world intelligent systems at scale. He's interested in AI product companies, ML engineering, applied research, and startup AI teams.";
+    if (q.includes('contact') || q.includes('email') || q.includes('reach'))
+      return "Email: ashishsoni243k@gmail.com · LinkedIn: linkedin.com/in/ashish-soni-engineer · GitHub: github.com/ashishsoni-ai. Replies within 24 hours!";
+    return "I can tell you about Ashish's skills, projects, internship availability, or tech stack. What would you like to know?";
   }
 
-  async function sendMessage() {
+  async function sendMsg() {
     const query = inputEl.value.trim();
-    if (!query || isLoading) return;
-    isLoading = true;
-    sendBtn.disabled = true;
-    inputEl.value = '';
-    inputEl.style.height = 'auto';
-    document.getElementById('sq-area').style.display = 'none';
-    addMessage('user', query);
-    showTyping();
+    if (!query || busy) return;
+    busy = true; sendBtn.disabled = true;
+    inputEl.value = ''; inputEl.style.height = 'auto';
+    document.getElementById('chat-suggestions').style.display = 'none';
+    addMsg('user', query); showTyping();
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('http://localhost:8000/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: `You are the AI assistant for Ashish Soni's portfolio website.
-Answer questions ONLY using the knowledge base below. Be concise (2-4 sentences max), professional, and helpful.
-Speak about Ashish in third person. If something is not in the knowledge base, say:
-"I don't have that specific info — contact Ashish directly at ashishsoni243k@gmail.com"
-
-KNOWLEDGE BASE:
-${KNOWLEDGE}`,
-          messages: [{ role: 'user', content: query }]
-        })
+        body: JSON.stringify({ query })
       });
       hideTyping();
-      if (!res.ok) throw new Error('err');
+      if (!res.ok) throw new Error();
       const data = await res.json();
-      addMessage('bot', data.content?.[0]?.text || "Sorry, I couldn't get a response. Please try again.");
+      addMsg('bot', data.answer);
     } catch {
       hideTyping();
-      addMessage('bot', fallback(query));
+      addMsg('bot', fallback(query));
     }
-
-    isLoading = false;
-    sendBtn.disabled = false;
-    inputEl.focus();
+    busy = false; sendBtn.disabled = false; inputEl.focus();
   }
 
-  function askQuestion(q) { inputEl.value = q; sendMessage(); }
+  function ask(q) {
+    if (!chatOpen) toggleChat();
+    setTimeout(() => { inputEl.value = q; sendMsg(); }, 100);
+  }
 
   inputEl.addEventListener('input', () => {
     inputEl.style.height = 'auto';
-    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 80) + 'px';
   });
-  inputEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  inputEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
   });
 </script>
-
 </body>
 </html>
