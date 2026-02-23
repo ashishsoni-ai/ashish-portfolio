@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashish Soni — AI/ML Engineer</title>
+  <meta name="description" content="Ashish Soni — Aspiring AI/ML Engineer. B.Tech student specializing in Deep Learning, LangChain, and RAG systems. Open to internships." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080c10; --bg2: #0d1117; --surface: #111820;
+      --border: #1e2d3d; --accent: #00e5ff; --accent2: #7b61ff;
+      --accent3: #ff6b35; --text: #e0eaf5; --muted: #5a7a99;
+      --code: #a8d8ea; --font-head: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace; --font-body: 'DM Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; border-bottom: 1px solid rgba(30,45,61,0.5); backdrop-filter: blur(20px); background: rgba(8,12,16,0.85); }
+    .nav-logo { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-resume { font-family: var(--font-mono); font-size: 0.68rem; padding: 0.42rem 1rem; border: 1px solid var(--accent); border-radius: 3px; color: var(--accent) !important; transition: all 0.2s; }
+    .nav-resume:hover { background: rgba(0,229,255,0.1) !important; }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 0 3rem; position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent); }
+    .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%); top: 50%; left: 40%; transform: translate(-50%,-50%); pointer-events: none; }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
+    .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+    .hero-name { font-family: var(--font-head); font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; color: var(--text); opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+    .hero-name span { background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-role { font-family: var(--font-head); font-size: clamp(1.1rem, 2.5vw, 1.6rem); font-weight: 600; color: var(--muted); margin-top: 1rem; opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s; }
+    .hero-desc { font-size: 1.02rem; color: var(--muted); max-width: 560px; margin-top: 1.2rem; line-height: 1.85; opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s; }
+    .hero-ctas { display: flex; gap: 0.85rem; margin-top: 2.2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s ease forwards 1s; }
+    .btn { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.7rem; border-radius: 3px; cursor: pointer; text-decoration: none; transition: all 0.25s ease; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--accent); color: #000; font-weight: 700; }
+    .btn-primary:hover { background: transparent; color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px rgba(0,229,255,0.2); }
+    .btn-outline { border-color: var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-purple { border-color: var(--accent2); color: var(--accent2); background: rgba(123,97,255,0.08); }
+    .btn-purple:hover { background: rgba(123,97,255,0.18); }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s; }
+    .stat-num { font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; }
+    .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-mono); }
+
+    /* SECTIONS */
+    section { padding: 7rem 3rem; }
+    .section-label { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 200px; }
+    .section-title { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--text); line-height: 1.1; }
+    .section-sub { color: var(--muted); margin-top: 0.6rem; font-size: 0.98rem; }
+
+    /* ABOUT */
+    #about { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; margin-top: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; line-height: 1.85; }
+    .about-text strong { color: var(--text); }
+    .about-sidebar { display: flex; flex-direction: column; gap: 0.9rem; }
+    .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.4rem; }
+    .info-card-label { font-family: var(--font-mono); color: var(--accent); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .info-card-value { font-family: var(--font-mono); color: var(--text); font-size: 0.8rem; line-height: 1.5; }
+    .availability-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.25); border-radius: 100px; padding: 0.4rem 1rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); margin-top: 1rem; }
+    .dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.3s ease; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
+    .project-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-num { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 0.8rem; }
+    .project-title { font-family: var(--font-head); font-size: 1.22rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
+    .project-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.1rem; }
+    .project-arch { background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 4px; padding: 0.7rem 1rem; margin-bottom: 1.1rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--code); line-height: 1.7; }
+    .project-arch-label { color: var(--accent); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+    .tag { font-family: var(--font-mono); font-size: 0.6rem; padding: 0.26rem 0.68rem; border-radius: 3px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.15); color: var(--code); }
+    .tag-purple { background: rgba(123,97,255,0.08); border-color: rgba(123,97,255,0.22); color: #a78bfa; }
+    .tag-orange { background: rgba(255,107,53,0.08); border-color: rgba(255,107,53,0.22); color: #fb923c; }
+    .project-footer { display: flex; align-items: center; justify-content: space-between; }
+    .project-status { font-family: var(--font-mono); font-size: 0.64rem; color: var(--accent3); }
+    .project-status.done { color: #4ade80; }
+    .project-link { font-family: var(--font-mono); font-size: 0.64rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .project-link:hover { color: var(--accent); }
+
+    /* SKILLS */
+    #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .skill-group-title { font-family: var(--font-mono); font-size: 0.67rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.1rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .skill-tag { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.3rem 0.78rem; border-radius: 3px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); transition: all 0.2s; cursor: default; }
+    .skill-tag:hover { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.3); color: var(--accent); }
+    .bar-section { margin-top: 4rem; max-width: 680px; }
+    .bar-section-title { font-family: var(--font-mono); font-size: 0.68rem; color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .bar-row { margin-bottom: 1.1rem; }
+    .bar-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text); display: flex; justify-content: space-between; margin-bottom: 0.35rem; }
+    .bar-label span { color: var(--muted); font-size: 0.66rem; }
+    .bar-bg { background: rgba(255,255,255,0.05); border-radius: 2px; height: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 3rem; align-items: start; }
+    .contact-meta { color: var(--muted); font-size: 1rem; line-height: 1.85; margin-bottom: 1rem; }
+    .contact-meta strong { color: var(--text); }
+    .contact-links { display: flex; flex-direction: column; gap: 0.85rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-family: var(--font-mono); font-size: 0.8rem; transition: all 0.25s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(6px); }
+    .contact-icon { width: 36px; height: 36px; background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .contact-detail { font-size: 0.66rem; color: var(--muted); margin-top: 2px; }
+
+    /* CHATBOT */
+    #chatbot { background: var(--bg2); border-top: 1px solid var(--border); }
+    .chatbot-wrapper { max-width: 780px; margin: 2.5rem auto 0; }
+    .chat-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .chat-header { padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; background: rgba(0,0,0,0.2); }
+    .chat-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+    .chat-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); }
+    .chat-subtitle { font-size: 0.66rem; color: var(--muted); }
+    .chat-status { margin-left: auto; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.62rem; color: #4ade80; }
+    .chat-messages { padding: 1.5rem; min-height: 360px; max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.1rem; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .message { display: flex; gap: 0.7rem; max-width: 88%; animation: fadeUp 0.3s ease; }
+    .message.user { align-self: flex-end; flex-direction: row-reverse; }
+    .msg-avatar { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-family: var(--font-mono); }
+    .msg-avatar.bot { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .msg-avatar.user-av { background: rgba(123,97,255,0.3); border: 1px solid var(--accent2); color: var(--accent2); }
+    .msg-bubble { padding: 0.8rem 1rem; border-radius: 8px; font-size: 0.88rem; line-height: 1.7; }
+    .message.bot .msg-bubble { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text); border-radius: 2px 8px 8px 8px; }
+    .message.user .msg-bubble { background: rgba(0,229,255,0.09); border: 1px solid rgba(0,229,255,0.2); color: var(--text); border-radius: 8px 2px 8px 8px; }
+    .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.4rem 0; }
+    .typing-dot { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; animation: typing 1.4s ease infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    .chat-input-area { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 0.75rem; align-items: flex-end; }
+    #chat-input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem 1rem; color: var(--text); font-family: var(--font-body); font-size: 0.88rem; resize: none; outline: none; transition: border-color 0.2s; max-height: 100px; }
+    #chat-input:focus { border-color: var(--accent); }
+    #chat-input::placeholder { color: var(--muted); }
+    #send-btn { background: var(--accent); color: #000; border: none; border-radius: 6px; padding: 0.7rem 1.2rem; cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; transition: all 0.2s; white-space: nowrap; }
+    #send-btn:hover { opacity: 0.85; }
+    #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .sq-area { display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0 1.5rem 1rem; }
+    .sq-btn { font-family: var(--font-mono); font-size: 0.6rem; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 100px; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .sq-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* RESUME */
+    #resume { border-top: 1px solid var(--border); }
+    .resume-box { margin-top: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .resume-topbar { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); flex-wrap: wrap; gap: 1rem; }
+    .resume-topbar-left { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; }
+    .resume-topbar-left strong { color: var(--text); }
+    .resume-btn-group { display: flex; gap: 0.75rem; }
+    .resume-btn { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.48rem 1.1rem; border-radius: 4px; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .resume-btn-view { background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.25); color: var(--accent); }
+    .resume-btn-view:hover { background: rgba(0,229,255,0.14); }
+    .resume-btn-dl { background: var(--accent); border: 1px solid var(--accent); color: #000; font-weight: 700; }
+    .resume-btn-dl:hover { opacity: 0.85; }
+    .resume-body { background: #090e14; min-height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem; padding: 3rem; text-align: center; }
+    .resume-icon { font-size: 3.5rem; }
+    .resume-filename { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text); background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.15); border-radius: 4px; padding: 0.5rem 1.2rem; }
+    .resume-hint { font-size: 0.87rem; color: var(--muted); max-width: 420px; line-height: 1.8; }
+    .resume-hint code { font-family: var(--font-mono); color: var(--accent); background: rgba(0,229,255,0.07); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem; }
+    .resume-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); flex-wrap: wrap; gap: 1rem; }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.8); } }
+    @keyframes typing { 0%,60%,100% { transform:translateY(0); opacity:0.4; } 30% { transform:translateY(-6px); opacity:1; } }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+      footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">ashish.soni_</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#chatbot">AI Chat</a></li>
+    <li><a href="ashish_soni_resume.pdf" download class="nav-resume">Resume ↓</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+
+    <div class="hero-eyebrow">B.Tech Student &nbsp;·&nbsp; India &nbsp;·&nbsp; Open to Internships</div>
+
+    <h1 class="hero-name">
+      Ashish<br />
+      <span>Soni</span>
+    </h1>
+
+    <p class="hero-role">Aspiring AI / ML Engineer</p>
+
+    <p class="hero-desc">
+      I build end-to-end AI systems — <strong style="color:var(--text)">CNN image captioners</strong>,
+      <strong style="color:var(--text)">deepfake detectors</strong>, <strong style="color:var(--text)">audio classifiers</strong>,
+      and <strong style="color:var(--text)">LangChain RAG pipelines</strong>.
+      Passionate about turning cutting-edge AI research into real, production-grade products.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View My Projects</a>
+      <a href="#chatbot" class="btn btn-outline">Chat with My AI ↗</a>
+      <a href="ashish_soni_resume.pdf" target="_blank" class="btn btn-outline">👁 View Resume</a>
+      <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="btn btn-purple">⬇ Download Resume</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">4</span>
+        <span class="stat-label">AI Projects</span>
+      </div>
+      <div>
+        <span class="stat-num">10+</span>
+        <span class="stat-label">AI Frameworks</span>
+      </div>
+      <div>
+        <span class="stat-num">3</span>
+        <span class="stat-label">AI Domains</span>
+      </div>
+      <div>
+        <span class="stat-num">RAG</span>
+        <span class="stat-label">Specialized</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ABOUT SECTION
+══════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-label">01. About</div>
+  <h2 class="section-title">Who Is Ashish Soni?</h2>
+
+  <div class="about-grid reveal">
+
+    <div class="about-text">
+      <p>
+        I'm <strong>Ashish Soni</strong>, a B.Tech student from <strong>India</strong> on a mission to
+        become a top-tier AI/ML Engineer. My focus is on building <strong>complete, production-ready
+        AI systems</strong> — not just running experiments in notebooks.
+      </p>
+      <p>
+        My work spans three AI domains: <strong>Computer Vision</strong> — including an image captioning
+        system using a CNN (Xception) + LSTM architecture and a deepfake face detector using binary
+        classification; <strong>Audio ML</strong> — music genre classification using MFCC and spectrogram
+        features; and <strong>LLM Engineering</strong> — building RAG pipelines with LangChain, vector
+        stores, embeddings, and retrieval chains.
+      </p>
+      <p>
+        What sets me apart is that I understand AI architectures <strong>from first principles</strong>.
+        I know why Xception is superior for feature extraction, why MFCC captures audio better than
+        raw waveforms, and how the attention mechanism in Transformers actually works. I build to
+        understand deeply, and I understand deeply to build better.
+      </p>
+      <p>
+        I'm actively seeking <strong>AI/ML internships</strong> at product companies, research labs,
+        ML engineering teams, and AI-first startups where I can do real work, ship real models,
+        and grow alongside experienced engineers building the future of AI.
+      </p>
+      <div class="availability-badge">
+        <div class="dot"></div>
+        ✅ Available for Internships &amp; Opportunities — India / Remote
+      </div>
+    </div>
+
+    <div class="about-sidebar">
+      <div class="info-card">
+        <div class="info-card-label">Full Name</div>
+        <div class="info-card-value">Ashish Soni</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Current Status</div>
+        <div class="info-card-value">B.Tech Student 🎓</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Location</div>
+        <div class="info-card-value">India 🇮🇳</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Primary Domain</div>
+        <div class="info-card-value">AI / ML Engineering</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Core Stack</div>
+        <div class="info-card-value">Python · TensorFlow · Keras · LangChain · RAG · ChromaDB</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">AI Specializations</div>
+        <div class="info-card-value">Deep Learning · Computer Vision · Audio ML · LLM Engineering</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Interests</div>
+        <div class="info-card-value">AI Products · ML Engineering · Applied AI Research · Startup AI Teams</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Career Goal</div>
+        <div class="info-card-value">Top AI Engineer building intelligent systems at scale 🚀</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Response Time</div>
+        <div class="info-card-value">Within 24 hours ⚡</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PROJECTS SECTION
+══════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="section-label">02. Projects</div>
+  <h2 class="section-title">What I've Built</h2>
+  <p class="section-sub">4 end-to-end AI projects across Computer Vision, Audio ML, and LLM Engineering — all built from scratch.</p>
+
+  <div class="projects-grid">
+
+    <!-- PROJECT 1 — IMAGE CAPTIONING -->
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT / 001 · COMPUTER VISION · NLP</div>
+      <h3 class="project-title">🖼️ Image Captioning Model</h3>
+      <p class="project-desc">
+        An end-to-end image-to-text system that takes any photograph and automatically generates
+        a natural language caption describing the scene. Trained on 8,000 images and 40,000
+        human-written captions from the Flickr8k dataset.
+      </p>
+      <div class="project-arch">
+        <div class="project-arch-label">Architecture Pipeline</div>
+        Input Image → Xception CNN Encoder (pretrained, ImageNet)<br />
+        → 2048-dim Feature Vector → LSTM Decoder (teacher forcing)<br />
+        → Word-by-word Caption Generation (Beam Search at inference)
+      </div>
+      <div class="project-tags">
+        <span class="tag">CNN</span>
+        <span class="tag">LSTM</span>
+        <span class="tag">Xception</span>
+        <span class="tag tag-purple">TensorFlow</span>
+        <span class="tag tag-purple">Keras</span>
+        <span class="tag tag-orange">Flickr8k Dataset</span>
+        <span class="tag">Transfer Learning</span>
+        <span class="tag">Beam Search</span>
+      </div>
+      <div class="project-footer">
+        <span class="project-status done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 — DEEPFAKE DETECTION -->
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT / 002 · COMPUTER VISION · SECURITY</div>
+      <h3 class="project-title">🎭 Real vs Fake Face Detection</h3>
+      <p class="project-desc">
+        A deep learning binary classifier that detects whether a face is a real human photograph
+        or an AI-generated / manipulated deepfake image. Uses a CNN architecture with a robust
+        face preprocessing pipeline for alignment and normalization.
+      </p>
+      <div class="project-arch">
+        <div class="project-arch-label">Architecture Pipeline</div>
+        Raw Image → Face Detection → Alignment + Normalization<br />
+        → CNN Feature Extractor (Transfer Learning backbone)<br />
+        → Dense Layers → Sigmoid Output → Real (1) / Fake (0)
+      </div>
+      <div class="project-tags">
+        <span class="tag">CNN</span>
+        <span class="tag">Binary Classification</span>
+        <span class="tag tag-purple">TensorFlow</span>
+        <span class="tag tag-purple">Keras</span>
+        <span class="tag tag-orange">Deepfake Detection</span>
+        <span class="tag">Transfer Learning</span>
+        <span class="tag">Preprocessing Pipeline</span>
+      </div>
+      <div class="project-footer">
+        <span class="project-status done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 — AUDIO GENRE -->
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT / 003 · AUDIO ML · SIGNAL PROCESSING</div>
+      <h3 class="project-title">🎵 Audio Genre Classification</h3>
+      <p class="project-desc">
+        A music genre recognition system that classifies audio clips into genres by extracting
+        meaningful acoustic features. Uses MFCC (Mel-Frequency Cepstral Coefficients) and Mel
+        spectrograms — which capture frequency, rhythm, and tonal structure far better than raw waveforms.
+      </p>
+      <div class="project-arch">
+        <div class="project-arch-label">Architecture Pipeline</div>
+        Audio File → MFCC Extraction + Mel Spectrogram<br />
+        → Feature Matrix (frequency × time) → Neural Network<br />
+        → Softmax Output → Genre Label (Rock, Jazz, Pop, etc.)
+      </div>
+      <div class="project-tags">
+        <span class="tag">MFCC</span>
+        <span class="tag">Mel Spectrogram</span>
+        <span class="tag tag-purple">Neural Network</span>
+        <span class="tag tag-purple">TensorFlow</span>
+        <span class="tag tag-orange">Audio ML</span>
+        <span class="tag">Signal Processing</span>
+        <span class="tag">Feature Engineering</span>
+      </div>
+      <div class="project-footer">
+        <span class="project-status done">✓ Completed</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 — RAG CHATBOT -->
+    <div class="project-card reveal">
+      <div class="project-num">PROJECT / 004 · LLM ENGINEERING · RAG</div>
+      <h3 class="project-title">🤖 RAG Portfolio Chatbot</h3>
+      <p class="project-desc">
+        An AI chatbot powered by Retrieval-Augmented Generation (RAG) trained on personal portfolio
+        data. Portfolio documents are embedded into a ChromaDB vector store. At query time, the
+        top-3 most relevant chunks are retrieved as context and passed to an LLM — enabling
+        accurate, hallucination-free, source-aware answers about Ashish.
+      </p>
+      <div class="project-arch">
+        <div class="project-arch-label">RAG Pipeline</div>
+        Documents → Text Splitter → HuggingFace Embeddings<br />
+        → ChromaDB Vector Store → Retriever (top-k chunks)<br />
+        → LangChain Chain → Groq LLM → Accurate Answer
+      </div>
+      <div class="project-tags">
+        <span class="tag">RAG</span>
+        <span class="tag">LangChain</span>
+        <span class="tag tag-purple">ChromaDB</span>
+        <span class="tag tag-purple">Embeddings</span>
+        <span class="tag tag-orange">Groq LLM</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Vector Store</span>
+        <span class="tag">Retriever</span>
+      </div>
+      <div class="project-footer">
+        <span class="project-status">⟳ In Progress</span>
+        <a href="https://github.com/ashishsoni-ai" target="_blank" class="project-link">View on GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SKILLS SECTION
+══════════════════════════════════════════════ -->
+<section id="skills">
+  <div class="section-label">03. Skills &amp; Stack</div>
+  <h2 class="section-title">Technical Arsenal</h2>
+  <p class="section-sub">Everything I use to design, build, and ship AI systems — from raw data to deployed models.</p>
+
+  <div class="skills-layout reveal">
+
+    <div class="skill-group">
+      <div class="skill-group-title">🐍 Programming Languages</div>
+      <div class="skill-list">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">🧠 AI / ML Models</div>
+      <div class="skill-list">
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Deep Learning</span>
+        <span class="skill-tag">CNN</span>
+        <span class="skill-tag">RNN</span>
+        <span class="skill-tag">LSTM</span>
+        <span class="skill-tag">Transformers</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">📦 Libraries &amp; Frameworks</div>
+      <div class="skill-list">
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">Keras</span>
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Matplotlib</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">🔗 LangChain &amp; RAG</div>
+      <div class="skill-list">
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">Chains</span>
+        <span class="skill-tag">Runnables</span>
+        <span class="skill-tag">RAG Architecture</span>
+        <span class="skill-tag">Vector Stores</span>
+        <span class="skill-tag">Retrievers</span>
+        <span class="skill-tag">Embeddings</span>
+        <span class="skill-tag">Tool Calling</span>
+        <span class="skill-tag">Text Splitters</span>
+        <span class="skill-tag">Output Parsers</span>
+        <span class="skill-tag">Structured Outputs</span>
+        <span class="skill-tag">Prompt Engineering</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">⚙️ ML Engineering Concepts</div>
+      <div class="skill-list">
+        <span class="skill-tag">Model Training</span>
+        <span class="skill-tag">Evaluation Metrics</span>
+        <span class="skill-tag">Feature Engineering</span>
+        <span class="skill-tag">Transfer Learning</span>
+        <span class="skill-tag">Data Preprocessing</span>
+        <span class="skill-tag">Hyperparameter Tuning</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">🌱 Currently Learning</div>
+      <div class="skill-list">
+        <span class="skill-tag">MLOps</span>
+        <span class="skill-tag">FastAPI</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Production AI</span>
+        <span class="skill-tag">Model Deployment</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Proficiency Bars -->
+  <div class="bar-section reveal">
+    <div class="bar-section-title">Proficiency Levels</div>
+
+    <div class="bar-row">
+      <div class="bar-label">Python <span>Expert</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:92%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Deep Learning — CNN / LSTM / RNN <span>Advanced</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:82%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">TensorFlow &amp; Keras <span>Advanced</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">LangChain &amp; RAG Engineering <span>Intermediate–Advanced</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:75%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Data Preprocessing &amp; Feature Engineering <span>Advanced</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Transformers &amp; Attention Mechanisms <span>Intermediate</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:65%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">NumPy / Pandas / Matplotlib <span>Advanced</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:85%"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CONTACT SECTION
+══════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-label">04. Contact</div>
+  <h2 class="section-title">Let's Connect</h2>
+
+  <div class="contact-grid reveal">
+
+    <div>
+      <p class="contact-meta">
+        I'm actively looking for <strong>AI/ML internship opportunities</strong> where I can work
+        on real systems alongside experienced engineers. If you're building something meaningful
+        with AI — a product, a research project, or a startup — I'd love to be part of it.
+      </p>
+      <p class="contact-meta">
+        I'm open to <strong>remote and on-site roles across India</strong>. I respond to every
+        message within <strong>24 hours</strong>.
+      </p>
+      <p class="contact-meta">
+        <strong>Target Roles:</strong><br />
+        AI/ML Engineer Intern &nbsp;·&nbsp; ML Research Intern<br />
+        LLM Engineer Intern &nbsp;·&nbsp; Applied AI Engineer<br />
+        Computer Vision Intern &nbsp;·&nbsp; NLP / RAG Engineer
+      </p>
+    </div>
+
+    <div class="contact-links">
+
+      <a href="mailto:ashishsoni243k@gmail.com" class="contact-link">
+        <div class="contact-icon">✉</div>
+        <div>
+          <div>Email Me</div>
+          <div class="contact-detail">ashishsoni243k@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-icon" style="font-weight:800;font-size:0.7rem;">in</div>
+        <div>
+          <div>LinkedIn</div>
+          <div class="contact-detail">linkedin.com/in/ashish-soni-engineer</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-icon">⌥</div>
+        <div>
+          <div>GitHub</div>
+          <div class="contact-detail">github.com/ashishsoni-ai</div>
+        </div>
+      </a>
+
+      <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="contact-link" style="border-color:rgba(0,229,255,0.3);">
+        <div class="contact-icon">📄</div>
+        <div>
+          <div style="color:var(--accent);">Download Resume</div>
+          <div class="contact-detail">Ashish_Soni_Resume.pdf — always up to date</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHATBOT SECTION
+══════════════════════════════════════════════ -->
+<section id="chatbot">
+  <div class="section-label">05. AI Assistant</div>
+  <h2 class="section-title">Ask About Ashish</h2>
+  <p class="section-sub">Powered by RAG — this AI assistant knows Ashish's full background, projects, skills, and career goals.</p>
+
+  <div class="chatbot-wrapper">
+    <div class="chat-container">
+
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div>
+          <div class="chat-title">Ashish's AI Portfolio Assistant</div>
+          <div class="chat-subtitle">RAG-powered · Trained on Ashish's portfolio data · Ask me anything</div>
+        </div>
+        <div class="chat-status"><div class="dot"></div>Online</div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="message bot">
+          <div class="msg-avatar bot">🤖</div>
+          <div class="msg-bubble">
+            Hi! I'm Ashish's AI portfolio assistant, trained on his full background. I can tell you about his skills, projects (Image Captioning, Deepfake Detection, Audio ML, RAG Chatbot), career goals, and internship availability. What would you like to know?
+          </div>
+        </div>
+      </div>
+
+      <div class="sq-area" id="sq-area">
+        <button class="sq-btn" onclick="askQuestion('Who is Ashish Soni?')">Who is Ashish?</button>
+        <button class="sq-btn" onclick="askQuestion('What AI projects has he built?')">His projects</button>
+        <button class="sq-btn" onclick="askQuestion('What are his strongest skills?')">Top skills</button>
+        <button class="sq-btn" onclick="askQuestion('Is he open to internships?')">Open to work?</button>
+        <button class="sq-btn" onclick="askQuestion('Explain Image Captioning project in detail')">Image Captioning deep dive</button>
+        <button class="sq-btn" onclick="askQuestion('What is RAG and how does Ashish use it?')">RAG knowledge</button>
+        <button class="sq-btn" onclick="askQuestion('What are his career goals?')">Career goals</button>
+      </div>
+
+      <div class="chat-input-area">
+        <textarea id="chat-input" placeholder="Ask anything about Ashish..." rows="1"></textarea>
+        <button id="send-btn" onclick="sendMessage()">Send →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     RESUME SECTION
+══════════════════════════════════════════════ -->
+<section id="resume">
+  <div class="section-label">06. Resume</div>
+  <h2 class="section-title">My Resume</h2>
+  <p class="section-sub">View in browser or download as PDF — one click, always fresh.</p>
+
+  <div class="resume-box reveal">
+    <div class="resume-topbar">
+      <div class="resume-topbar-left">
+        📄 &nbsp;<strong>Ashish_Soni_Resume.pdf</strong>&nbsp; · &nbsp;AI/ML Engineer · India
+      </div>
+      <div class="resume-btn-group">
+        <a href="ashish_soni_resume.pdf" target="_blank" class="resume-btn resume-btn-view">👁 View Online</a>
+        <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="resume-btn resume-btn-dl">⬇ Download PDF</a>
+      </div>
+    </div>
+    <div class="resume-body">
+      <div class="resume-icon">📋</div>
+      <div class="resume-filename">ashish_soni_resume.pdf</div>
+      <p class="resume-hint">
+        Place your resume named <code>ashish_soni_resume.pdf</code> in the same folder as
+        <code>index.html</code>. Both the <strong>View</strong> and <strong>Download</strong>
+        buttons will work automatically — no code changes needed.
+      </p>
+      <div class="resume-actions">
+        <a href="ashish_soni_resume.pdf" target="_blank" class="btn btn-outline">👁 View Resume</a>
+        <a href="ashish_soni_resume.pdf" download="Ashish_Soni_Resume.pdf" class="btn btn-primary">⬇ Download Resume</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 <strong style="color:var(--text)">Ashish Soni</strong> · AI/ML Engineer · India 🇮🇳</span>
+  <span>
+    <a href="mailto:ashishsoni243k@gmail.com">ashishsoni243k@gmail.com</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/ashishsoni-ai" target="_blank">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href="https://linkedin.com/in/ashish-soni-engineer" target="_blank">LinkedIn</a>
+  </span>
+</footer>
+
+<script>
+  // ── Scroll Reveal ──────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Knowledge Base (RAG data for chatbot) ─────────
+  const KNOWLEDGE = `
+NAME: Ashish Soni
+ROLE: Aspiring AI/ML Engineer
+STATUS: B.Tech Student
+LOCATION: India
+EMAIL: ashishsoni243k@gmail.com
+GITHUB: https://github.com/ashishsoni-ai
+LINKEDIN: https://linkedin.com/in/ashish-soni-engineer
+
+ABOUT:
+Ashish Soni is a B.Tech student from India passionate about building real-world AI systems.
+He builds across Computer Vision (image captioning with CNN+LSTM, deepfake detection),
+Audio ML (genre classification using MFCC and spectrograms), and LLM Engineering
+(LangChain RAG pipelines, vector stores, embeddings, retrievers).
+He understands AI from first principles — why Xception extracts better visual features,
+why MFCC captures audio better than waveforms, how Transformer attention works.
+His goal is to build production-grade intelligent systems, not just notebook experiments.
+
+SKILLS:
+Languages: Python, C
+AI/ML: Machine Learning, Deep Learning, CNN, RNN, LSTM, Transformers
+Libraries: TensorFlow, Keras, NumPy, Pandas, Matplotlib
+LangChain: Chains, Runnables, Prompt Engineering, Output Parsers, Vector Stores,
+Retrievers, Tool Calling, RAG Architecture, Text Splitters, Structured Outputs, Embeddings
+ML Concepts: Model Training, Evaluation, Feature Engineering, Transfer Learning, Data Preprocessing
+
+PROJECTS:
+
+1. Image Captioning Model - Status: Completed
+Architecture: Xception CNN encoder extracts 2048-dim visual features → LSTM decoder generates
+captions word by word using teacher forcing. Beam search used at inference time.
+Dataset: Flickr8k — 8,000 images, 40,000 human-written captions.
+Tech: Python, TensorFlow, Keras, Xception, LSTM, Transfer Learning, Beam Search
+
+2. Real vs Fake Face Detection - Status: Completed
+Binary CNN classifier to detect real vs AI-generated (deepfake) faces.
+Pipeline: Raw image → face detection → alignment + normalization → CNN → sigmoid → real/fake.
+Uses transfer learning backbone with custom dense layers.
+Tech: Python, TensorFlow, Keras, CNN, Binary Classification, Transfer Learning
+
+3. Audio Genre Classification - Status: Completed
+Classifies music genres using MFCC and Mel spectrogram feature extraction.
+MFCC captures frequency, rhythm, and tonal properties — fed into neural network for prediction.
+Pipeline: Audio → MFCC + Spectrogram → Feature Matrix → Neural Network → Genre Label
+Tech: Python, NumPy, MFCC, Mel Spectrogram, Neural Network, Feature Engineering
+
+4. RAG Portfolio Chatbot - Status: In Progress
+Retrieval-Augmented Generation chatbot trained on portfolio documents.
+Portfolio docs → text splitter → HuggingFace embeddings → ChromaDB vector store.
+At query time: question → embedding → top-3 chunk retrieval → LangChain chain → Groq LLM → answer.
+Tech: LangChain, ChromaDB, HuggingFace Embeddings, Groq LLM, FastAPI, Python
+
+CAREER GOALS:
+Become a top AI engineer building real-world intelligent systems at scale.
+Interested in: AI product companies, ML engineering roles, applied AI research, startup AI teams.
+Target roles: AI/ML Engineer Intern, ML Research Intern, LLM Engineer Intern, Applied AI Engineer.
+
+AVAILABILITY:
+Yes, Ashish is actively open to internships and opportunities.
+Available for remote and on-site roles in India.
+Responds within 24 hours.
+Contact: ashishsoni243k@gmail.com
+
+STRONGEST SKILLS:
+Deep Learning (CNN, LSTM, Transformers), LangChain + RAG engineering, Python, TensorFlow.
+Breadth across Computer Vision, Audio ML, and NLP/LLM engineering.
+  `.trim();
+
+  // ── Chatbot Logic ──────────────────────────────────
+  const messagesEl = document.getElementById('chat-messages');
+  const inputEl    = document.getElementById('chat-input');
+  const sendBtn    = document.getElementById('send-btn');
+  let isLoading    = false;
+
+  function scrollBottom() { messagesEl.scrollTop = messagesEl.scrollHeight; }
+
+  function addMessage(role, text) {
+    const wrap   = document.createElement('div');
+    wrap.className = `message ${role}`;
+    const avatar = document.createElement('div');
+    avatar.className = `msg-avatar ${role === 'user' ? 'user-av' : 'bot'}`;
+    avatar.textContent = role === 'user' ? 'You' : '🤖';
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.textContent = text;
+    wrap.appendChild(avatar);
+    wrap.appendChild(bubble);
+    messagesEl.appendChild(wrap);
+    scrollBottom();
+  }
+
+  function showTyping() {
+    const wrap   = document.createElement('div');
+    wrap.className = 'message bot'; wrap.id = 'typing';
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar bot'; avatar.textContent = '🤖';
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    wrap.appendChild(avatar); wrap.appendChild(bubble);
+    messagesEl.appendChild(wrap); scrollBottom();
+  }
+
+  function hideTyping() { const el = document.getElementById('typing'); if (el) el.remove(); }
+
+  // Offline fallback answers
+  function fallback(q) {
+    q = q.toLowerCase();
+    if (q.includes('who') || q.includes('about') || q.includes('ashish'))
+      return "Ashish Soni is a B.Tech student from India and aspiring AI/ML Engineer. He builds end-to-end AI systems across Computer Vision (image captioning, deepfake detection), Audio ML (genre classification), and LLM Engineering (LangChain, RAG pipelines). His goal: become a top AI engineer at scale.";
+    if (q.includes('project') || q.includes('built') || q.includes('work'))
+      return "Ashish has built 4 AI projects: (1) Image Captioning — Xception CNN + LSTM trained on Flickr8k, (2) Real vs Fake Face Detection — CNN binary classifier for deepfake detection, (3) Audio Genre Classification — MFCC + spectrogram neural network, (4) RAG Portfolio Chatbot — LangChain + ChromaDB (in progress).";
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack') || q.includes('know'))
+      return "Ashish's skills: Python, TensorFlow, Keras, NumPy, Pandas (libraries); CNN, LSTM, RNN, Transformers (deep learning); LangChain, RAG, Embeddings, Vector Stores, Retrievers, Tool Calling, Prompt Engineering (LLM engineering). Strongest in Deep Learning and RAG pipelines.";
+    if (q.includes('intern') || q.includes('hire') || q.includes('open') || q.includes('available') || q.includes('opportunit'))
+      return "Yes! Ashish is actively open to internships and AI/ML opportunities. He's looking for AI/ML Engineer Intern, ML Research Intern, and LLM Engineer roles. Available remote or on-site in India. Contact: ashishsoni243k@gmail.com — responds within 24 hours.";
+    if (q.includes('caption') || q.includes('image cap'))
+      return "The Image Captioning project uses Xception (pretrained CNN) as encoder to extract 2048-dim visual feature vectors from photos. These feed into an LSTM decoder that generates captions word-by-word using teacher forcing during training. At inference, beam search is used for better quality captions. Trained on Flickr8k (8K images, 40K captions).";
+    if (q.includes('deepfake') || q.includes('fake face') || q.includes('real vs fake') || q.includes('face detect'))
+      return "The Real vs Fake Face Detection project is a CNN binary classifier. Pipeline: Raw image → face detection → alignment & normalization → CNN feature extraction (transfer learning) → sigmoid output → Real (1) or Fake (0). Built to detect AI-generated deepfake images with high accuracy.";
+    if (q.includes('audio') || q.includes('genre') || q.includes('music') || q.includes('mfcc') || q.includes('spectrogram'))
+      return "The Audio Genre Classification project extracts MFCC (Mel-Frequency Cepstral Coefficients) and Mel spectrograms from audio files. MFCC captures frequency, rhythm, and tonal structure — much more meaningful than raw waveforms. These features are fed into a neural network that predicts the music genre.";
+    if (q.includes('rag') || q.includes('langchain') || q.includes('vector') || q.includes('retriev') || q.includes('embed'))
+      return "Ashish has strong LangChain & RAG expertise: Chains, Runnables, Retrievers, Vector Stores (ChromaDB/FAISS), Embeddings (HuggingFace), Text Splitters, Output Parsers, Prompt Engineering, Tool Calling, and Structured Outputs. His RAG Chatbot project implements the full pipeline: documents → embeddings → vector store → retrieval → LLM → answer.";
+    if (q.includes('goal') || q.includes('future') || q.includes('career') || q.includes('dream'))
+      return "Ashish's career goal is to become a top AI engineer building real-world intelligent systems at scale. He's interested in AI product companies, ML engineering roles, applied AI research, and startup AI teams.";
+    if (q.includes('contact') || q.includes('email') || q.includes('reach') || q.includes('linkedin') || q.includes('github'))
+      return "Contact Ashish: ✉ ashishsoni243k@gmail.com · LinkedIn: linkedin.com/in/ashish-soni-engineer · GitHub: github.com/ashishsoni-ai. He replies within 24 hours!";
+    if (q.includes('strongest') || q.includes('best at') || q.includes('speciali'))
+      return "Ashish's strongest areas are Deep Learning (CNNs, LSTMs, Transformers) and LLM Engineering (LangChain, RAG, vector stores, embeddings). He has breadth across Computer Vision, Audio ML, and NLP domains.";
+    return "I'm Ashish's AI assistant. I can answer questions about his skills, projects (Image Captioning, Deepfake Detection, Audio Classification, RAG Chatbot), internship availability, tech stack, or career goals. What would you like to know?";
+  }
+
+  async function sendMessage() {
+    const query = inputEl.value.trim();
+    if (!query || isLoading) return;
+    isLoading = true;
+    sendBtn.disabled = true;
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    document.getElementById('sq-area').style.display = 'none';
+    addMessage('user', query);
+    showTyping();
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: `You are the AI assistant for Ashish Soni's portfolio website.
+Answer questions ONLY using the knowledge base below. Be concise (2-4 sentences max), professional, and helpful.
+Speak about Ashish in third person. If something is not in the knowledge base, say:
+"I don't have that specific info — contact Ashish directly at ashishsoni243k@gmail.com"
+
+KNOWLEDGE BASE:
+${KNOWLEDGE}`,
+          messages: [{ role: 'user', content: query }]
+        })
+      });
+      hideTyping();
+      if (!res.ok) throw new Error('err');
+      const data = await res.json();
+      addMessage('bot', data.content?.[0]?.text || "Sorry, I couldn't get a response. Please try again.");
+    } catch {
+      hideTyping();
+      addMessage('bot', fallback(query));
+    }
+
+    isLoading = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  function askQuestion(q) { inputEl.value = q; sendMessage(); }
+
+  inputEl.addEventListener('input', () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + 'px';
+  });
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+</script>
+
+</body>
+</html>

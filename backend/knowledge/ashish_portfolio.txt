@@ -1,0 +1,119 @@
+# Ashish Soni — Portfolio Knowledge Base
+# This file is loaded into the vector store for RAG retrieval.
+# Add or update any information here, then call /rebuild-index.
+
+## IDENTITY
+Name: Ashish Soni
+Role: Aspiring AI/ML Engineer
+Status: B.Tech Student
+Location: India
+Tone: Professional, technical, motivated
+
+## ABOUT
+Ashish Soni is a B.Tech student from India passionate about building real-world AI systems.
+He specializes in deep learning, computer vision, audio machine learning, and LLM engineering.
+His focus is not just on experiments but on building production-grade AI products.
+He understands AI architectures deeply — from CNN attention mechanisms to RAG pipelines.
+Ashish is driven to become a top-tier AI engineer and contribute to AI product companies.
+
+## SKILLS — PROGRAMMING LANGUAGES
+- Python (primary language for all AI/ML work)
+- C
+
+## SKILLS — AI/ML
+- Machine Learning (supervised, unsupervised learning)
+- Deep Learning
+- CNN — Convolutional Neural Networks (image classification, feature extraction)
+- RNN — Recurrent Neural Networks (sequential data)
+- LSTM — Long Short-Term Memory networks (time series, text generation, captioning)
+- Transformers (attention mechanism, BERT-style architectures)
+
+## SKILLS — LIBRARIES
+- NumPy (numerical computing, array operations)
+- Pandas (data manipulation and analysis)
+- Matplotlib (data visualization)
+- TensorFlow (deep learning framework)
+- Keras (high-level deep learning API on top of TensorFlow)
+
+## SKILLS — LANGCHAIN & RAG ENGINEERING
+- LangChain framework
+- Chains and Runnables
+- Prompt Engineering
+- Output Parsers
+- Vector Stores (Chroma, FAISS)
+- Retrievers and semantic search
+- Tools and Tool Calling (function calling with LLMs)
+- RAG Architecture — Retrieval-Augmented Generation
+- Text Splitters (recursive, character-based)
+- Structured Outputs from LLMs
+
+## SKILLS — ML CONCEPTS
+- Model training and optimization
+- Model evaluation (accuracy, F1, precision, recall)
+- Feature engineering
+- Transfer learning (using pretrained models)
+- Data preprocessing and cleaning
+- Prompt engineering for LLMs
+
+## PROJECT 1 — IMAGE CAPTIONING MODEL
+Name: Image Captioning Model
+Status: Completed
+Description: An end-to-end image-to-text system.
+Architecture: CNN encoder using Xception (pretrained on ImageNet) extracts visual feature vectors. These features are then fed into an LSTM decoder which generates captions word by word.
+Dataset: Flickr8k — 8,000 images each with 5 captions.
+Technical details: Xception outputs a 2048-dim feature vector. The LSTM uses teacher forcing during training. Greedy and beam search are used at inference.
+Technologies: Python, TensorFlow, Keras, Xception, LSTM, Flickr8k dataset
+
+## PROJECT 2 — REAL VS FAKE FACE DETECTION
+Name: Real vs Fake Face Detection
+Status: Completed
+Description: A binary deep learning classifier that distinguishes real human faces from AI-generated or manipulated (deepfake) images.
+Architecture: CNN-based binary classifier trained on labeled face datasets.
+Pipeline: Raw images → face detection → normalization → CNN feature extraction → sigmoid output (real/fake).
+Technical details: Uses transfer learning from pretrained CNN backbones. Includes a preprocessing pipeline for face alignment and normalization.
+Technologies: Python, TensorFlow, Keras, CNN, deep learning, image preprocessing
+
+## PROJECT 3 — AUDIO GENRE CLASSIFICATION
+Name: Audio Genre Classification
+Status: Completed
+Description: Classifies music audio clips into genre categories using audio feature extraction and neural networks.
+Technical approach: Audio files are processed to extract MFCC (Mel-Frequency Cepstral Coefficients) features and spectrograms. These features represent the audio in a format suitable for neural networks.
+Architecture: Fully connected neural network or CNN over spectrogram images for genre prediction.
+Technologies: Python, NumPy, Librosa (audio processing), MFCC, Mel spectrograms, neural networks, TensorFlow/Keras
+
+## PROJECT 4 — RAG PORTFOLIO CHATBOT
+Name: RAG Portfolio Chatbot
+Status: In Progress
+Description: An AI chatbot that answers questions about Ashish's portfolio using Retrieval-Augmented Generation.
+Architecture: Portfolio documents are embedded into a vector database (ChromaDB). When a user asks a question, the most relevant chunks are retrieved and passed as context to an LLM for response generation.
+Tech stack: LangChain, ChromaDB, HuggingFace sentence-transformers for embeddings, Groq LLM API for generation, FastAPI backend.
+RAG Pipeline: Document loading → text splitting → embedding → vector store → retrieval → LLM generation.
+
+## CAREER GOALS
+Ashish wants to become a top AI engineer building real-world intelligent systems at scale.
+He is interested in: AI product companies, ML engineering roles, applied AI research, startup AI teams.
+He aims to work on production AI systems that make real-world impact.
+His long-term goal is to contribute to frontier AI products.
+
+## AVAILABILITY & WORK STATUS
+Ashish is actively open to internships.
+He is looking for: AI/ML engineering internships, applied AI research positions, ML infrastructure roles, startup AI team positions.
+He is available for remote and on-site opportunities in India.
+Response time is usually within 24 hours.
+
+## CONTACT INFORMATION
+Email: ashishsoni243k@gmail.com
+GitHub: https://github.com/ashishsoni-ai
+LinkedIn: https://linkedin.com/in/ashish-soni-engineer
+Location: India
+
+## STRONGEST DOMAIN
+Ashish's strongest domain is AI/ML Engineering.
+His depth areas are: Deep Learning (CNNs, LSTMs, Transformers), Computer Vision (image captioning, face detection), and LLM Engineering (LangChain, RAG architecture, embeddings, vector stores).
+He has breadth across vision, audio, and NLP domains.
+
+## WHAT MAKES ASHISH DIFFERENT
+He focuses on building complete pipelines, not just training models.
+He understands both the ML theory and engineering implementation.
+He has hands-on experience with LangChain and RAG — cutting-edge LLM tooling.
+He is a self-driven learner who builds projects to deepen his understanding.
