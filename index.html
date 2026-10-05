@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200..600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css" />
 
   <script>
@@ -352,11 +352,55 @@
     .contact-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--night) 0%, rgba(10,13,19,.55) 30%, rgba(10,13,19,.5) 60%, rgba(10,13,19,.85) 100%), linear-gradient(90deg, rgba(10,13,19,.7) 0%, rgba(10,13,19,.1) 70%); }
     .contact .wrap { position: relative; z-index: 1; width: 100%; }
     .contact h2 { font-size: clamp(2.8rem, 8vw, 7rem); max-width: 13ch; }
-    .mail { margin-top: 2.6rem; font-weight: 200; font-size: clamp(1.4rem, 3.6vw, 2.6rem); overflow-wrap: anywhere; }
-    .contact-row { margin-top: 3rem; display: flex; align-items: center; flex-wrap: wrap; gap: 2rem 3rem; }
-    .magnet { width: 132px; height: 132px; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; font-weight: 500; transition: background-color .3s; }
-    .magnet:hover { background: var(--text); }
-    .socials { display: flex; gap: 2rem; flex-wrap: wrap; color: var(--text-2); }
+    /* Cursor spotlight: an amber light that follows the mouse across the section */
+    .spotlight { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .6s;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(217,168,108,.26), rgba(217,168,108,.08) 38%, transparent 70%); mix-blend-mode: screen; }
+    .contact.lit .spotlight { opacity: 1; }
+    .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem 6rem; margin-top: clamp(3rem, 7vh, 5rem); align-items: start; }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
+    .avail { display: inline-flex; align-items: center; gap: .7rem; font-size: .85rem; color: var(--text-2); padding: .5rem 1rem .5rem .8rem; border: 1px solid var(--line); border-radius: 99px; background: rgba(10,13,19,.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .pulse { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #7FD1A3; flex: none; }
+    .pulse::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #7FD1A3; animation: pulse 2s ease-out infinite; }
+    @keyframes pulse { from { transform: scale(1); opacity: .7; } to { transform: scale(3.2); opacity: 0; } }
+    .contact .sub { margin-top: 1.6rem; }
+    .mail-card { margin-top: 2.4rem; padding: 1.6rem 1.8rem 1.8rem; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(160deg, rgba(18,23,34,.75), rgba(10,13,19,.55)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: border-color .4s; }
+    .mail-card:hover { border-color: rgba(217,168,108,.4); }
+    .mail-label { display: block; color: var(--muted); }
+    .mail { display: inline-block; margin-top: .5rem; font-weight: 200; font-size: clamp(1.35rem, 2.6vw, 2.2rem); overflow-wrap: anywhere; background: linear-gradient(90deg, var(--amber), var(--amber)) left bottom / 0 1px no-repeat; transition: background-size .6s var(--ease), color .3s; padding-bottom: 4px; }
+    .mail:hover { color: var(--amber); background-size: 100% 1px; }
+    .mail-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
+    .pill { position: relative; display: inline-flex; align-items: center; gap: .7rem; padding: .85rem 1.3rem; border-radius: 99px; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; font-weight: 500; overflow: hidden; isolation: isolate; transition: color .4s, border-color .4s; }
+    .pill svg { width: 15px; height: 15px; flex: none; transition: transform .5s var(--ease); }
+    .pill::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; transform: translateY(101%); transition: transform .55s var(--ease); }
+    .pill-solid { background: var(--amber); color: var(--night); }
+    .pill-solid::before { background: var(--text); }
+    .pill-ghost { border: 1px solid var(--line-2); color: var(--text); }
+    .pill-ghost::before { background: var(--amber); }
+    .pill:hover::before { transform: none; }
+    .pill-ghost:hover { color: var(--night); border-color: var(--amber); }
+    .pill-solid:hover svg { transform: translate(3px, -3px); }
+    /* Rolling label: the text slides up and an identical copy rises from below */
+    .roll { position: relative; display: inline-block; overflow: hidden; line-height: 1.3; vertical-align: middle; }
+    .roll > i { display: block; font-style: normal; transition: transform .5s var(--ease); }
+    .roll > i + i { position: absolute; left: 0; top: 100%; }
+    .pill:hover .roll > i { transform: translateY(-100%); }
+    .pill .i-check { display: none; }
+    .pill.copied .i-copy { display: none; }
+    .pill.copied .i-check { display: block; animation: pop .45s var(--ease); }
+    @keyframes pop { 0% { transform: scale(.3); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+    .links { list-style: none; border-top: 1px solid var(--line); }
+    .link-row { position: relative; display: grid; grid-template-columns: 1fr auto 2.2rem; align-items: center; gap: 1.5rem; padding: 1.55rem 1.2rem; border-bottom: 1px solid var(--line); overflow: hidden; isolation: isolate; transition: color .45s var(--ease), padding .5s var(--ease); }
+    .link-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--amber); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease); }
+    .link-row:hover { color: var(--night); padding-left: 1.8rem; }
+    .link-row:hover::before { transform: scaleX(1); }
+    .lr-name { font-weight: 200; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; }
+    .lr-meta { font-size: .8rem; letter-spacing: .06em; color: var(--muted); transition: color .45s; }
+    .link-row:hover .lr-meta { color: rgba(10,13,19,.7); }
+    .lr-arrow { justify-self: end; font-size: 1.3rem; transition: transform .5s var(--ease); }
+    .link-row:hover .lr-arrow { transform: translate(4px, -4px) scale(1.15); }
+    @media (max-width: 520px) { .lr-meta { display: none; } .link-row { grid-template-columns: 1fr 2rem; } }
+    .toast { position: fixed; left: 50%; bottom: 32px; z-index: 260; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; padding: .75rem 1.2rem; border-radius: 99px; background: var(--text); color: var(--night); font-size: .85rem; box-shadow: 0 16px 40px rgba(0,0,0,.4); transition: opacity .35s, transform .5s var(--ease); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     footer { border-top: 1px solid var(--line); padding: 2rem 0; color: var(--muted); font-size: .85rem; }
     .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -573,10 +617,16 @@
     .signature { position: relative; overflow: hidden; padding: clamp(4rem, 10vh, 7rem) 0 0; border-top: 1px solid var(--line); }
     .sig-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; color: var(--muted); }
     .sig-row a:hover { color: var(--amber); }
+    .to-top { display: inline-flex; align-items: center; gap: .9rem; }
+    .to-top-circle { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; overflow: hidden; transition: border-color .3s, background-color .3s, color .3s; }
+    .to-top-circle svg { width: 16px; height: 16px; }
+    .to-top:hover .to-top-circle { background: var(--amber); border-color: var(--amber); color: var(--night); }
+    .to-top:hover .to-top-circle svg { animation: loopUp .6s var(--ease); }
+    @keyframes loopUp { 0% { transform: translateY(0); } 45% { transform: translateY(-140%); } 46% { transform: translateY(140%); } 100% { transform: translateY(0); } }
     .sig-name { display: flex; justify-content: center; font-weight: 200; font-size: 16.5vw; line-height: .8; letter-spacing: -0.04em; color: var(--text); white-space: nowrap; padding: 0 1vw; margin-bottom: -1.6vw; user-select: none; }
     /* No CSS transform transition here: GSAP animates these letters, and the two would fight. */
-    .sig-name span { display: inline-block; transition: color .5s; }
-    .sig-name span:hover { color: var(--amber); transition-duration: .15s; }
+    .sig-name span { display: inline-block; font-weight: 200; }
+    .sig-name span > b { display: inline-block; font-weight: inherit; will-change: transform; }
     .sig-time { font-variant-numeric: tabular-nums; }
 
     @media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
@@ -964,20 +1014,39 @@
     <div class="contact-media" id="contact-media" aria-hidden="true">
       <video id="contact-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg"><source src="assets/hero.mp4" type="video/mp4" /></video>
     </div>
+    <div class="spotlight" aria-hidden="true"></div>
     <div class="wrap">
       <p class="eyebrow caps rv"><b>07</b> Contact</p>
       <h2 class="rv">Let's build something <em>careful.</em></h2>
-      <p class="sub rv">Looking for AI/ML engineering and research internships, remote or in India. If you're working on agents, evaluation or applied vision, I'd love to hear about it.</p>
-      <div class="rv"><a class="mail ulink" href="mailto:ashishsoni243k@gmail.com">ashishsoni243k@gmail.com</a></div>
-      <div class="contact-row rv">
-        <a class="magnet" id="magnet" href="mailto:ashishsoni243k@gmail.com"><span>Say hello</span></a>
-        <div class="socials caps">
-          <a class="ulink" href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener">LinkedIn ↗</a>
-          <a class="ulink" href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener">GitHub ↗</a>
-          <a class="ulink" href="ashish_soni_resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+      <div class="contact-grid">
+        <div class="contact-left rv">
+          <p class="avail"><span class="pulse" aria-hidden="true"></span>Available for internships · usually replies within a day</p>
+          <p class="sub">Looking for AI/ML engineering and research internships, remote or in India. If you're working on agents, evaluation or applied vision, I'd love to hear about it.</p>
+          <div class="mail-card">
+            <span class="caps mail-label">Email</span>
+            <a class="mail" href="mailto:ashishsoni243k@gmail.com">ashishsoni243k@gmail.com</a>
+            <div class="mail-actions">
+              <a class="pill pill-solid" href="mailto:ashishsoni243k@gmail.com?subject=Hello%20Ashish">
+                <span class="roll" data-text="Write to me">Write to me</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+              </a>
+              <button class="pill pill-ghost" id="copy-email" type="button" data-email="ashishsoni243k@gmail.com">
+                <span class="roll" data-text="Copy address">Copy address</span>
+                <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>
+                <svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
+        <ul class="links rv">
+          <li><a class="link-row" href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener"><span class="lr-name">LinkedIn</span><span class="lr-meta">/in/ashish-soni-engineer</span><span class="lr-arrow">↗</span></a></li>
+          <li><a class="link-row" href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener"><span class="lr-name">GitHub</span><span class="lr-meta">@ashishsoni-ai</span><span class="lr-arrow">↗</span></a></li>
+          <li><a class="link-row" href="ashish_soni_resume.pdf" target="_blank" rel="noopener"><span class="lr-name">Résumé</span><span class="lr-meta">PDF</span><span class="lr-arrow">↓</span></a></li>
+          <li><a class="link-row" href="https://github.com/search?q=author%3Aashishsoni-ai+type%3Apr+-user%3Aashishsoni-ai&amp;type=pullrequests" target="_blank" rel="noopener"><span class="lr-name">Open source</span><span class="lr-meta">19 merged PRs</span><span class="lr-arrow">↗</span></a></li>
+        </ul>
       </div>
     </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </section>
 </main>
 
@@ -986,7 +1055,7 @@
     <span>© <span id="year">2026</span> Ashish Soni</span>
     <span>New Delhi · <span class="sig-time" id="sig-time">--:--</span> IST</span>
     <span>Footage: Mixkit</span>
-    <a href="#top" data-scroll>Back to top ↑</a>
+    <a href="#top" data-scroll class="to-top" aria-label="Back to top"><span>Back to top</span><span class="to-top-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></a>
   </div>
   <div class="sig-name" id="sig-name" aria-label="Ashish Soni">Ashish Soni</div>
 </footer>
@@ -1353,14 +1422,6 @@
   // Contact footage rises in
   gsap.fromTo('#contact-media', { yPercent: -10 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#contact', start: 'top bottom', end: 'top top', scrub: true } });
 
-  // Magnetic "Say hello" button (mouse only)
-  if (finePointer) {
-    var mag = document.getElementById('magnet');
-    var mx = gsap.quickTo(mag, 'x', { duration: .6, ease: 'elastic.out(1, .4)' }), my = gsap.quickTo(mag, 'y', { duration: .6, ease: 'elastic.out(1, .4)' });
-    mag.addEventListener('mousemove', function (e) { var r = mag.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .35); my((e.clientY - r.top - r.height / 2) * .35); });
-    mag.addEventListener('mouseleave', function () { mx(0); my(0); });
-  }
-
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
 })();
@@ -1528,7 +1589,85 @@ window.PROJECTS = [
 
   /* ---------------- Footer signature letters ---------------- */
   var sig = document.getElementById('sig-name');
-  sig.innerHTML = sig.textContent.split('').map(function (c) { return c === ' ' ? '<span style="width:.25em"></span>' : '<span>' + c + '</span>'; }).join('');
+  // Outer span: scroll reveal. Inner <b>: cursor-proximity wave. Separate elements so the two never fight.
+  sig.innerHTML = sig.textContent.split('').map(function (c) { return c === ' ' ? '<span style="width:.25em"></span>' : '<span><b>' + c + '</b></span>'; }).join('');
+
+  /* ---------------- Contact: rolling labels, copy email, toast ---------------- */
+  document.querySelectorAll('.roll').forEach(function (r) {
+    var t = r.getAttribute('data-text') || r.textContent;
+    r.innerHTML = '<i>' + esc(t) + '</i><i aria-hidden="true">' + esc(t) + '</i>';
+  });
+  var toastEl = document.getElementById('toast'), toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+  }
+  var copyBtn = document.getElementById('copy-email');
+  copyBtn.addEventListener('click', function () {
+    var email = copyBtn.dataset.email;
+    function ok() {
+      copyBtn.classList.add('copied');
+      copyBtn.querySelectorAll('.roll i').forEach(function (i) { i.textContent = 'Copied'; });
+      toast('Email copied: ' + email);
+      setTimeout(function () {
+        copyBtn.classList.remove('copied');
+        copyBtn.querySelectorAll('.roll i').forEach(function (i) { i.textContent = 'Copy address'; });
+      }, 2400);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(email).then(ok, fallback);
+    else fallback();
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = email; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { toast(email); }
+      ta.remove();
+    }
+  });
+
+  /* ---------------- Contact spotlight follows the pointer ---------------- */
+  var contact = document.getElementById('contact');
+  if (!reduce) {
+    contact.addEventListener('pointermove', function (e) {
+      var r = contact.getBoundingClientRect();
+      contact.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      contact.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      contact.classList.add('lit');
+    });
+    contact.addEventListener('pointerleave', function () { contact.classList.remove('lit'); });
+  }
+
+  /* ---------------- Footer name: letters swell toward the pointer ---------------- */
+  (function proximity() {
+    if (reduce) return;
+    var footer = document.querySelector('.signature');
+    var letters = Array.prototype.slice.call(document.querySelectorAll('#sig-name b'));
+    var st = letters.map(function () { return { w: 200, y: 0, c: 0 }; });
+    var ptr = { x: -1e4, y: -1e4, on: false }, visible = false, running = false;
+    var A = [236, 231, 220], B = [217, 168, 108];
+    footer.addEventListener('pointermove', function (e) { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; kick(); });
+    footer.addEventListener('pointerleave', function () { ptr.on = false; kick(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(footer);
+    function kick() { if (!running && visible) { running = true; requestAnimationFrame(step); } }
+    function step() {
+      // Read every letter's position first, then write, to avoid layout thrashing.
+      var centers = letters.map(function (el) { var r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; });
+      var moving = false;
+      letters.forEach(function (el, i) {
+        var d = Math.hypot(ptr.x - centers[i][0], (ptr.y - centers[i][1]) * 0.55);
+        var t = ptr.on ? Math.max(0, 1 - d / 340) : 0;
+        t = t * t * (3 - 2 * t);
+        var s = st[i];
+        s.w += (200 + 400 * t - s.w) * 0.14;
+        s.y += (-10 * t - s.y) * 0.14;
+        s.c += (t - s.c) * 0.14;
+        if (Math.abs(200 + 400 * t - s.w) > 0.5 || Math.abs(s.c - t) > 0.005) moving = true;
+        el.style.fontWeight = Math.round(s.w);
+        el.style.transform = 'translateY(' + s.y.toFixed(2) + '%)';
+        el.style.color = 'rgb(' + A.map(function (a, k) { return Math.round(a + (B[k] - a) * s.c); }).join(',') + ')';
+      });
+      if ((moving || ptr.on) && visible) requestAnimationFrame(step); else running = false;
+    }
+  })();
 
   /* ---------------- Case study overlay ---------------- */
   var caseEl = document.getElementById('case');
