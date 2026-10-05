@@ -17,7 +17,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css" />
 
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      // Preloader only on the first visit of a session, and never for reduced motion.
+      var seen = false; try { seen = sessionStorage.getItem('ashish-intro') === '1'; } catch (e) {}
+      if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('preloading');
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('has-cursor');
+    })();
+  </script>
 
   <style>
     :root {
@@ -471,13 +480,171 @@
       .shimmer { color: var(--muted); background: none; }
     }
 
+    /* =========================================================
+       Premium layer
+       ========================================================= */
+
+    /* Preloader */
+    html:not(.preloading) .preloader:not(.lift) { display: none; }
+    .preloader {
+      display: flex; position: fixed; inset: 0; z-index: 200; background: var(--night);
+      flex-direction: column; justify-content: space-between; padding: 2.4rem var(--gutter);
+      transition: clip-path 1.1s cubic-bezier(.77, 0, .18, 1);
+      clip-path: inset(0 0 0 0);
+    }
+    .preloading body { overflow: hidden; }
+    .preloader.lift { clip-path: inset(0 0 100% 0); }
+    .pre-top, .pre-bottom { display: flex; justify-content: space-between; align-items: flex-end; color: var(--muted); }
+    .pre-name { font-weight: 200; font-size: clamp(3rem, 11vw, 10rem); line-height: .95; letter-spacing: -0.03em; color: var(--text); display: flex; overflow: hidden; }
+    .pre-name span { display: inline-block; transform: translateY(105%); transition: transform 1s var(--ease); }
+    .pre-name span.sp { width: .28em; }
+    .pre-name.in span { transform: none; }
+    .pre-count { font-weight: 200; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; color: var(--amber); font-variant-numeric: tabular-nums; }
+    .pre-bar { position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: var(--amber); transform-origin: left; transform: scaleX(0); transition: transform .3s linear; }
+
+    /* Custom cursor (fine pointers only) */
+    .cursor, .cursor-dot, .ripple { display: none; }
+    .has-cursor .cursor, .has-cursor .cursor-dot { display: block; position: fixed; left: 0; top: 0; z-index: 300; pointer-events: none; border-radius: 50%; }
+    .has-cursor, .has-cursor a, .has-cursor button, .has-cursor .row { cursor: none; }
+    .has-cursor textarea, .has-cursor input { cursor: text; }
+    .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--amber); }
+    .cursor { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1px solid rgba(236,231,220,.45); transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), border-color .3s, background-color .3s, opacity .3s; display: grid; place-items: center; }
+    .cursor svg { width: 14px; height: 14px; color: var(--night); opacity: 0; transform: scale(.4) rotate(-45deg); transition: opacity .25s, transform .4s var(--ease); }
+    .cursor.link { width: 54px; height: 54px; margin: -27px 0 0 -27px; border-color: var(--amber); }
+    .cursor.view { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: var(--amber); border-color: var(--amber); }
+    .cursor.view svg { opacity: 1; transform: none; }
+    .cursor.text { width: 4px; height: 26px; margin: -13px 0 0 -2px; border-radius: 2px; border-color: transparent; background: var(--amber); }
+    .cursor.hidden, .cursor-dot.hidden { opacity: 0; }
+    .cursor.press { transition-duration: .12s; width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+    .has-cursor .ripple { display: block; position: fixed; z-index: 299; pointer-events: none; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; border: 1px solid var(--amber); animation: ripple .7s cubic-bezier(.2, .7, .2, 1) forwards; }
+    @keyframes ripple { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(9); } }
+
+    /* Film grain */
+    .grain { position: fixed; inset: -60%; z-index: 150; pointer-events: none; opacity: .055;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: grain 1.2s steps(6) infinite; }
+    @keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); } 40% { transform: translate(3%, -5%); } 60% { transform: translate(-6%, -2%); } 80% { transform: translate(5%, 4%); } 100% { transform: translate(0, 0); } }
+
+    /* Scroll progress */
+    .progress { position: absolute; left: 0; bottom: -1px; height: 1px; width: 100%; background: var(--amber); transform-origin: left; transform: scaleX(0); opacity: .8; }
+
+    /* Heading word masks */
+    .wm { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+    .wm > span { display: inline-block; will-change: transform; }
+
+    /* Row click flash */
+    .row.flash::before { transform: scaleY(1); background: linear-gradient(90deg, rgba(217,168,108,.35), transparent 80%); transition-duration: .2s; }
+
+    /* Case study overlay */
+    .case { position: fixed; inset: 0; z-index: 120; background: #090C11; visibility: hidden; overflow: hidden; }
+    .case.open { visibility: visible; }
+    .case-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 50% at 85% 0%, rgba(217,168,108,.12), transparent 70%), radial-gradient(50% 40% at 0% 100%, rgba(80,110,160,.10), transparent 70%); }
+    .case-sky { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .7; }
+    .case-sky circle { fill: var(--text); }
+    .case-scroll { position: relative; height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+    .case-bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; height: 84px; padding: 0 var(--gutter); background: linear-gradient(180deg, #090C11 40%, rgba(9,12,17,0)); }
+    .case-back { display: inline-flex; align-items: center; gap: .9rem; color: var(--text-2); transition: color .3s; }
+    .case-back:hover { color: var(--text); }
+    .case-back .cta-circle { width: 44px; height: 44px; }
+    .case-count { color: var(--muted); }
+    .case-inner { max-width: var(--wide); margin: 0 auto; padding: 4vh var(--gutter) 0; }
+    .case-cat { color: var(--amber); }
+    .case h2 { font-size: clamp(3rem, 9vw, 8.5rem); line-height: .98; max-width: none; margin-top: 1.4rem; letter-spacing: -0.03em; }
+    .case-lede { margin-top: 1.8rem; max-width: 30ch; font-weight: 200; font-size: clamp(1.4rem, 2.6vw, 2.1rem); line-height: 1.3; color: var(--text-2); }
+    .case-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem 6rem; margin-top: clamp(3rem, 8vh, 6rem); padding-top: 3rem; border-top: 1px solid var(--line); }
+    .case-body p { color: var(--text-2); font-size: 1.05rem; line-height: 1.8; }
+    .case-body p + p { margin-top: 1.2rem; }
+    .case-facts { list-style: none; }
+    .case-facts li { display: flex; justify-content: space-between; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .case-facts li span:first-child { color: var(--muted); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; padding-top: .2rem; white-space: nowrap; }
+    .case-facts li span:last-child { text-align: right; }
+    .case-facts li b { font-weight: 300; color: var(--amber); }
+    .case-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 2rem; }
+    .case-next { display: block; margin-top: clamp(5rem, 14vh, 9rem); padding: 3rem 0 4rem; border-top: 1px solid var(--line); }
+    .case-next small { color: var(--muted); }
+    .case-next strong { display: flex; align-items: center; gap: 1.5rem; margin-top: 1rem; font-weight: 200; font-size: clamp(2.2rem, 6vw, 5rem); line-height: 1; transition: color .4s, gap .5s var(--ease); }
+    .case-next strong svg { width: .6em; height: .6em; flex: none; transition: transform .5s var(--ease); }
+    .case-next:hover strong { color: var(--amber); gap: 2.2rem; }
+    .case-next:hover strong svg { transform: translateX(6px); }
+    .case .rv-c { opacity: 0; transform: translateY(30px); }
+    @media (max-width: 860px) { .case-grid { grid-template-columns: 1fr; } }
+
+    /* Footer signature */
+    .signature { position: relative; overflow: hidden; padding: clamp(4rem, 10vh, 7rem) 0 0; border-top: 1px solid var(--line); }
+    .sig-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; color: var(--muted); }
+    .sig-row a:hover { color: var(--amber); }
+    .sig-name { display: flex; justify-content: center; font-weight: 200; font-size: 16.5vw; line-height: .8; letter-spacing: -0.04em; color: var(--text); white-space: nowrap; padding: 0 1vw; margin-bottom: -1.6vw; user-select: none; }
+    /* No CSS transform transition here: GSAP animates these letters, and the two would fight. */
+    .sig-name span { display: inline-block; transition: color .5s; }
+    .sig-name span:hover { color: var(--amber); transition-duration: .15s; }
+    .sig-time { font-variant-numeric: tabular-nums; }
+
+    @media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+
     /* ---------- Generic reveal ---------- */
     .js .rv { opacity: 0; transform: translateY(40px); }
   </style>
 </head>
 <body>
 
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="pre-top caps"><span>Portfolio · 2026</span><span>New Delhi, India</span></div>
+  <div class="pre-bottom">
+    <div class="pre-name" id="pre-name"></div>
+    <div class="pre-count" id="pre-count">00</div>
+  </div>
+  <span class="pre-bar" id="pre-bar"></span>
+</div>
+<script>
+  /* ---------------- Preloader ---------------- */
+(function preloader() {
+    var root = document.documentElement;
+    var el = document.getElementById('preloader');
+    function done() {
+      root.classList.remove('preloading');
+      try { sessionStorage.setItem('ashish-intro', '1'); } catch (e) {}
+      document.dispatchEvent(new Event('preloader:done'));
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    }
+    if (!root.classList.contains('preloading')) return;
+    var name = document.getElementById('pre-name');
+    'Ashish Soni'.split('').forEach(function (ch, i) {
+      var s = document.createElement('span');
+      if (ch === ' ') s.className = 'sp'; else s.textContent = ch;
+      s.style.transitionDelay = (i * 45) + 'ms';
+      name.appendChild(s);
+    });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { name.classList.add('in'); }); });
+    var count = document.getElementById('pre-count'), bar = document.getElementById('pre-bar');
+    var start = performance.now(), MIN = 1700, MAX = 4200, ready = false, hooked = false;
+    function markReady() { ready = true; }
+    function hookVideo() { // the hero video is parsed after this script, so look it up lazily
+      var video = document.getElementById('hero-video');
+      if (!video || hooked) return; hooked = true;
+      if (video.readyState >= 3) markReady(); else { video.addEventListener('canplay', markReady, { once: true }); video.addEventListener('error', markReady, { once: true }); }
+    }
+    var shown = 0;
+    (function tick(now) {
+      hookVideo();
+      var t = now - start;
+      var goal = ready && t > MIN ? 100 : Math.min(92, (t / MIN) * 92);
+      if (t > MAX) goal = 100;
+      shown += (goal - shown) * 0.12;
+      if (goal === 100 && shown > 99.4) shown = 100;
+      count.textContent = String(Math.round(shown)).padStart(2, '0');
+      bar.style.transform = 'scaleX(' + (shown / 100) + ')';
+      if (shown < 100) return requestAnimationFrame(tick);
+      setTimeout(function () {
+        el.classList.add('lift');
+        setTimeout(done, 450);              // start the hero intro while the curtain is still rising
+        setTimeout(function () { el.remove(); }, 1200);
+      }, 250);
+    })(start);
+  })();
+</script>
+
 <header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
   <div class="wrap nav-inner">
     <a href="#top" class="brand" data-scroll aria-label="Ashish Soni, back to top">
       <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5 19 C 7 10, 12 6, 20 4 C 19 12, 14 17, 5 19 Z"/><path d="M5 19 L 15 9"/></svg></span>
@@ -621,7 +788,7 @@
               <div class="metric"><b>11 → 2</b><span>over-promises in 30 probes, naive 7B RAG agent vs. 120B agent with structured retrieval</span></div>
               <p class="desc">A policy-conformance harness and deploy gate. Every failing row carries the policy clause and the contradicting sentence, both verified as literal substrings.</p>
               <p class="note">Reported as a lower bound; limitations documented in the repo.</p>
-              <div class="panel-links caps"><a class="ulink" href="https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-" target="_blank" rel="noopener">Repository ↗</a></div>
+              <div class="panel-links caps"><button class="ulink case-open" type="button" data-case="PromiseCheck-clauseguard-">Read case study →</button><a class="ulink" href="https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-" target="_blank" rel="noopener">Repository ↗</a></div>
             </div>
           </div>
         </article>
@@ -640,6 +807,7 @@
               <p class="desc">Breeds synthetic fraud behaviours that target a detector's blind spots, maps them as a 120-cell atlas, hardens the detector, then tests transfer to an unseen attack family at a fixed false-positive budget.</p>
               <p class="note">Simulator-only; fidelity is calibrated to the simulator, not real card traffic.</p>
               <div class="panel-links caps">
+                <button class="ulink case-open" type="button" data-case="Hydra">Read case study →</button>
                 <a class="ulink" href="https://hydra-fraud-lab.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
                 <a class="ulink" href="https://github.com/ashishsoni-ai/Hydra" target="_blank" rel="noopener">Repository ↗</a>
               </div>
@@ -659,7 +827,7 @@
             <div class="panel-main">
               <div class="metric"><b>Cited</b><span>every document answer cites its page; every numeric answer is consistency-checked</span></div>
               <p class="desc">A LangGraph router sends each question to SQL, sandboxed statistics or grounded retrieval, with OCR for scanned pages and Groq-to-Mistral failover.</p>
-              <div class="panel-links caps"><a class="ulink" href="https://github.com/ashishsoni-ai/ai-data-analyst" target="_blank" rel="noopener">Repository ↗</a></div>
+              <div class="panel-links caps"><button class="ulink case-open" type="button" data-case="ai-data-analyst">Read case study →</button><a class="ulink" href="https://github.com/ashishsoni-ai/ai-data-analyst" target="_blank" rel="noopener">Repository ↗</a></div>
             </div>
           </div>
         </article>
@@ -813,12 +981,35 @@
   </section>
 </main>
 
-<footer>
-  <div class="wrap foot">
-    <span>© <span id="year">2026</span> Ashish Soni · New Delhi</span>
-    <span>Footage: Mixkit · <a href="#top" data-scroll>Back to top ↑</a></span>
+<footer class="signature">
+  <div class="wrap sig-row caps">
+    <span>© <span id="year">2026</span> Ashish Soni</span>
+    <span>New Delhi · <span class="sig-time" id="sig-time">--:--</span> IST</span>
+    <span>Footage: Mixkit</span>
+    <a href="#top" data-scroll>Back to top ↑</a>
   </div>
+  <div class="sig-name" id="sig-name" aria-label="Ashish Soni">Ashish Soni</div>
 </footer>
+
+<!-- Case study overlay -->
+<div class="case" id="case" role="dialog" aria-modal="true" aria-labelledby="case-title" aria-hidden="true">
+  <div class="case-glow"></div>
+  <svg class="case-sky" id="case-sky" aria-hidden="true"></svg>
+  <div class="case-scroll" id="case-scroll" data-lenis-prevent>
+    <div class="case-bar">
+      <button class="case-back caps" id="case-close" type="button">
+        <span class="cta-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H5M11 6l-6 6 6 6"/></svg></span>
+        <span>All work</span>
+      </button>
+      <span class="case-count caps" id="case-count"></span>
+    </div>
+    <article class="case-inner" id="case-inner"></article>
+  </div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></div>
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
 
 
 <!-- ============ CHAT ASSISTANT ============ -->
@@ -1060,13 +1251,15 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  // Hero intro
-  gsap.timeline({ defaults: { ease: 'power4.out' } })
+  // Hero intro (waits for the preloader curtain on first visit)
+  var intro = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
     .fromTo('#hero-media', { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.6, ease: 'power2.out' }, 0)
     .to('.hero .line > span', { y: 0, duration: 1.4, stagger: .14 }, .35)
     .to('.hero .rule', { scaleX: 1, duration: 1.1, ease: 'power3.inOut' }, .9)
     .to('.hero .fade-in', { opacity: 1, duration: 1.2, stagger: .1, ease: 'power2.out' }, 1.1)
     .from('.nav-inner', { opacity: 0, duration: 1, ease: 'power2.out' }, .6);
+  if (root.classList.contains('preloading')) document.addEventListener('preloader:done', function () { intro.play(); }, { once: true });
+  else intro.play();
 
   // Hero drifts away on scroll
   var heroST = { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true };
@@ -1170,6 +1363,410 @@
 
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+})();
+</script>
+
+<script>
+/* =========================================================
+   Premium layer: case studies, preloader, cursor, details
+   ========================================================= */
+window.PROJECTS = [
+  { repo: 'PromiseCheck-clauseguard-', title: 'ClauseGuard', cat: 'Evaluation · Razorpay Open Track', year: '2026',
+    lede: 'A test suite for agents that can promise money.',
+    body: [
+      'Every merchant now ships an agent that can promise refunds and cancellations. Almost nobody ships a test suite for what those agents are allowed to promise. ClauseGuard is that test suite, and it fails your build.',
+      'It runs thirty hand-written probes against frozen agents under test. When an agent over-promises, the failing row carries the policy clause that forbids it and the exact sentence of the reply that contradicts it. Both are verified as literal substrings rather than paraphrased by a model, so the evidence can be checked mechanically.',
+      'The clearest failure was two turns long: a customer asks to cancel, mentions the dispatch notification has arrived, and the naive agent happily agrees, even though policy says dispatched orders become returns.'
+    ],
+    facts: [['Naive 7B RAG agent', '<b>11</b> over-promises / 30'], ['120B, structured retrieval', '<b>2</b> over-promises / 30'], ['Reduction', '82%, no new failures'], ['Caveat', 'Lower bound: shared model family']],
+    stack: ['Python', 'LLM-as-judge', 'RAG', 'Structured retrieval', 'Deploy gate'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-']] },
+  { repo: 'Hydra', title: 'HYDRA', cat: 'Adversarial ML · Fraud detection', year: '2026',
+    lede: 'Every defence you build teaches the attacker. This one teaches back.',
+    body: [
+      'HYDRA breeds a diverse population of payment-fraud behaviours that specifically target what a detector cannot see, then maps those blind spots as a 120-cell atlas.',
+      'It hardens the detector against what it finds, then asks the honest question: does that hardening transfer to an attack family the detector has never seen? Everything is measured at a constant false-positive budget, so improvements cannot come from simply flagging more transactions.',
+      'The README is explicit about its limits. The red team runs only inside a simulator over synthetic data, and fidelity scores are calibrated to the simulator rather than to real card traffic.'
+    ],
+    facts: [['Tests', '<b>680</b> passing'], ['Blind-spot atlas', '120 cells'], ['Constraint', 'Constant false-positive budget'], ['Scope', 'Simulator, synthetic data']],
+    stack: ['Python', 'Quality-diversity search', 'Anomaly detection', 'pytest', 'ruff'],
+    links: [['Live demo', 'https://hydra-fraud-lab.vercel.app'], ['Repository', 'https://github.com/ashishsoni-ai/Hydra']] },
+  { repo: 'ai-data-analyst', title: 'AI Data Analyst', cat: 'Agents · Data & documents', year: '2026',
+    lede: 'Dashboards from spreadsheets, answers from documents.',
+    body: [
+      'Upload a CSV or Excel file and it cleans the data (deduplication, type inference, imputation, outlier detection) and builds an interactive dashboard with KPIs, filters, five chart types and cross-filtering.',
+      'Ask a question and a LangGraph router decides how to answer it: a SQL lookup in DuckDB, sandboxed statistics or ML with no file or network access, a dataset overview, or document Q&A. Insights are grounded in computed numbers and consistency-checked.',
+      'Upload PDFs, DOCX or images and it runs OCR where needed, chunks by page and answers with page-cited, grounded retrieval from Qdrant. Groq is the primary model, with automatic Mistral failover through LiteLLM.'
+    ],
+    facts: [['Modes', 'Structured data + documents'], ['Citations', 'Every document answer cites its page'], ['Off-topic queries', 'Zero LLM calls'], ['LLMs', 'Groq → Mistral failover']],
+    stack: ['LangGraph', 'FastAPI', 'DuckDB', 'Qdrant', 'Celery', 'Redis', 'Tesseract', 'Next.js'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/ai-data-analyst']] },
+  { repo: 'MedGuard', title: 'MedGuard', cat: 'Agents · Computer vision · Research', year: '2026',
+    lede: 'Fewer false alarms in camera-based emergency detection.',
+    body: [
+      'Camera-only emergency detection tends to rely on brittle threshold rules that fire on people simply sitting down. MedGuard replaces that logic with a five-agent LangGraph pipeline: Perception, Context Memory, LLM Reasoning, Decision and Action.',
+      'YOLOv8n-Pose extracts keypoints, a rolling 10-frame buffer tracks trajectories, and Gemini reasons over the motion and scene with chain-of-thought. Asymmetric, cost-sensitive thresholds keep missed emergencies to a minimum.',
+      'A 30-scenario evaluation harness compares it against the rule-based baseline, and a research manuscript is in preparation.'
+    ],
+    facts: [['Agents', '5, wired in LangGraph'], ['Memory', 'Rolling 10-frame buffer'], ['Evaluation', '30-scenario harness'], ['Status', 'Manuscript in preparation']],
+    stack: ['LangGraph', 'YOLOv8-Pose', 'Gemini', 'FastAPI', 'Pydantic', 'OpenCV'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/MedGuard']] },
+  { repo: 'ai-resume-screener', title: 'AI Resume Screener', cat: 'Agents · NLP', year: '2026',
+    lede: 'A recruiter report from a resume, in one pipeline.',
+    body: [
+      'A multi-agent LangGraph pipeline that parses PDF and DOCX resumes, extracts structured candidate information, analyses and scores technical skills, and generates a detailed recruiter report.',
+      'A FastAPI backend serves the pipeline and a Streamlit frontend presents the results. It was built for a technical assessment and designed to be functional, clean and production-style.'
+    ],
+    facts: [['Pipeline', 'Parse → Extract → Analyse → Score → Report'], ['Model', 'Groq Llama 3.3'], ['Interface', 'FastAPI + Streamlit']],
+    stack: ['LangGraph', 'LangChain', 'FastAPI', 'Streamlit', 'SQLAlchemy', 'pdfplumber'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/ai-resume-screener']] },
+  { repo: 'AI_Reasearch_Agent', title: 'AI Research Agent', cat: 'Agents · Web research', year: '2026',
+    lede: 'Search, scrape, write, critique, repeat.',
+    body: [
+      'A stateful LangGraph agent with four nodes: it searches the web with Tavily, scrapes sources with BeautifulSoup, writes a report with Mistral AI, and hands it to a critic that scores it.',
+      'Conditional edges send weak drafts back for a rewrite until the critic is satisfied. A Streamlit frontend streams the report live as it is written.'
+    ],
+    facts: [['Nodes', 'Search · Scrape · Write · Critic'], ['Control flow', 'Conditional rewrite loop'], ['Output', 'Streamed report']],
+    stack: ['LangGraph', 'Tavily', 'BeautifulSoup', 'Mistral AI', 'Streamlit'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/AI_Reasearch_Agent']] },
+  { repo: 'pdfchat-groq-rag', title: 'PDF Chat Assistant', cat: 'RAG · Retrieval', year: '2026',
+    lede: 'Chat with a stack of PDFs, with sources.',
+    body: [
+      'Unstructured parses PDFs including tables and images, chunks are summarised by the LLM for better retrieval, and all-MiniLM-L6-v2 embeddings are stored in a persistent ChromaDB so nothing is reprocessed on restart.',
+      'Questions are answered by Llama 3.3 70B on Groq with chat-history context and source attribution, through a Gradio interface.'
+    ],
+    facts: [['Embeddings', 'all-MiniLM-L6-v2'], ['Vector store', 'Persistent ChromaDB'], ['LLM', 'Groq Llama 3.3 70B']],
+    stack: ['LangChain', 'ChromaDB', 'Hugging Face', 'Unstructured', 'Groq', 'Gradio'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/pdfchat-groq-rag']] },
+  { repo: 'closira-assignment', title: 'Clinic Support Workflow', cat: 'Agents · Customer support', year: '2026',
+    lede: 'A support agent that knows when to hand over.',
+    body: [
+      'Built for an AI engineering intern assessment: a support assistant for a fictional UK aesthetics clinic that answers only from the clinic’s SOP.',
+      'It works through four stages: grounded FAQ answering, lead qualification with three structured questions, escalation detection for anger, medical questions, pricing negotiation and SOP gaps, and a structured JSON summary at the end of each session.'
+    ],
+    facts: [['Stages', 'FAQ · Qualify · Escalate · Summarise'], ['Knowledge', 'SOP only, no hallucination'], ['Logging', 'JSONL escalations']],
+    stack: ['Python', 'Claude API', 'JSON', 'Test transcripts'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/closira-assignment']] },
+  { repo: 'deeplense-gsoc-2027', title: 'DeepLense · GSoC tests', cat: 'Computer vision · Research', year: '2026',
+    lede: 'Dark-matter substructure, classified.',
+    body: [
+      'Evaluation tests for ML4Sci DeepLense, Google Summer of Code 2027, agentic AI track. A multi-class CNN classifies simulated gravitational-lensing images by substructure: none, sphere or vortex.',
+      'The second test wraps the DeepLenseSim simulation pipeline in a Pydantic-validated agentic workflow that extracts parameters from natural language and asks for clarification when needed. Along the way it surfaced and documented a real upstream library incompatibility, with a graceful fallback.'
+    ],
+    facts: [['Validation accuracy', '<b>92.77%</b>'], ['Per-class AUC', '0.98 – 0.99'], ['Classes', 'No · Sphere · Vortex']],
+    stack: ['PyTorch', 'CNN', 'Pydantic', 'DeepLenseSim'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/deeplense-gsoc-2027']] },
+  { repo: 'speech-asr-pipeline', title: 'Speech Recognition Pipeline', cat: 'Audio · Evaluation', year: '2026',
+    lede: 'Reproducible ASR evaluation from one command.',
+    body: [
+      'Downloads facebook/wav2vec2-base-960h from Hugging Face, streams LibriSpeech samples, runs inference with timing, and writes per-sample predictions.',
+      'It then computes word error rate, character error rate and latency statistics into a metrics file and report. A companion summary explains the wav2vec 2.0 architecture.'
+    ],
+    facts: [['Model', 'wav2vec2-base-960h'], ['Metrics', 'WER · CER · latency'], ['Run', 'python run.py']],
+    stack: ['Hugging Face', 'Transformers', 'datasets', 'jiwer'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/speech-asr-pipeline']] },
+  { repo: 'deepfake-face-detector', title: 'Deepfake Face Detector', cat: 'Computer vision', year: '2026',
+    lede: 'Real or generated? Three backbones compete.',
+    body: ['A binary classifier for real versus AI-generated faces. It compares MobileNetV3Large, Xception and EfficientNetB4 with transfer learning and fine-tuning, and selects the best model automatically.'],
+    facts: [['Backbones', 'MobileNetV3 · Xception · EfficientNetB4'], ['Approach', 'Transfer learning + fine-tuning']],
+    stack: ['TensorFlow', 'Keras', 'CNN'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/deepfake-face-detector']] },
+  { repo: 'Image_Captioning_Model', title: 'Image Captioning', cat: 'Computer vision · NLP', year: '2025',
+    lede: 'Describing photographs in words.',
+    body: ['An Xception encoder pretrained on ImageNet turns each image into a 2048-dimensional feature vector, and an LSTM decoder trained with teacher forcing writes the caption word by word, with beam search at inference.'],
+    facts: [['Dataset', 'Flickr8k, 8k images · 40k captions'], ['Architecture', 'Xception → LSTM']],
+    stack: ['TensorFlow', 'Keras', 'CNN', 'LSTM'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/Image_Captioning_Model']] },
+  { repo: 'Audio_Genre_Classification', title: 'Audio Genre Classification', cat: 'Audio · Deep learning', year: '2025',
+    lede: 'Hearing the difference between jazz and rock.',
+    body: ['Extracts MFCCs and mel spectrograms from music clips, features that capture frequency, rhythm and timbre far better than raw waveforms, and trains neural networks to predict the genre.'],
+    facts: [['Features', 'MFCC · Mel spectrogram'], ['Task', 'Multi-class genre prediction']],
+    stack: ['Librosa', 'TensorFlow', 'CNN'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/Audio_Genre_Classification']] },
+  { repo: 'ai-data-health-detector', title: 'OpsLens', cat: 'ML · Data quality', year: '2026',
+    lede: 'A health check for any CSV.',
+    body: ['Drop in a CSV and OpsLens profiles every column, flags missing, stale and placeholder values, and detects anomalous rows with Isolation Forest. Cleaned, flagged and anomalous rows can each be exported in one click. The API key stays on the backend.'],
+    facts: [['Detection', 'Isolation Forest'], ['Exports', 'Cleaned · Flagged · Anomalies']],
+    stack: ['FastAPI', 'React', 'scikit-learn', 'Pydantic', 'Docker'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/ai-data-health-detector']] },
+  { repo: 'meshery-ai', title: 'meshery-ai', cat: 'Infrastructure · Open source', year: '2026',
+    lede: 'Natural language to infrastructure, early days.',
+    body: ['An early-stage AI adapter for the Meshery cloud-native manager, built in response to an open issue. It implements the adapter interface and bridges Meshery Server to a local Ollama model over gRPC. Planned next: OAM parsing, cloud providers and schema-aware prompts.'],
+    facts: [['Language', 'Go'], ['Transport', 'gRPC'], ['Model', 'Local Ollama (Llama 3)']],
+    stack: ['Go', 'gRPC', 'Ollama'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/meshery-ai']] },
+  { repo: 'promptpin', title: 'PromptPin', cat: 'Full-stack · Generative AI', year: '2026',
+    lede: 'Pinterest for AI image prompts.',
+    body: ['Browse, discover, copy and create AI image prompts, with Groq-powered prompt enhancement and remixing. Google sign-in through Supabase Auth and image storage on Cloudflare R2.'],
+    facts: [['Frontend', 'Next.js 14 + shadcn/ui'], ['Backend', 'FastAPI + Supabase']],
+    stack: ['Next.js', 'FastAPI', 'Supabase', 'Cloudflare R2', 'Groq'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/promptpin']] },
+  { repo: 'Social-Media-Studio', title: 'Social Media Studio', cat: 'Full-stack · Web app', year: '2026',
+    lede: 'Plan, schedule and track posts in one place.',
+    body: ['A Django app for composing posts, targeting eleven social platforms, scheduling them on a month calendar and tracking each from draft to published, with a stats dashboard. Deployed on Render with PostgreSQL.'],
+    facts: [['Platforms', '11'], ['Statuses', 'Draft · Scheduled · Published']],
+    stack: ['Django', 'PostgreSQL', 'Render'],
+    links: [['Repository', 'https://github.com/ashishsoni-ai/Social-Media-Studio']] }
+];
+
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var G = window.gsap;
+  var P = window.PROJECTS;
+  function lenis() { return window.__lenis; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ---------------- Live clock in the footer ---------------- */
+  (function clock() {
+    var el = document.getElementById('sig-time');
+    function upd() {
+      try { el.textContent = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }); } catch (e) {}
+    }
+    upd(); setInterval(upd, 15000);
+  })();
+
+  /* ---------------- Footer signature letters ---------------- */
+  var sig = document.getElementById('sig-name');
+  sig.innerHTML = sig.textContent.split('').map(function (c) { return c === ' ' ? '<span style="width:.25em"></span>' : '<span>' + c + '</span>'; }).join('');
+
+  /* ---------------- Case study overlay ---------------- */
+  var caseEl = document.getElementById('case');
+  var inner = document.getElementById('case-inner');
+  var scroller = document.getElementById('case-scroll');
+  var countEl = document.getElementById('case-count');
+  var current = -1, originEl = null, animating = false;
+
+  function indexByHref(href) {
+    for (var i = 0; i < P.length; i++) if (href && href.replace(/\/$/, '').split('/').pop() === P[i].repo) return i;
+    return -1;
+  }
+  function indexByRepo(repo) { for (var i = 0; i < P.length; i++) if (P[i].repo === repo) return i; return -1; }
+  function slug(p) { return p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  // A quiet star field behind each case study.
+  function sky(seed) {
+    var svg = document.getElementById('case-sky'), NS = 'http://www.w3.org/2000/svg';
+    svg.innerHTML = ''; svg.setAttribute('viewBox', '0 0 1000 700'); svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+    var s = seed * 9301 + 49297;
+    function r() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
+    for (var i = 0; i < 110; i++) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('cx', (r() * 1000).toFixed(1)); c.setAttribute('cy', (r() * 700).toFixed(1));
+      c.setAttribute('r', (0.4 + r() * 1).toFixed(2)); c.setAttribute('opacity', (0.08 + r() * 0.35).toFixed(2));
+      svg.appendChild(c);
+    }
+  }
+
+  function renderCase(i) {
+    var p = P[i], next = P[(i + 1) % P.length];
+    countEl.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(P.length).padStart(2, '0');
+    inner.innerHTML =
+      '<p class="case-cat caps rv-c">' + esc(p.cat) + ' · ' + esc(p.year) + '</p>' +
+      '<h2 id="case-title">' + esc(p.title).split(' ').map(function (w) { return '<span class="wm"><span>' + w + '</span></span>'; }).join(' ') + '</h2>' +
+      '<p class="case-lede rv-c">' + esc(p.lede) + '</p>' +
+      '<div class="case-grid">' +
+        '<div class="case-body rv-c">' + p.body.map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('') + '</div>' +
+        '<div class="rv-c">' +
+          '<ul class="case-facts">' + p.facts.map(function (f) { return '<li><span>' + esc(f[0]) + '</span><span>' + f[1] + '</span></li>'; }).join('') + '</ul>' +
+          '<ul class="chips">' + p.stack.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+          '<div class="case-links caps">' + p.links.map(function (l) { return '<a class="ulink" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>'; }).join('') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<a class="case-next rv-c" href="#project/' + slug(next) + '" data-next="' + ((i + 1) % P.length) + '">' +
+        '<small class="caps">Next project</small>' +
+        '<strong>' + esc(next.title) + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></strong>' +
+      '</a>';
+    sky(i + 3);
+    scroller.scrollTop = 0;
+  }
+
+  function revealContent() {
+    var words = inner.querySelectorAll('h2 .wm > span'), blocks = inner.querySelectorAll('.rv-c');
+    if (!G || reduce) { G && G.set([words, blocks], { clearProps: 'all' }); blocks.forEach(function (b) { b.style.opacity = 1; b.style.transform = 'none'; }); return; }
+    G.fromTo(words, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: .06, delay: .05 });
+    G.fromTo(blocks, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: .08, delay: .2 });
+  }
+
+  function midInset() { var h = Math.round(window.innerHeight / 2); return 'inset(' + h + 'px 0px ' + h + 'px 0px round 0px)'; }
+  function rectInset(el) {
+    var r = el.getBoundingClientRect(), vw = window.innerWidth, vh = window.innerHeight;
+    if (r.bottom < 0 || r.top > vh) return null;
+    return 'inset(' + Math.max(0, r.top) + 'px ' + Math.max(0, vw - r.right) + 'px ' + Math.max(0, vh - r.bottom) + 'px ' + Math.max(0, r.left) + 'px round 14px)';
+  }
+
+  function openCase(i, fromEl, push) {
+    if (i < 0 || animating) return;
+    var wasOpen = caseEl.classList.contains('open');
+    current = i; originEl = fromEl || null;
+    if (push !== false) { try { history.pushState({ project: i }, '', '#project/' + slug(P[i])); } catch (e) {} }
+    if (wasOpen) { // moving to the next project: wipe content up, then reveal
+      if (G && !reduce) {
+        animating = true;
+        G.to(inner, { opacity: 0, y: -40, duration: .45, ease: 'power2.in', onComplete: function () {
+          renderCase(i); G.set(inner, { opacity: 1, y: 0 }); revealContent(); animating = false;
+        } });
+      } else { renderCase(i); revealContent(); }
+      return;
+    }
+    renderCase(i);
+    caseEl.classList.add('open'); caseEl.setAttribute('aria-hidden', 'false');
+    if (lenis()) lenis().stop();
+    document.body.style.overflow = 'hidden';
+    var from = fromEl && rectInset(fromEl);
+    if (G && !reduce) {
+      animating = true;
+      G.fromTo(caseEl, { clipPath: from || midInset() },
+        { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1.05, ease: 'expo.inOut', onComplete: function () { caseEl.style.clipPath = ''; animating = false; } });
+      setTimeout(revealContent, 520);
+    } else { revealContent(); }
+    setTimeout(function () { document.getElementById('case-close').focus({ preventScroll: true }); }, 300);
+  }
+
+  function closeCase(push) {
+    if (!caseEl.classList.contains('open') || animating) return;
+    if (push !== false) { try { history.pushState({}, '', location.pathname + location.search); } catch (e) {} }
+    function finish() {
+      caseEl.classList.remove('open'); caseEl.setAttribute('aria-hidden', 'true'); caseEl.style.clipPath = '';
+      document.body.style.overflow = '';
+      if (lenis()) lenis().start();
+      animating = false;
+      if (originEl) { try { originEl.focus({ preventScroll: true }); } catch (e) {} }
+    }
+    var to = originEl && rectInset(originEl);
+    if (G && !reduce) {
+      animating = true;
+      G.to(caseEl, { clipPath: to || midInset(), duration: .85, ease: 'expo.inOut', onComplete: finish });
+    } else finish();
+  }
+
+  // Index rows: a click opens the case study (Ctrl/Cmd/middle-click still opens GitHub in a new tab).
+  document.querySelectorAll('#project-index .row').forEach(function (row) {
+    row.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      var i = indexByHref(row.getAttribute('href'));
+      if (i < 0) return;
+      e.preventDefault();
+      row.classList.add('flash');
+      setTimeout(function () { row.classList.remove('flash'); }, 500);
+      openCase(i, row);
+    });
+  });
+  document.querySelectorAll('.case-open').forEach(function (btn) {
+    btn.addEventListener('click', function () { openCase(indexByRepo(btn.dataset.case), btn.closest('.panel')); });
+  });
+  document.getElementById('case-close').addEventListener('click', function () { closeCase(); });
+  inner.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-next]');
+    if (!a) return;
+    e.preventDefault();
+    openCase(+a.dataset.next, null);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!caseEl.classList.contains('open')) return;
+    if (e.key === 'Escape') closeCase();
+    if (e.key === 'ArrowRight') openCase((current + 1) % P.length, null);
+    if (e.key === 'ArrowLeft') openCase((current - 1 + P.length) % P.length, null);
+  });
+  function fromHash() {
+    var m = /^#project\/(.+)$/.exec(location.hash);
+    if (!m) { closeCase(false); return; }
+    for (var i = 0; i < P.length; i++) if (slug(P[i]) === m[1]) { openCase(i, null, false); return; }
+  }
+  window.addEventListener('popstate', fromHash);
+  if (/^#project\//.test(location.hash)) setTimeout(fromHash, root.classList.contains('preloading') ? 2600 : 300);
+
+  if (!G || reduce) return;
+
+  /* ---------------- Custom cursor ---------------- */
+  if (root.classList.contains('has-cursor')) {
+    var ring = document.getElementById('cursor'), dot = document.getElementById('cursor-dot');
+    var rx = G.quickTo(ring, 'x', { duration: .5, ease: 'power3' }), ry = G.quickTo(ring, 'y', { duration: .5, ease: 'power3' });
+    var dx = G.quickTo(dot, 'x', { duration: .08 }), dy = G.quickTo(dot, 'y', { duration: .08 });
+    var seen = false;
+    G.set([ring, dot], { opacity: 0 });
+    window.addEventListener('mousemove', function (e) {
+      if (!seen) { seen = true; G.set([ring, dot], { x: e.clientX, y: e.clientY }); G.to([ring, dot], { opacity: 1, duration: .3 }); }
+      rx(e.clientX); ry(e.clientY); dx(e.clientX); dy(e.clientY);
+      var t = e.target;
+      var view = t.closest && t.closest('#project-index .row, .case-open, .case-next');
+      var text = t.closest && t.closest('textarea, input');
+      var link = t.closest && t.closest('a, button, [role="button"], .filter, .src');
+      ring.classList.toggle('view', !!view);
+      ring.classList.toggle('text', !view && !!text);
+      ring.classList.toggle('link', !view && !text && !!link);
+      dot.classList.toggle('hidden', !!view || !!text);
+    }, { passive: true });
+    document.addEventListener('mouseleave', function () { G.to([ring, dot], { opacity: 0, duration: .2 }); seen = false; });
+    window.addEventListener('mousedown', function () { ring.classList.add('press'); });
+    window.addEventListener('mouseup', function () { ring.classList.remove('press'); });
+    window.addEventListener('click', function (e) {
+      var rp = document.createElement('span'); rp.className = 'ripple';
+      rp.style.left = e.clientX + 'px'; rp.style.top = e.clientY + 'px';
+      document.body.appendChild(rp);
+      setTimeout(function () { rp.remove(); }, 750);
+    });
+  }
+
+  /* ---------------- Magnetic small controls ---------------- */
+  if (root.classList.contains('has-cursor')) {
+    document.querySelectorAll('.cta-circle, .burger, .brand-mark').forEach(function (el) {
+      var mx = G.quickTo(el, 'x', { duration: .5, ease: 'elastic.out(1, .5)' }), my = G.quickTo(el, 'y', { duration: .5, ease: 'elastic.out(1, .5)' });
+      el.addEventListener('mousemove', function (e) { var r = el.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .3); my((e.clientY - r.top - r.height / 2) * .3); });
+      el.addEventListener('mouseleave', function () { mx(0); my(0); });
+    });
+  }
+
+  /* ---------------- Nav text scramble ---------------- */
+  var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ/—·*';
+  document.querySelectorAll('.nav-links a, .menu-foot a').forEach(function (a) {
+    var original = a.textContent, timer = null;
+    a.addEventListener('mouseenter', function () {
+      var frame = 0, len = original.length;
+      clearInterval(timer);
+      timer = setInterval(function () {
+        a.textContent = original.split('').map(function (ch, i) {
+          if (ch === ' ' || i < frame / 2) return ch;
+          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }).join('');
+        if (++frame > len * 2) { clearInterval(timer); a.textContent = original; }
+      }, 28);
+    });
+  });
+
+  /* ---------------- Scroll-driven details ---------------- */
+  if (window.ScrollTrigger) {
+    var ST = window.ScrollTrigger;
+    // Progress line under the nav
+    G.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: .3 } });
+
+    // Section headings rise word by word from behind a mask
+    document.querySelectorAll('main h2.rv').forEach(function (h) {
+      (function walk(node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+          if (n.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            n.textContent.split(/(\s+)/).forEach(function (part) {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+              var w = document.createElement('span'); w.className = 'wm';
+              var s = document.createElement('span'); s.textContent = part; w.appendChild(s); frag.appendChild(w);
+            });
+            n.parentNode.replaceChild(frag, n);
+          } else if (n.nodeType === 1) walk(n);
+        });
+      })(h);
+      h.classList.remove('rv');
+      G.set(h, { opacity: 1, y: 0 });
+      G.from(h.querySelectorAll('.wm > span'), { yPercent: 115, duration: 1.2, ease: 'power4.out', stagger: .07,
+        scrollTrigger: { trigger: h, start: 'top 88%' } });
+    });
+
+    // Footer signature letters rise as you reach the end
+    G.from('#sig-name span', { yPercent: 105, duration: 1.3, ease: 'power4.out', stagger: .05,
+      scrollTrigger: { trigger: '.signature', start: 'top 80%' } });
+    ST.refresh();
+  }
 })();
 </script>
 
