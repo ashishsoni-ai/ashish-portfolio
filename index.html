@@ -264,20 +264,16 @@
     .row:hover .row-t { transform: translateX(10px); color: var(--amber); }
     .row-d { color: var(--text-2); font-size: .95rem; }
     .row-d small { display: block; color: var(--muted); font-size: .8rem; margin-top: .35rem; letter-spacing: .02em; }
-    .row-y { color: var(--muted); text-align: right; font-size: .85rem; }
+    /* Year quietly swaps for an arrow on hover */
+    .row-y { position: relative; color: var(--muted); text-align: right; font-size: .85rem; overflow: hidden; transition: color .35s var(--ease); }
+    .row-y::after { content: '↗'; position: absolute; right: 0; top: 0; color: var(--amber); font-size: 1.05rem; line-height: 1.3; transform: translate(-6px, 100%); opacity: 0; transition: transform .45s var(--ease), opacity .3s; }
+    .row:hover .row-y, .row:focus-visible .row-y { color: transparent; }
+    .row:hover .row-y::after, .row:focus-visible .row-y::after { transform: none; opacity: 1; }
     @media (max-width: 760px) {
       .row { grid-template-columns: 2.2rem minmax(0, 1fr) auto; gap: .3rem 1rem; }
       .row-d { grid-column: 2 / -1; }
       .row-y { grid-column: 3; grid-row: 1; }
     }
-    .follow {
-      position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none;
-      width: 92px; height: 92px; margin: -46px 0 0 -46px; border-radius: 50%;
-      background: var(--amber); color: var(--night); display: grid; place-items: center;
-      font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 500;
-      transform: scale(0);
-    }
-    @media (hover: none), (pointer: coarse) { .follow { display: none; } }
 
     /* ---------- Open source ---------- */
     .oss-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 4rem; }
@@ -356,6 +352,75 @@
     footer { border-top: 1px solid var(--line); padding: 2rem 0; color: var(--muted); font-size: .85rem; }
     .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
     footer a:hover { color: var(--text); }
+
+    /* ---------- Chat assistant ---------- */
+    .chat-launch {
+      position: fixed; right: 24px; bottom: 24px; z-index: 70;
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: .55rem 1.1rem .55rem .55rem; border-radius: 99px;
+      background: rgba(15, 19, 27, .82); border: 1px solid var(--line-2);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      transition: border-color .3s, transform .5s var(--ease), opacity .4s;
+    }
+    .chat-launch:hover { border-color: var(--amber); }
+    .chat-launch-icon { width: 38px; height: 38px; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; }
+    .chat-launch-icon svg { width: 18px; height: 18px; }
+    .chat-launch-text { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 400; }
+    .chat-launch .live { position: absolute; left: 36px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: #7FD1A3; border: 2px solid var(--night); }
+    .chat-open .chat-launch, .menu-open .chat-launch { opacity: 0; pointer-events: none; transform: translateY(12px); }
+    @media (max-width: 640px) { .chat-launch { right: 16px; bottom: 16px; padding: .5rem; } .chat-launch-text { display: none; } }
+
+    .chat {
+      position: fixed; right: 24px; bottom: 24px; z-index: 71;
+      width: min(400px, calc(100vw - 32px)); height: min(600px, calc(100vh - 48px)); height: min(600px, calc(100dvh - 48px));
+      display: flex; flex-direction: column; overflow: hidden;
+      background: #0E121A; border: 1px solid var(--line-2); border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      opacity: 0; visibility: hidden; transform: translateY(16px) scale(.98); transform-origin: bottom right;
+      transition: opacity .35s var(--ease), transform .45s var(--ease), visibility 0s linear .45s;
+    }
+    .chat-open .chat { opacity: 1; visibility: visible; transform: none; transition: opacity .35s var(--ease), transform .45s var(--ease); }
+    @media (max-width: 640px) { .chat { right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; border-radius: 0; border: 0; } }
+    .chat-head { display: flex; align-items: center; gap: .85rem; padding: 1rem 1rem 1rem 1.2rem; border-bottom: 1px solid var(--line); }
+    .chat-head .brand-mark { width: 36px; height: 36px; flex: none; color: var(--amber); }
+    .chat-title { font-size: 1rem; font-weight: 400; line-height: 1.2; }
+    .chat-sub { font-size: .75rem; color: var(--muted); display: flex; align-items: center; gap: .4rem; }
+    .chat-sub i { width: 6px; height: 6px; border-radius: 50%; background: #7FD1A3; display: inline-block; }
+    .chat-close { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: var(--text-2); transition: background-color .2s, color .2s; }
+    .chat-close:hover { background: rgba(236,231,220,.08); color: var(--text); }
+    .chat-close svg { width: 16px; height: 16px; }
+    .chat-log { flex: 1; overflow-y: auto; padding: 1.2rem; display: flex; flex-direction: column; gap: .9rem; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
+    .msg { max-width: 88%; font-size: .93rem; line-height: 1.6; overflow-wrap: anywhere; }
+    .msg p + p, .msg p + ul, .msg ul + p { margin-top: .55rem; }
+    .msg ul { padding-left: 1.1rem; }
+    .msg li + li { margin-top: .2rem; }
+    .msg strong { font-weight: 500; color: var(--text); }
+    .msg a { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(217,168,108,.4); }
+    .msg.bot { align-self: flex-start; color: var(--text-2); }
+    .msg.user { align-self: flex-end; background: var(--amber-soft); border: 1px solid rgba(217,168,108,.25); color: var(--text); padding: .6rem .95rem; border-radius: 16px 16px 4px 16px; }
+    .msg-meta { display: block; margin-top: .35rem; font-size: .7rem; color: var(--muted); letter-spacing: .04em; }
+    .typing { display: inline-flex; gap: 5px; padding: .5rem 0; }
+    .typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite ease-in-out; }
+    .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+    .chat-suggest { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1.2rem .8rem; }
+    .chat-suggest[hidden] { display: none; }
+    .chat-suggest button { font-size: .78rem; color: var(--text-2); padding: .35rem .8rem; border: 1px solid var(--line); border-radius: 99px; transition: border-color .2s, color .2s; }
+    .chat-suggest button:hover { border-color: var(--amber); color: var(--text); }
+    .chat-form { display: flex; align-items: flex-end; gap: .6rem; padding: .8rem; border-top: 1px solid var(--line); }
+    .chat-form textarea {
+      flex: 1; resize: none; max-height: 120px; min-height: 44px; padding: .7rem .9rem; overflow-y: hidden; line-height: 1.4;
+      font: inherit; font-size: .93rem; color: var(--text); background: rgba(236,231,220,.04);
+      border: 1px solid var(--line); border-radius: 14px; outline: none; transition: border-color .2s;
+    }
+    .chat-form textarea:focus { border-color: rgba(217,168,108,.55); }
+    .chat-form textarea::placeholder { color: var(--muted); }
+    .chat-send { width: 44px; height: 44px; flex: none; border-radius: 50%; background: var(--amber); color: var(--night); display: grid; place-items: center; transition: opacity .2s, transform .2s; }
+    .chat-send:disabled { opacity: .35; cursor: default; }
+    .chat-send:not(:disabled):hover { transform: translateY(-1px); }
+    .chat-send svg { width: 18px; height: 18px; }
+    .chat-note { padding: 0 1rem .7rem; font-size: .68rem; color: var(--muted); text-align: center; }
 
     /* ---------- Generic reveal ---------- */
     .js .rv { opacity: 0; transform: translateY(40px); }
@@ -706,7 +771,41 @@
   </div>
 </footer>
 
-<div class="follow" id="follow" aria-hidden="true">Open ↗</div>
+
+<!-- ============ CHAT ASSISTANT ============ -->
+<button class="chat-launch" id="chat-launch" type="button" aria-controls="chat" aria-expanded="false">
+  <span class="chat-launch-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg></span>
+  <span class="live" aria-hidden="true"></span>
+  <span class="chat-launch-text">Ask about me</span>
+</button>
+
+<section class="chat" id="chat" role="dialog" aria-modal="false" aria-labelledby="chat-title" style="padding:0">
+  <header class="chat-head">
+    <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5 19 C 7 10, 12 6, 20 4 C 19 12, 14 17, 5 19 Z"/><path d="M5 19 L 15 9"/></svg></span>
+    <div>
+      <div class="chat-title" id="chat-title">Ask about Ashish</div>
+      <div class="chat-sub"><i aria-hidden="true"></i>Answers from his portfolio</div>
+    </div>
+    <button class="chat-close" id="chat-close" type="button" aria-label="Close chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </header>
+  <div class="chat-log" id="chat-log" data-lenis-prevent aria-live="polite"></div>
+  <div class="chat-suggest" id="chat-suggest">
+    <button type="button">What does he do at Think Decor?</button>
+    <button type="button">Best projects?</button>
+    <button type="button">Open-source work</button>
+    <button type="button">Is he open to internships?</button>
+  </div>
+  <form class="chat-form" id="chat-form">
+    <label for="chat-input" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label>
+    <textarea id="chat-input" rows="1" maxlength="600" placeholder="Ask about projects, experience, skills…"></textarea>
+    <button class="chat-send" id="chat-send" type="submit" aria-label="Send" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+  </form>
+  <p class="chat-note">AI answers from Ashish's portfolio. It can make mistakes.</p>
+</section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js"></script>
@@ -905,6 +1004,7 @@
 
   if (window.Lenis) {
     lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    window.__lenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
     gsap.ticker.lagSmoothing(0);
@@ -1010,15 +1110,8 @@
   // Contact footage rises in
   gsap.fromTo('#contact-media', { yPercent: -10 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#contact', start: 'top bottom', end: 'top top', scrub: true } });
 
-  // Cursor follower on the index + magnetic button (mouse only)
+  // Magnetic "Say hello" button (mouse only)
   if (finePointer) {
-    var follow = document.getElementById('follow');
-    var fx = gsap.quickTo(follow, 'x', { duration: .45, ease: 'power3' }), fy = gsap.quickTo(follow, 'y', { duration: .45, ease: 'power3' });
-    window.addEventListener('mousemove', function (e) { fx(e.clientX); fy(e.clientY); });
-    var index = document.getElementById('project-index');
-    index.addEventListener('mouseenter', function () { gsap.to(follow, { scale: 1, duration: .4, ease: 'power3.out' }); });
-    index.addEventListener('mouseleave', function () { gsap.to(follow, { scale: 0, duration: .3 }); });
-
     var mag = document.getElementById('magnet');
     var mx = gsap.quickTo(mag, 'x', { duration: .6, ease: 'elastic.out(1, .4)' }), my = gsap.quickTo(mag, 'y', { duration: .6, ease: 'elastic.out(1, .4)' });
     mag.addEventListener('mousemove', function (e) { var r = mag.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .35); my((e.clientY - r.top - r.height / 2) * .35); });
@@ -1027,6 +1120,123 @@
 
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+})();
+</script>
+
+<script>
+/* ---------- Portfolio assistant (talks to /api/chat) ---------- */
+(function () {
+  var API = '/api/chat';
+  var KEY = 'ashish-chat-v1';
+  var body = document.body;
+  var launch = document.getElementById('chat-launch');
+  var panel = document.getElementById('chat');
+  var log = document.getElementById('chat-log');
+  var form = document.getElementById('chat-form');
+  var input = document.getElementById('chat-input');
+  var send = document.getElementById('chat-send');
+  var suggest = document.getElementById('chat-suggest');
+  var history = [];
+  var busy = false;
+  var GREETING = "Hi! I'm Ashish's portfolio assistant. Ask me about his projects, internships at Think Decor and FlyRank AI, open-source work, or whether he's available.";
+
+  function esc(s) { return s.replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  // Tiny, safe markdown: paragraphs, "- " lists, **bold**, [text](http/mailto link), bare URLs.
+  function render(md) {
+    var out = [], list = null;
+    md.replace(/\r/g, '').split('\n').forEach(function (line) {
+      var t = line.trim();
+      var item = /^[-*•]\s+(.*)/.exec(t) || /^\d+[.)]\s+(.*)/.exec(t);
+      if (item) { if (!list) { list = []; out.push(list); } list.push(inline(item[1])); return; }
+      list = null;
+      if (t) out.push('<p>' + inline(t) + '</p>');
+    });
+    return out.map(function (b) { return Array.isArray(b) ? '<ul>' + b.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : b; }).join('');
+  }
+  function inline(s) {
+    s = esc(s);
+    s = s.replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g, function (_, t, u) {
+      return '<a href="' + u + '"' + (u.indexOf('mailto:') === 0 ? '' : ' target="_blank" rel="noopener"') + '>' + t + '</a>';
+    });
+    s = s.replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    return s;
+  }
+
+  function add(role, text, meta) {
+    var el = document.createElement('div');
+    el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+    if (role === 'user') el.textContent = text; else el.innerHTML = render(text);
+    if (meta) { var m = document.createElement('span'); m.className = 'msg-meta'; m.textContent = meta; el.appendChild(m); }
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
+  }
+  function save() { try { sessionStorage.setItem(KEY, JSON.stringify(history.slice(-20))); } catch (e) {} }
+  function restore() {
+    try { history = JSON.parse(sessionStorage.getItem(KEY) || '[]') || []; } catch (e) { history = []; }
+    log.innerHTML = '';
+    add('assistant', GREETING);
+    history.forEach(function (m) { add(m.role, m.content); });
+    suggest.hidden = history.length > 0;
+  }
+
+  function setOpen(open) {
+    body.classList.toggle('chat-open', open);
+    launch.setAttribute('aria-expanded', String(open));
+    var small = window.matchMedia('(max-width: 640px)').matches;
+    if (window.__lenis && small) { if (open) window.__lenis.stop(); else window.__lenis.start(); }
+    if (open) { setTimeout(function () { input.focus(); }, 250); log.scrollTop = log.scrollHeight; }
+    else launch.focus();
+  }
+
+  function autosize() {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight + 2, 120) + 'px';
+    input.style.overflowY = input.scrollHeight > 120 ? 'auto' : 'hidden';
+  }
+
+  async function ask(text) {
+    text = text.trim();
+    if (!text || busy) return;
+    busy = true; send.disabled = true; suggest.hidden = true;
+    add('user', text);
+    var prior = history.slice(-6);
+    history.push({ role: 'user', content: text }); save();
+    input.value = ''; autosize();
+
+    var typing = document.createElement('div');
+    typing.className = 'msg bot'; typing.innerHTML = '<span class="typing" aria-label="Thinking"><i></i><i></i><i></i></span>';
+    log.appendChild(typing); log.scrollTop = log.scrollHeight;
+
+    var reply, meta = '';
+    try {
+      var ctrl = new AbortController();
+      var timer = setTimeout(function () { ctrl.abort(); }, 45000);
+      var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: prior }), signal: ctrl.signal });
+      clearTimeout(timer);
+      var data = await r.json().catch(function () { return {}; });
+      reply = data.reply || data.error;
+      if (data.source === 'offline') meta = 'Answered from portfolio text';
+    } catch (e) {}
+    if (!reply) reply = "I couldn't reach the assistant just now. You can email Ashish directly at [ashishsoni243k@gmail.com](mailto:ashishsoni243k@gmail.com), or try again in a moment.";
+
+    typing.remove();
+    add('assistant', reply, meta);
+    history.push({ role: 'assistant', content: reply }); save();
+    busy = false; send.disabled = !input.value.trim();
+    input.focus();
+  }
+
+  launch.addEventListener('click', function () { setOpen(true); });
+  document.getElementById('chat-close').addEventListener('click', function () { setOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && body.classList.contains('chat-open')) setOpen(false); });
+  form.addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); });
+  input.addEventListener('input', function () { autosize(); send.disabled = busy || !input.value.trim(); });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
+  suggest.addEventListener('click', function (e) { if (e.target.tagName === 'BUTTON') ask(e.target.textContent); });
+
+  restore();
 })();
 </script>
 </body>
