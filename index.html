@@ -422,6 +422,55 @@
     .chat-send svg { width: 18px; height: 18px; }
     .chat-note { padding: 0 1rem .7rem; font-size: .68rem; color: var(--muted); text-align: center; }
 
+    /* Chat effects */
+    .msg { animation: msgIn .5s var(--ease) both; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } }
+    .msg.user { animation-name: msgInUser; }
+    @keyframes msgInUser { from { opacity: 0; transform: translate(10px, 6px) scale(.97); } }
+    .msg-status { display: flex; align-items: center; gap: .6rem; font-size: .8rem; letter-spacing: .02em; transition: opacity .3s, height .3s, margin .3s; }
+    .msg-status.gone { opacity: 0; height: 0; margin: 0; overflow: hidden; }
+    .orb { position: relative; width: 16px; height: 16px; flex: none; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 25%, var(--amber) 75%, transparent); animation: spin .9s linear infinite; -webkit-mask: radial-gradient(circle, transparent 4px, #000 5px); mask: radial-gradient(circle, transparent 4px, #000 5px); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .shimmer { background: linear-gradient(90deg, var(--muted) 0%, var(--muted) 35%, var(--text) 50%, var(--muted) 65%, var(--muted) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 1.8s linear infinite; }
+    @keyframes shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+    .srcs { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
+    .src { font-size: .7rem; letter-spacing: .02em; color: var(--text-2); padding: .22rem .6rem; border: 1px solid var(--line); border-radius: 99px; opacity: 0; animation: chipIn .5s var(--ease) forwards; white-space: nowrap; }
+    a.src:hover { border-color: var(--amber); color: var(--amber); }
+    .src::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); margin-right: .45rem; vertical-align: 1px; opacity: .8; }
+    @keyframes chipIn { from { opacity: 0; transform: translateY(6px) scale(.94); } to { opacity: 1; transform: none; } }
+    .reading .src { border-color: rgba(217,168,108,.3); }
+    .msg-foot { margin-top: .8rem; padding-top: .7rem; border-top: 1px dashed var(--line); }
+    .msg-foot-label { font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+    .caret { display: inline-block; width: .5em; height: 1.05em; margin-left: 2px; vertical-align: -3px; border-radius: 2px; background: var(--amber); box-shadow: 0 0 12px rgba(217,168,108,.7); animation: caret 1s steps(2, jump-none) infinite; }
+    @keyframes caret { 50% { opacity: .15; } }
+    .msg-body p:last-child .caret, .msg-body li:last-child .caret { margin-left: 3px; }
+    .msg.bot.done .msg-body { animation: settle 1.2s var(--ease); }
+    @keyframes settle { from { text-shadow: 0 0 14px rgba(217,168,108,.25); } to { text-shadow: none; } }
+    .chat-send .i-stop { display: none; }
+    .chat-send.stop .i-send { display: none; }
+    .chat-send.stop .i-stop { display: block; }
+    .chat-send.stop { background: var(--text); }
+    .chat-send { position: relative; overflow: visible; }
+    .chat-send::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--amber); opacity: 0; }
+    .chat-send.ping::after { animation: ping .7s var(--ease); }
+    @keyframes ping { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.7); } }
+    .chat-launch-icon { position: relative; }
+    .chat-launch-icon::after { content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--amber); animation: breathe 3.2s var(--ease) infinite; }
+    @keyframes breathe { 0% { opacity: .8; transform: scale(1); } 60%, 100% { opacity: 0; transform: scale(1.9); } }
+    .chat-open .chat-head, .chat-open .chat-log, .chat-open .chat-suggest, .chat-open .chat-form { animation: rise .6s var(--ease) both; }
+    .chat-open .chat-log { animation-delay: .06s; }
+    .chat-open .chat-suggest { animation-delay: .12s; }
+    .chat-open .chat-form { animation-delay: .16s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+    .chat-suggest button { opacity: 0; animation: chipIn .5s var(--ease) forwards; }
+    .chat-suggest button:nth-child(1) { animation-delay: .2s; } .chat-suggest button:nth-child(2) { animation-delay: .28s; }
+    .chat-suggest button:nth-child(3) { animation-delay: .36s; } .chat-suggest button:nth-child(4) { animation-delay: .44s; }
+    @media (prefers-reduced-motion: reduce) {
+      .msg, .src, .chat-suggest button, .chat-open .chat-head, .chat-open .chat-log, .chat-open .chat-suggest, .chat-open .chat-form { animation: none !important; opacity: 1; }
+      .orb, .shimmer, .caret, .chat-launch-icon::after { animation: none !important; }
+      .shimmer { color: var(--muted); background: none; }
+    }
+
     /* ---------- Generic reveal ---------- */
     .js .rv { opacity: 0; transform: translateY(40px); }
   </style>
@@ -801,7 +850,8 @@
     <label for="chat-input" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label>
     <textarea id="chat-input" rows="1" maxlength="600" placeholder="Ask about projects, experience, skills…"></textarea>
     <button class="chat-send" id="chat-send" type="submit" aria-label="Send" disabled>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      <svg class="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      <svg class="i-stop" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>
     </button>
   </form>
   <p class="chat-note">AI answers from Ashish's portfolio. It can make mistakes.</p>
@@ -1124,25 +1174,49 @@
 </script>
 
 <script>
-/* ---------- Portfolio assistant (talks to /api/chat) ---------- */
+/* ---------- Portfolio assistant (streams from /api/chat) ---------- */
 (function () {
   var API = '/api/chat';
-  var KEY = 'ashish-chat-v1';
+  var KEY = 'ashish-chat-v2';
   var body = document.body;
   var launch = document.getElementById('chat-launch');
-  var panel = document.getElementById('chat');
   var log = document.getElementById('chat-log');
   var form = document.getElementById('chat-form');
   var input = document.getElementById('chat-input');
   var send = document.getElementById('chat-send');
   var suggest = document.getElementById('chat-suggest');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var history = [];
-  var busy = false;
+  var busy = false, controller = null;
   var GREETING = "Hi! I'm Ashish's portfolio assistant. Ask me about his projects, internships at Think Decor and FlyRank AI, open-source work, or whether he's available.";
 
+  /* --- Where each knowledge-base section lives on the page --- */
+  var ANCHORS = [
+    [/^Experience|^Education/, '#experience'],
+    [/^Project: (ClauseGuard|HYDRA|AI Data Analyst)/, '#work'],
+    [/^Project/, '#index'],
+    [/^Open-source/, '#open-source'],
+    [/^GitHub/, '#activity'],
+    [/^Skills/, '#toolkit'],
+    [/^Contact|^Availability/, '#contact'],
+    [/./, '#about']
+  ];
+  function anchorFor(title) { for (var i = 0; i < ANCHORS.length; i++) if (ANCHORS[i][0].test(title)) return ANCHORS[i][1]; return '#about'; }
+  function shortTitle(t) { return t.replace(/^(Project|Experience):\s*/, '').replace(/\s*\((featured|current|completed)\)\s*$/, ''); }
+
+  /* --- Tiny, safe markdown: paragraphs, lists, **bold**, _italic_, links --- */
   function esc(s) { return s.replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  // Tiny, safe markdown: paragraphs, "- " lists, **bold**, [text](http/mailto link), bare URLs.
-  function render(md) {
+  function inline(s) {
+    s = esc(s);
+    s = s.replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g, function (_, t, u) {
+      return '<a href="' + u + '"' + (u.indexOf('mailto:') === 0 ? '' : ' target="_blank" rel="noopener"') + '>' + t + '</a>';
+    });
+    s = s.replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/(^|\s)_([^_]+)_(?=\s|$|[.,!?)])/g, '$1<em style="color:var(--muted)">$2</em>');
+    return s;
+  }
+  function render(md, caret) {
     var out = [], list = null;
     md.replace(/\r/g, '').split('\n').forEach(function (line) {
       var t = line.trim();
@@ -1151,89 +1225,219 @@
       list = null;
       if (t) out.push('<p>' + inline(t) + '</p>');
     });
-    return out.map(function (b) { return Array.isArray(b) ? '<ul>' + b.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : b; }).join('');
+    var html = out.map(function (b) { return Array.isArray(b) ? '<ul>' + b.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>' : b; }).join('');
+    if (caret) {
+      var c = '<span class="caret" aria-hidden="true"></span>';
+      html = /<\/(p|li)>(<\/ul>)?$/.test(html) ? html.replace(/<\/(p|li)>(<\/ul>)?$/, c + '</$1>$2') : html + c;
+    }
+    return html;
   }
-  function inline(s) {
-    s = esc(s);
-    s = s.replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g, function (_, t, u) {
-      return '<a href="' + u + '"' + (u.indexOf('mailto:') === 0 ? '' : ' target="_blank" rel="noopener"') + '>' + t + '</a>';
-    });
-    s = s.replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
-    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // While streaming, hide half-finished markdown so "**bo" or "[link](htt" never flashes on screen.
+  function tidyPartial(s) {
+    s = s.replace(/\[[^\]\n]*(\]\([^)\n]*)?$/, '');
+    if ((s.match(/\*\*/g) || []).length % 2) s = s.replace(/\*\*(?![\s\S]*\*\*)/, '');
     return s;
   }
 
-  function add(role, text, meta) {
+  /* --- Messages --- */
+  function nearBottom() { return log.scrollHeight - log.scrollTop - log.clientHeight < 80; }
+  function scrollDown(force) { if (force || nearBottom()) log.scrollTop = log.scrollHeight; }
+
+  function addUser(text) {
     var el = document.createElement('div');
-    el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
-    if (role === 'user') el.textContent = text; else el.innerHTML = render(text);
-    if (meta) { var m = document.createElement('span'); m.className = 'msg-meta'; m.textContent = meta; el.appendChild(m); }
-    log.appendChild(el);
-    log.scrollTop = log.scrollHeight;
-    return el;
+    el.className = 'msg user'; el.textContent = text;
+    log.appendChild(el); scrollDown(true);
   }
+  function sourceChips(titles, linked) {
+    var wrap = document.createElement('div'); wrap.className = 'srcs';
+    titles.forEach(function (t, i) {
+      var chip = document.createElement(linked ? 'a' : 'span');
+      chip.className = 'src'; chip.textContent = shortTitle(t);
+      chip.style.animationDelay = (i * 90) + 'ms';
+      if (linked) {
+        chip.href = anchorFor(t);
+        chip.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(chip.getAttribute('href'));
+          if (window.matchMedia('(max-width: 640px)').matches) setOpen(false);
+          if (window.__lenis) window.__lenis.scrollTo(target, { duration: 1.4 }); else target.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+      wrap.appendChild(chip);
+    });
+    return wrap;
+  }
+  function addBot(text, sources, meta) {
+    var el = document.createElement('div');
+    el.className = 'msg bot done';
+    var b = document.createElement('div'); b.className = 'msg-body'; b.innerHTML = render(text);
+    el.appendChild(b);
+    finishFoot(el, sources, meta);
+    log.appendChild(el); scrollDown(true);
+  }
+  function finishFoot(el, sources, meta) {
+    var useful = (sources || []).filter(function (t) { return t !== 'Profile summary'; }).slice(0, 3);
+    if (!useful.length && !meta) return;
+    var foot = document.createElement('div'); foot.className = 'msg-foot';
+    if (useful.length) {
+      var label = document.createElement('div'); label.className = 'msg-foot-label'; label.textContent = 'Sources on this page';
+      foot.appendChild(label); foot.appendChild(sourceChips(useful, true));
+    }
+    if (meta) { var m = document.createElement('span'); m.className = 'msg-meta'; m.textContent = meta; foot.appendChild(m); }
+    el.appendChild(foot);
+  }
+
+  /* --- Streaming bubble: status → reading chips → text with caret → sources --- */
+  function StreamBubble() {
+    var el = document.createElement('div'); el.className = 'msg bot';
+    var status = document.createElement('div'); status.className = 'msg-status';
+    status.innerHTML = '<span class="orb" aria-hidden="true"></span><span class="shimmer">Searching his portfolio</span>';
+    var reading = document.createElement('div'); reading.className = 'reading';
+    var bodyEl = document.createElement('div'); bodyEl.className = 'msg-body';
+    el.appendChild(status); el.appendChild(reading); el.appendChild(bodyEl);
+    log.appendChild(el); scrollDown(true);
+
+    var target = '', shown = 0, finished = false, raf = null, onDrained = null, sources = [];
+    var revealAfter = Date.now() + (reduce ? 0 : 700); // let the "reading" step register before text flows
+    function frame() {
+      raf = null;
+      if (target && Date.now() < revealAfter) { raf = requestAnimationFrame(frame); return; }
+      if (target && !shown) { status.classList.add('gone'); reading.style.display = 'none'; }
+      if (shown < target.length) {
+        var backlog = target.length - shown;
+        shown = reduce ? target.length : Math.min(target.length, shown + Math.max(2, Math.ceil(backlog / 9)));
+        bodyEl.innerHTML = render(tidyPartial(target.slice(0, shown)), true);
+        scrollDown();
+      }
+      if (shown < target.length) raf = requestAnimationFrame(frame);
+      else if (finished && onDrained) { var f = onDrained; onDrained = null; f(); }
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+    return {
+      el: el,
+      sources: function (items) {
+        sources = items || [];
+        var shown = sources.filter(function (t) { return t !== 'Profile summary'; }).slice(0, 4);
+        status.querySelector('.shimmer').textContent = shown.length ? 'Reading ' + shown.length + ' section' + (shown.length > 1 ? 's' : '') : 'Thinking';
+        if (shown.length) reading.appendChild(sourceChips(shown, false));
+        scrollDown();
+      },
+      push: function (text) { target += text; kick(); },
+      text: function () { return target; },
+      end: function (meta) {
+        return new Promise(function (resolve) {
+          finished = true;
+          onDrained = function () {
+            status.classList.add('gone'); reading.style.display = 'none';
+            bodyEl.innerHTML = render(target || '…');
+            el.classList.add('done');
+            finishFoot(el, sources, meta);
+            scrollDown();
+            resolve();
+          };
+          kick();
+          if (shown >= target.length) frame();
+        });
+      },
+      stopNow: function () { revealAfter = 0; shown = target.length; }
+    };
+  }
+
+  /* --- Persistence --- */
   function save() { try { sessionStorage.setItem(KEY, JSON.stringify(history.slice(-20))); } catch (e) {} }
   function restore() {
     try { history = JSON.parse(sessionStorage.getItem(KEY) || '[]') || []; } catch (e) { history = []; }
     log.innerHTML = '';
-    add('assistant', GREETING);
-    history.forEach(function (m) { add(m.role, m.content); });
+    addBot(GREETING);
+    history.forEach(function (m) { if (m.role === 'user') addUser(m.content); else addBot(m.content, m.sources, m.meta); });
     suggest.hidden = history.length > 0;
   }
 
+  /* --- Panel --- */
   function setOpen(open) {
     body.classList.toggle('chat-open', open);
     launch.setAttribute('aria-expanded', String(open));
     var small = window.matchMedia('(max-width: 640px)').matches;
     if (window.__lenis && small) { if (open) window.__lenis.stop(); else window.__lenis.start(); }
-    if (open) { setTimeout(function () { input.focus(); }, 250); log.scrollTop = log.scrollHeight; }
+    if (open) { setTimeout(function () { input.focus(); }, 250); scrollDown(true); }
     else launch.focus();
   }
-
   function autosize() {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight + 2, 120) + 'px';
     input.style.overflowY = input.scrollHeight > 120 ? 'auto' : 'hidden';
   }
+  function setBusy(on) {
+    busy = on;
+    send.classList.toggle('stop', on);
+    send.setAttribute('aria-label', on ? 'Stop answering' : 'Send');
+    send.disabled = on ? false : !input.value.trim();
+  }
 
+  /* --- Ask --- */
   async function ask(text) {
     text = text.trim();
     if (!text || busy) return;
-    busy = true; send.disabled = true; suggest.hidden = true;
-    add('user', text);
-    var prior = history.slice(-6);
+    send.classList.remove('ping'); void send.offsetWidth; send.classList.add('ping');
+    suggest.hidden = true;
+    addUser(text);
+    var prior = history.slice(-6).map(function (m) { return { role: m.role, content: m.content }; });
     history.push({ role: 'user', content: text }); save();
     input.value = ''; autosize();
+    setBusy(true);
 
-    var typing = document.createElement('div');
-    typing.className = 'msg bot'; typing.innerHTML = '<span class="typing" aria-label="Thinking"><i></i><i></i><i></i></span>';
-    log.appendChild(typing); log.scrollTop = log.scrollHeight;
-
-    var reply, meta = '';
+    var bubble = StreamBubble(), meta = '', sources = [];
+    controller = new AbortController();
+    var stalled = setTimeout(function () { controller.abort(); }, 60000);
     try {
-      var ctrl = new AbortController();
-      var timer = setTimeout(function () { ctrl.abort(); }, 45000);
-      var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: prior }), signal: ctrl.signal });
-      clearTimeout(timer);
-      var data = await r.json().catch(function () { return {}; });
-      reply = data.reply || data.error;
-      if (data.source === 'offline') meta = 'Answered from portfolio text';
-    } catch (e) {}
-    if (!reply) reply = "I couldn't reach the assistant just now. You can email Ashish directly at [ashishsoni243k@gmail.com](mailto:ashishsoni243k@gmail.com), or try again in a moment.";
-
-    typing.remove();
-    add('assistant', reply, meta);
-    history.push({ role: 'assistant', content: reply }); save();
-    busy = false; send.disabled = !input.value.trim();
+      var r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: prior }), signal: controller.signal });
+      var type = r.headers.get('content-type') || '';
+      if (type.indexOf('ndjson') >= 0 && r.body && r.body.getReader) {
+        var reader = r.body.getReader(), dec = new TextDecoder(), buf = '';
+        while (true) {
+          var chunk = await reader.read();
+          if (chunk.done) break;
+          buf += dec.decode(chunk.value, { stream: true });
+          var nl;
+          while ((nl = buf.indexOf('\n')) >= 0) {
+            var line = buf.slice(0, nl); buf = buf.slice(nl + 1);
+            if (!line.trim()) continue;
+            var ev; try { ev = JSON.parse(line); } catch (e) { continue; }
+            if (ev.type === 'sources') { sources = ev.items || []; bubble.sources(sources); }
+            else if (ev.type === 'delta') bubble.push(ev.text);
+            else if (ev.type === 'done' && ev.source === 'offline') meta = 'Answered from portfolio text';
+          }
+        }
+      } else {
+        var data = await r.json().catch(function () { return {}; });
+        bubble.push(data.reply || data.error || '');
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError' && bubble.text()) meta = 'Stopped';
+    }
+    clearTimeout(stalled);
+    if (!bubble.text()) {
+      bubble.push("I couldn't reach the assistant just now. You can email Ashish directly at [ashishsoni243k@gmail.com](mailto:ashishsoni243k@gmail.com), or try again in a moment.");
+      sources = [];
+    }
+    if (meta === 'Stopped') bubble.stopNow();
+    await bubble.end(meta);
+    history.push({ role: 'assistant', content: bubble.text(), sources: sources, meta: meta }); save();
+    controller = null;
+    setBusy(false);
     input.focus();
   }
 
   launch.addEventListener('click', function () { setOpen(true); });
   document.getElementById('chat-close').addEventListener('click', function () { setOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && body.classList.contains('chat-open')) setOpen(false); });
-  form.addEventListener('submit', function (e) { e.preventDefault(); ask(input.value); });
-  input.addEventListener('input', function () { autosize(); send.disabled = busy || !input.value.trim(); });
-  input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (busy) { if (controller) controller.abort(); return; }
+    ask(input.value);
+  });
+  input.addEventListener('input', function () { autosize(); if (!busy) send.disabled = !input.value.trim(); });
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!busy) ask(input.value); } });
   suggest.addEventListener('click', function (e) { if (e.target.tagName === 'BUTTON') ask(e.target.textContent); });
 
   restore();
