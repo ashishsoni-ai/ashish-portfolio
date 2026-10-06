@@ -142,5 +142,5 @@ Also: C, C++, Go (basics), TypeScript, Next.js, React, Streamlit, Gradio, Git, V
 He focuses on complete systems rather than just training models, and on measuring them honestly: frozen agents under test, literal-substring evidence, committed result files, and documented limitations. He learns codebases by contributing small, unglamorous fixes: compatibility issues, input validation, flaky tests and missing coverage.
 
 ## About this assistant
-This chat assistant runs on the portfolio itself. It retrieves the most relevant sections of Ashish's portfolio and answers from them using a free-tier language model (Groq, with Gemini as a backup). If no model is reachable, it answers directly from the retrieved portfolio text.
+This chat assistant runs on the portfolio itself. It retrieves the most relevant sections of Ashish's portfolio and answers from them using a free-tier language model (Groq, running open models such as GPT-OSS, with Gemini as a backup). If no model is reachable, it answers directly from the retrieved portfolio text.
 `;
