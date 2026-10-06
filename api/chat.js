@@ -237,6 +237,13 @@ module.exports = async function handler(req, res) {
         ['groq:' + (process.env.GROQ_FALLBACK_MODEL || 'llama-3.1-8b-instant'), s => groqStream(process.env.GROQ_FALLBACK_MODEL || 'llama-3.1-8b-instant', probe, s)],
         ['gemini:' + (process.env.GEMINI_MODEL || 'gemini-flash-latest'), s => geminiStream(process.env.GEMINI_MODEL || 'gemini-flash-latest', probe, s)],
       ];
+      if (process.env.GROQ_API_KEY) {
+        try {
+          const r = await fetch(`${process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1'}/models`, { headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY}` } });
+          const j = await r.json();
+          info.groqAvailable = r.ok ? (j.data || []).map(m => m.id).sort() : `HTTP ${r.status}`;
+        } catch (e) { info.groqAvailable = 'error'; }
+      }
       for (const [name, start] of tries) {
         const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 10000);
         try { for await (const d of start(ctrl.signal)) { info.models[name] = 'ok'; ctrl.abort(); break; } if (!info.models[name]) info.models[name] = 'empty'; }
