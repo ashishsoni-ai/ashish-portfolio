@@ -226,7 +226,26 @@ module.exports = async function handler(req, res) {
   }
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method === 'GET') return res.status(200).json({ ok: true, providers: { groq: !!process.env.GROQ_API_KEY, gemini: !!process.env.GEMINI_API_KEY } });
+  if (req.method === 'GET') {
+    const info = { ok: true, providers: { groq: !!process.env.GROQ_API_KEY, gemini: !!process.env.GEMINI_API_KEY } };
+    // GET /api/chat?diag=1 — tries a 1-token call per model and reports only status codes (never keys).
+    if (/[?&]diag=1/.test(req.url || '')) {
+      info.models = {};
+      const probe = [{ role: 'user', content: 'Say OK' }];
+      const tries = [
+        ['groq:' + (process.env.GROQ_MODEL || 'llama-3.3-70b-versatile'), s => groqStream(process.env.GROQ_MODEL || 'llama-3.3-70b-versatile', probe, s)],
+        ['groq:' + (process.env.GROQ_FALLBACK_MODEL || 'llama-3.1-8b-instant'), s => groqStream(process.env.GROQ_FALLBACK_MODEL || 'llama-3.1-8b-instant', probe, s)],
+        ['gemini:' + (process.env.GEMINI_MODEL || 'gemini-flash-latest'), s => geminiStream(process.env.GEMINI_MODEL || 'gemini-flash-latest', probe, s)],
+      ];
+      for (const [name, start] of tries) {
+        const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 10000);
+        try { for await (const d of start(ctrl.signal)) { info.models[name] = 'ok'; ctrl.abort(); break; } if (!info.models[name]) info.models[name] = 'empty'; }
+        catch (e) { info.models[name] = info.models[name] || String(e.message).replace(/^(groq|gemini) \S+ /, 'HTTP '); }
+        finally { clearTimeout(t); }
+      }
+    }
+    return res.status(200).json(info);
+  }
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!allowedOrigin(origin)) return res.status(403).json({ error: 'Origin not allowed' });
 
