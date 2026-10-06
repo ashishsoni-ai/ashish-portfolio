@@ -2135,6 +2135,11 @@ window.PROJECTS = [
   }
   function render(md, caret) {
     var out = [], list = null;
+    // Defensive cleanup: drop model citation tags like 【Live facts】 and turn table rows into bullets.
+    md = md.replace(/【[^】]*】/g, '').replace(/^\s*\|?\s*:?-{3,}.*$/gm, '').replace(/^\s*\|(.+)\|\s*$/gm, function (_, row) {
+      var cells = row.split('|').map(function (c) { return c.trim(); }).filter(Boolean);
+      return cells.length ? '- ' + cells.join(' — ') : '';
+    });
     md.replace(/\r/g, '').split('\n').forEach(function (line) {
       var t = line.trim();
       var item = /^[-*•]\s+(.*)/.exec(t) || /^\d+[.)]\s+(.*)/.exec(t);
