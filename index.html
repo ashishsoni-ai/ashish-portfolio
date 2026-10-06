@@ -130,7 +130,7 @@
     .hero-media::after {
       content: ''; position: absolute; inset: 0;
       background:
-        linear-gradient(90deg, rgba(10,13,19,.88) 0%, rgba(10,13,19,.6) 45%, rgba(10,13,19,.25) 80%),
+        linear-gradient(90deg, rgba(10,13,19,.82) 0%, rgba(10,13,19,.45) 42%, rgba(10,13,19,.05) 75%),
         linear-gradient(180deg, rgba(10,13,19,.35) 0%, rgba(10,13,19,0) 22%, rgba(10,13,19,0) 70%, var(--night) 100%);
     }
     .hero-dim { position: absolute; inset: 0; background: var(--night); opacity: 0; pointer-events: none; }
@@ -564,7 +564,7 @@
     @keyframes ripple { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(9); } }
 
     /* Film grain */
-    .grain { position: fixed; inset: -60%; z-index: 150; pointer-events: none; opacity: .03;
+    .grain { position: fixed; inset: -60%; z-index: 150; pointer-events: none; opacity: .055;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       animation: grain 1.2s steps(6) infinite; }
     @keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-4%, 3%); } 40% { transform: translate(3%, -5%); } 60% { transform: translate(-6%, -2%); } 80% { transform: translate(5%, 4%); } 100% { transform: translate(0, 0); } }
@@ -650,7 +650,7 @@
       background: linear-gradient(100deg, var(--amber) 0%, var(--amber) 42%, #FFE9C9 50%, var(--amber) 58%, var(--amber) 100%);
       background-size: 300% 100%; background-position: 100% 0;
       -webkit-background-clip: text; background-clip: text; color: transparent;
-      animation: sweep 12s ease-in-out infinite;
+      animation: sweep 7s ease-in-out infinite;
     }
     @keyframes sweep { 0%, 62% { background-position: 100% 0; } 85%, 100% { background-position: 0% 0; } }
 
@@ -668,69 +668,6 @@
     @media (prefers-reduced-motion: reduce) {
       h1 em, h2 em .wm > span, h2 em:not(:has(.wm)) { animation: none; background: none; color: var(--amber); }
     }
-
-    /* ---------- Evidence-first layout ---------- */
-    .hero { height: auto; min-height: 100vh; min-height: 100svh; }
-    .hero-inner { height: auto; min-height: 100vh; min-height: 100svh; padding: 110px 0 90px; }
-    .hero h1 { font-size: clamp(2.8rem, 6.6vw, 6.2rem); }
-    .hero-eyebrow { display: inline-flex; align-items: center; gap: .7rem; color: var(--text-2); margin-bottom: 1.6rem; }
-    .hero-eyebrow .sep { color: var(--muted); }
-    .hero-copy { max-width: 32rem; margin-top: 1.6rem; font-size: 1.1rem; }
-    .hero-proof { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, auto)); justify-content: start; gap: 0; margin-top: 2.4rem; border-top: 1px solid var(--line-2); max-width: 760px; }
-    .hero-proof li + li { border-left: 1px solid var(--line); }
-    .hero-proof a { display: block; padding: 1.1rem 1.6rem 0 0; transition: color .3s; }
-    .hero-proof li + li a { padding-left: 1.6rem; }
-    .hero-proof b { display: block; font-weight: 200; font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1; color: var(--text); transition: color .3s; font-variant-numeric: tabular-nums; }
-    .hero-proof span { display: block; margin-top: .5rem; font-size: .8rem; color: var(--text-2); letter-spacing: .02em; }
-    .hero-proof a:hover b { color: var(--amber); }
-    .hero-ctas { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2.4rem; }
-    .hero .pill-ghost { background: rgba(10,13,19,.35); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-    .hero-pause { position: absolute; right: var(--gutter); bottom: 1.6rem; z-index: 3; font-size: .62rem; }
-    @media (max-width: 760px) {
-      .hero-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .hero-proof li:nth-child(3) { border-left: 0; }
-      .hero-proof li:nth-child(3) a { padding-left: 0; }
-      .hero-proof li:nth-child(n+3) { border-top: 1px solid var(--line); margin-top: 1rem; }
-      .hero-pause { display: none; }
-      .hero-eyebrow .sep, .hero-eyebrow .loc { display: none; }
-    }
-
-    /* Featured work: the measured number leads */
-    .proof-list { display: grid; gap: 1.5rem; }
-    .panel.proof { flex: none; min-height: 0; display: block; }
-    .proof-body { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 2rem 4rem; padding: clamp(1.8rem, 4vw, 3.4rem); align-items: center; }
-    .proof-kicker, .proof-tag { color: var(--muted); }
-    .proof-metric b { display: block; margin-top: .6rem; font-weight: 200; font-size: clamp(4rem, 10vw, 8.5rem); line-height: .95; letter-spacing: -0.03em; color: var(--amber); font-variant-numeric: tabular-nums; }
-    .proof-unit { display: block; margin-top: .8rem; font-size: 1.1rem; color: var(--text); }
-    .proof-metric .note { margin-top: 1rem; color: var(--muted); font-size: .85rem; line-height: 1.6; max-width: 34ch; }
-    .proof-copy h3 { margin-top: .6rem; font-weight: 200; font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1.02; letter-spacing: -0.02em; }
-    .proof-copy .lede { margin-top: .9rem; font-size: 1.1rem; color: var(--text-2); max-width: 36ch; }
-    .evidence { display: flex; flex-wrap: wrap; gap: .8rem 1.6rem; margin-top: 1.6rem; }
-    .case-open { text-transform: inherit; letter-spacing: inherit; font-size: inherit; } /* buttons reset these by default */
-    @media (max-width: 860px) { .proof-body { grid-template-columns: 1fr; } }
-
-    /* TensorMap spotlight */
-    .spot { margin: 0 0 4rem; padding: clamp(1.6rem, 4vw, 2.8rem); border: 1px solid rgba(217,168,108,.3); border-radius: 18px; background: radial-gradient(90% 120% at 100% 0%, rgba(217,168,108,.10), transparent 60%), var(--night-2); }
-    .spot-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem 3rem; }
-    .spot-kicker { color: var(--amber); }
-    .spot h3 { margin-top: .8rem; font-weight: 200; font-size: clamp(1.8rem, 3.6vw, 2.8rem); line-height: 1.1; }
-    .spot h3 b { font-weight: 300; color: var(--amber); }
-    .spot-head p:not(.spot-kicker) { margin-top: .8rem; max-width: 40rem; color: var(--text-2); }
-    .spot-grid { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
-    .spot-grid a { display: block; height: 100%; padding: 1.2rem; border: 1px solid var(--line); border-radius: 12px; transition: border-color .3s, transform .4s var(--ease), background-color .3s; }
-    .spot-grid a:hover { border-color: var(--amber); background: rgba(217,168,108,.06); transform: translateY(-3px); }
-    .spot-grid .caps { color: var(--muted); font-size: .66rem; }
-    .spot-grid strong { display: block; margin-top: .5rem; font-weight: 400; font-size: 1.05rem; }
-    .spot-grid span:last-child { display: block; margin-top: .4rem; font-size: .86rem; color: var(--text-2); line-height: 1.55; }
-    @media (max-width: 960px) { .spot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 520px) { .spot-grid { grid-template-columns: 1fr; } }
-
-    /* Compact toolkit */
-    .toolkit { padding: clamp(4rem, 10vh, 6rem) 0; }
-    .kit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
-    .kit h3 { color: var(--amber); }
-    .kit p { margin-top: .6rem; color: var(--text-2); }
-    @media (max-width: 760px) { .kit { grid-template-columns: 1fr; gap: 1.4rem; } }
 
     /* ---------- Generic reveal ---------- */
     .js .rv { opacity: 0; transform: translateY(40px); }
@@ -804,8 +741,8 @@
     <nav aria-label="Primary">
       <ul class="nav-links caps">
         <li><a href="#work" data-scroll>Work</a></li>
-        <li><a href="#open-source" data-scroll>Open source</a></li>
         <li><a href="#experience" data-scroll>Experience</a></li>
+        <li><a href="#open-source" data-scroll>Open source</a></li>
         <li><a href="#activity" data-scroll>Activity</a></li>
         <li><a href="#contact" data-scroll>Contact</a></li>
       </ul>
@@ -818,10 +755,10 @@
 
 <div class="menu" id="menu" aria-hidden="true">
   <ol>
+    <li><a href="#about" data-scroll>About</a></li>
+    <li><a href="#experience" data-scroll>Experience</a></li>
     <li><a href="#work" data-scroll>Work</a></li>
     <li><a href="#open-source" data-scroll>Open source</a></li>
-    <li><a href="#experience" data-scroll>Experience</a></li>
-    <li><a href="#about" data-scroll>About</a></li>
     <li><a href="#activity" data-scroll>Activity</a></li>
     <li><a href="#contact" data-scroll>Contact</a></li>
   </ol>
@@ -846,192 +783,36 @@
     <div class="sky-fx" data-stars="hero" aria-hidden="true"></div>
     <div class="hero-wrap">
       <div class="hero-inner" id="hero-inner">
-        <p class="hero-eyebrow caps fade-in"><span class="pulse" aria-hidden="true"></span><span data-fact="availabilityHeadline">Open to AI/ML internships</span><span class="sep">·</span><span class="loc">New Delhi</span></p>
         <h1>
           <span class="line"><span>I build AI</span></span>
           <span class="line"><span>that <em>shows its work.</em></span></span>
         </h1>
-        <p class="hero-copy fade-in">Agents, retrieval and computer vision, plus the tests that prove they work.</p>
-        <ul class="hero-proof fade-in" aria-label="Proof">
-          <li><a href="https://github.com/search?q=author%3Aashishsoni-ai+type%3Apr+is%3Amerged+-user%3Aashishsoni-ai&amp;type=pullrequests" target="_blank" rel="noopener"><b data-fact="mergedPRs">19</b><span>open-source PRs merged</span></a></li>
-          <li><a href="https://github.com/c2siorg/tensormap/pulls?q=is%3Apr+is%3Amerged+author%3Aashishsoni-ai" target="_blank" rel="noopener"><b data-fact="tensormapPRs">15</b><span>merged into TensorMap</span></a></li>
-          <li><a href="#experience" data-scroll><b data-fact="internshipCount">2</b><span>AI engineering internships</span></a></li>
-          <li><a href="#experience" data-scroll><b data-fact="cgpa">9.23</b><span>CGPA · B.Tech AI &amp; ML</span></a></li>
-        </ul>
-        <div class="hero-ctas fade-in">
-          <a class="pill pill-solid" href="#work" data-scroll><span class="roll" data-text="View work">View work</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
-          <a class="pill pill-ghost" href="ashish_soni_resume.pdf" target="_blank" rel="noopener"><span class="roll" data-text="Résumé">Résumé</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></a>
-          <a class="pill pill-ghost" href="https://github.com/ashishsoni-ai" target="_blank" rel="noopener"><span class="roll" data-text="GitHub">GitHub</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 8.4 22.9c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
-          <a class="pill pill-ghost" href="https://linkedin.com/in/ashish-soni-engineer" target="_blank" rel="noopener"><span class="roll" data-text="LinkedIn">LinkedIn</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.6-2.64-1.62 0-1.86 1.26-1.86 2.56v4.92h-4z"/></svg></a>
-        </div>
+        <span class="rule"></span>
+        <p class="hero-copy fade-in">AI engineer in New Delhi. Agents, retrieval and computer vision, and the evaluations that keep them honest. Recently completed AI engineering internships at Think Decor and FlyRank AI.</p>
+        <a href="#work" class="cta fade-in" data-scroll>
+          <span class="cta-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+          <span class="cta-label">View work</span>
+        </a>
       </div>
     </div>
-    <button class="video-toggle hero-pause caps" id="video-toggle" type="button">Pause footage</button>
-  </section>
-
-  <!-- ============ WORK ============ -->
-  <section id="work">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow caps rv"><b>01</b> Selected work</p>
-        <h2 class="rv">Built, tested, <em>measured</em></h2>
-        <p class="sub rv">Every number below links to the file or demo it came from.</p>
-      </div>
-      <div class="proof-list">
-
-        <article class="panel proof" data-seed="7">
-          <svg class="sky" aria-hidden="true"></svg>
-          <div class="proof-body">
-            <div class="proof-metric">
-              <span class="caps proof-kicker">Measured</span>
-              <b>11 → 2</b>
-              <span class="proof-unit">over-promises in 30 probes</span>
-              <p class="note">Naive 7B RAG agent vs. 120B agent with structured retrieval. Reported as a lower bound.</p>
-            </div>
-            <div class="proof-copy">
-              <p class="caps proof-tag">LLM evaluation · Razorpay Open Track</p>
-              <h3>ClauseGuard</h3>
-              <p class="lede">A test suite that fails your build when a support agent promises a refund the policy doesn't allow.</p>
-              <ul class="chips"><li>Python</li><li>LLM-as-judge</li><li>RAG</li></ul>
-              <div class="evidence caps">
-                <a class="ulink" href="https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-/blob/main/docs/results.md" target="_blank" rel="noopener">Results file ↗</a>
-                <a class="ulink" href="https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-" target="_blank" rel="noopener">Code ↗</a>
-                <button class="ulink case-open" type="button" data-case="PromiseCheck-clauseguard-">Case study →</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="panel proof" data-seed="21">
-          <svg class="sky" aria-hidden="true"></svg>
-          <div class="proof-body">
-            <div class="proof-metric">
-              <span class="caps proof-kicker">Tested</span>
-              <b>680</b>
-              <span class="proof-unit">tests passing</span>
-              <p class="note">Blind spots mapped as a 120-cell atlas at a fixed false-positive budget. Simulator data only.</p>
-            </div>
-            <div class="proof-copy">
-              <p class="caps proof-tag">Adversarial ML · Fraud detection</p>
-              <h3>HYDRA</h3>
-              <p class="lede">Breeds fraud attacks aimed at a detector's blind spots, then checks the fix holds on attacks it has never seen.</p>
-              <ul class="chips"><li>Python</li><li>Quality-diversity search</li><li>pytest</li></ul>
-              <div class="evidence caps">
-                <a class="ulink" href="https://hydra-fraud-lab.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
-                <a class="ulink" href="https://github.com/ashishsoni-ai/Hydra/tree/main/experiments/results" target="_blank" rel="noopener">Results ↗</a>
-                <a class="ulink" href="https://github.com/ashishsoni-ai/Hydra" target="_blank" rel="noopener">Code ↗</a>
-                <button class="ulink case-open" type="button" data-case="Hydra">Case study →</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="panel proof" data-seed="42">
-          <svg class="sky" aria-hidden="true"></svg>
-          <div class="proof-body">
-            <div class="proof-metric">
-              <span class="caps proof-kicker">Grounded</span>
-              <b>6</b>
-              <span class="proof-unit">question routes, each grounded</span>
-              <p class="note">SQL, sandboxed stats, data overview, page-cited document Q&amp;A, tech Q&amp;A, and an off-topic guard that makes zero LLM calls.</p>
-            </div>
-            <div class="proof-copy">
-              <p class="caps proof-tag">Agents · Data &amp; documents</p>
-              <h3>AI Data Analyst</h3>
-              <p class="lede">Upload a spreadsheet, get a dashboard. Upload a PDF, get answers that cite the page.</p>
-              <ul class="chips"><li>LangGraph</li><li>FastAPI</li><li>DuckDB</li><li>Qdrant</li></ul>
-              <div class="evidence caps">
-                <a class="ulink" href="https://github.com/ashishsoni-ai/ai-data-analyst" target="_blank" rel="noopener">Code ↗</a>
-                <button class="ulink case-open" type="button" data-case="ai-data-analyst">Case study →</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-      </div>
+    <div class="hero-cue caps fade-in"><span>Scroll</span><i></i></div>
+    <div class="hero-meta caps fade-in">
+      <div>28.61° N · 77.21° E</div>
+      <div><span class="dot"></span>Open to internships</div>
+      <button class="video-toggle caps" id="video-toggle" type="button">Pause footage</button>
     </div>
   </section>
 
-  <section class="index-section" id="index">
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
     <div class="wrap">
-      <div class="index-head rv">
-        <h3>More projects</h3>
-        <div class="filters caps" role="group" aria-label="Filter projects">
-          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
-          <button class="filter" type="button" data-filter="agents" aria-pressed="false">Agents &amp; LLMs</button>
-          <button class="filter" type="button" data-filter="vision" aria-pressed="false">Vision &amp; audio</button>
-          <button class="filter" type="button" data-filter="systems" aria-pressed="false">Backend &amp; tools</button>
-        </div>
-      </div>
-      <ol class="index rv" id="project-index">
-        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/MedGuard" target="_blank" rel="noopener"><span class="row-n">04</span><span class="row-t">MedGuard</span><span class="row-d">Five agents that cut false alarms in camera-based emergency detection.<small>LangGraph · YOLOv8-Pose · Gemini</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/deeplense-gsoc-2027" target="_blank" rel="noopener"><span class="row-n">05</span><span class="row-t">DeepLense · GSoC</span><span class="row-d">Classifies dark-matter lensing images at 92.77% accuracy.<small>PyTorch · CNN · ML4Sci</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/ai-resume-screener" target="_blank" rel="noopener"><span class="row-n">06</span><span class="row-t">AI Resume Screener</span><span class="row-d">Turns a resume into a scored recruiter report.<small>LangGraph · Groq · FastAPI</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/AI_Reasearch_Agent" target="_blank" rel="noopener"><span class="row-n">07</span><span class="row-t">AI Research Agent</span><span class="row-d">Searches, writes, and rewrites until its critic approves.<small>LangGraph · Tavily · Mistral</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/pdfchat-groq-rag" target="_blank" rel="noopener"><span class="row-n">08</span><span class="row-t">PDF Chat Assistant</span><span class="row-d">Chat with a stack of PDFs, with sources.<small>LangChain · ChromaDB · Gradio</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/closira-assignment" target="_blank" rel="noopener"><span class="row-n">09</span><span class="row-t">Clinic Support Workflow</span><span class="row-d">A support agent that answers from the SOP and knows when to escalate.<small>Python · Claude API</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/speech-asr-pipeline" target="_blank" rel="noopener"><span class="row-n">10</span><span class="row-t">Speech Recognition Pipeline</span><span class="row-d">One command: transcribe LibriSpeech, report WER, CER and latency.<small>wav2vec2 · Hugging Face</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/deepfake-face-detector" target="_blank" rel="noopener"><span class="row-n">11</span><span class="row-t">Deepfake Face Detector</span><span class="row-d">Real or generated? Three CNN backbones compete.<small>TensorFlow · Transfer learning</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/ai-data-health-detector" target="_blank" rel="noopener"><span class="row-n">12</span><span class="row-t">OpsLens</span><span class="row-d">A health check for any CSV: anomalies flagged, clean data exported.<small>FastAPI · React · scikit-learn</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/meshery-ai" target="_blank" rel="noopener"><span class="row-n">13</span><span class="row-t">meshery-ai</span><span class="row-d">Talk to cloud-native infrastructure through a local LLM.<small>Go · gRPC · Ollama</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/promptpin" target="_blank" rel="noopener"><span class="row-n">14</span><span class="row-t">PromptPin</span><span class="row-d">Pinterest for AI image prompts.<small>Next.js · FastAPI · Supabase</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/Social-Media-Studio" target="_blank" rel="noopener"><span class="row-n">15</span><span class="row-t">Social Media Studio</span><span class="row-d">Plan and schedule posts across eleven platforms.<small>Django · PostgreSQL</small></span><span class="row-y">2026</span></a></li>
-        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/Image_Captioning_Model" target="_blank" rel="noopener"><span class="row-n">16</span><span class="row-t">Image Captioning</span><span class="row-d">Describes photographs in a sentence.<small>TensorFlow · CNN · LSTM</small></span><span class="row-y">2025</span></a></li>
-        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/Audio_Genre_Classification" target="_blank" rel="noopener"><span class="row-n">17</span><span class="row-t">Audio Genre Classification</span><span class="row-d">Tells jazz from rock using MFCCs.<small>Librosa · TensorFlow</small></span><span class="row-y">2025</span></a></li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ============ OPEN SOURCE ============ -->
-  <section id="open-source">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow caps rv"><b>02</b> Open source</p>
-        <h2 class="rv">Small fixes, <em>merged upstream</em></h2>
-        <p class="sub rv">Compatibility, validation and flaky tests in other people's code. Counts update live from GitHub.</p>
-      </div>
-      <div class="oss-stats rv">
-        <div><b data-count="19" data-fact="mergedPRs">19</b><span>pull requests merged</span></div>
-        <div><b data-count="15" data-fact="tensormapPRs">15</b><span>in c2siorg/TensorMap</span></div>
-        <div><b data-count="3" data-fact="otherProjects">3</b><span>other projects</span></div>
-        <div><b data-count="16" data-fact="openPRs">16</b><span>more in review</span></div>
-      </div>
-
-      <div class="spot rv">
-        <div class="spot-head">
-          <div>
-            <p class="caps spot-kicker">Spotlight · c2siorg/TensorMap</p>
-            <h3><b data-fact="tensormapPRs">15</b> merged pull requests to TensorMap</h3>
-            <p>TensorMap is an open-source web app for building machine-learning models visually. My fixes keep its exports, graphs and tests trustworthy.</p>
-          </div>
-          <a class="pill pill-ghost" href="https://github.com/c2siorg/tensormap/pulls?q=is%3Apr+is%3Amerged+author%3Aashishsoni-ai" target="_blank" rel="noopener"><span class="roll" data-text="See all TensorMap PRs">See all TensorMap PRs</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-        </div>
-        <ul class="spot-grid">
-          <li><a href="https://github.com/c2siorg/tensormap/pull/412" target="_blank" rel="noopener"><span class="caps">#412 · #413</span><strong>Keras 3 export</strong><span>SavedModel and TFLite export work again on Keras 3.</span></a></li>
-          <li><a href="https://github.com/c2siorg/tensormap/pull/392" target="_blank" rel="noopener"><span class="caps">#392 · #401</span><strong>Graph validation</strong><span>Broken canvas graphs are rejected instead of crashing the server.</span></a></li>
-          <li><a href="https://github.com/c2siorg/tensormap/pull/407" target="_blank" rel="noopener"><span class="caps">#407</span><strong>Search-space checks</strong><span>Hyperparameter tuning rejects invalid search spaces up front.</span></a></li>
-          <li><a href="https://github.com/c2siorg/tensormap/pull/405" target="_blank" rel="noopener"><span class="caps">#405</span><strong>Deterministic tests</strong><span>A stable endpoint order, and one less flaky test.</span></a></li>
-        </ul>
-      </div>
-
-      <div class="oss-grid">
-        <div class="rv">
-          <h3 class="caps">Also merged</h3>
-          <ul class="prs">
-            <li><a href="https://github.com/NNPDF/eko/pull/570" target="_blank" rel="noopener"><span class="pr-r">NNPDF/eko #570</span><span class="pr-t">Plain ints instead of enums for Numba kernels</span></a></li>
-            <li><a href="https://github.com/Dharanish-AM/Logara-AI/pull/117" target="_blank" rel="noopener"><span class="pr-r">Logara-AI #117 · #68</span><span class="pr-t">Normalised epoch timestamps; safe redaction copies</span></a></li>
-            <li><a href="https://github.com/Arnav-Singh-5080/CricScope/pull/141" target="_blank" rel="noopener"><span class="pr-r">CricScope #141</span><span class="pr-t">Ball-by-ball CSV export for win probabilities</span></a></li>
-          </ul>
-        </div>
-        <div class="rv">
-          <h3 class="caps">In review</h3>
-          <ul class="prs">
-            <li><a href="https://github.com/c2siorg/tensormap/pull/419" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #419</span><span class="pr-t">Live shapes and diagnostics on the model canvas</span></a></li>
-            <li><a href="https://github.com/meshery/meshery/pull/20399" target="_blank" rel="noopener"><span class="pr-r">meshery/meshery #20399</span><span class="pr-t">Design spec for AI adapter errors and events</span></a></li>
-            <li><a href="https://github.com/deepchem/deepchem/pull/5075" target="_blank" rel="noopener"><span class="pr-r">deepchem/deepchem #5075</span><span class="pr-t">fit_generator now honours its loss argument</span></a></li>
-            <li><a href="https://github.com/search?q=author%3Aashishsoni-ai+type%3Apr+is%3Aopen+-user%3Aashishsoni-ai&amp;type=pullrequests" target="_blank" rel="noopener"><span class="pr-r">+ <span data-fact="openPRsMore">13</span> more</span><span class="pr-t">Mesa, InVesalius, PerceptionMetrics and others</span></a></li>
-          </ul>
-        </div>
+      <p class="eyebrow caps rv"><b>01</b> About</p>
+      <p class="statement" id="statement">I started with CNNs and captioning models. Now I build <span class="hl">multi-agent pipelines</span> and <span class="hl">retrieval systems</span>, and I spend just as long measuring them. I report numbers with their denominators, and caveats with their numbers.</p>
+      <div class="stats">
+        <div class="stat rv"><b data-count="9.23" data-dec="2">9.23</b><span>CGPA · B.Tech AI &amp; ML, GGSIPU</span></div>
+        <div class="stat rv"><b data-count="19">19</b><span>Open-source PRs merged</span></div>
+        <div class="stat rv"><b data-count="2">2</b><span>AI engineering internships</span></div>
+        <div class="stat rv"><b data-count="650" data-suffix="+" id="about-contrib">650+</b><span>GitHub contributions this year</span></div>
       </div>
     </div>
   </section>
@@ -1040,24 +821,24 @@
   <section id="experience">
     <div class="wrap">
       <div class="head">
-        <p class="eyebrow caps rv"><b>03</b> Experience</p>
-        <h2 class="rv">Where I've <em>worked</em></h2>
+        <p class="eyebrow caps rv"><b>02</b> Experience</p>
+        <h2 class="rv">Where I've been <em>working</em></h2>
       </div>
       <ol class="roles">
-        <li class="role rv" data-role="thinkdecor">
-          <div class="role-when caps" data-role-when>Jul — Sep 2026</div>
+        <li class="role rv">
+          <div class="role-when caps">Jul — Sep 2026</div>
           <div>
-            <h3>AI Development Intern <span class="tag caps" data-role-tag>Completed</span><em>Think Decor</em></h3>
+            <h3>AI Development Intern <span class="tag caps">Completed</span><em>Think Decor</em></h3>
             <p>Built computer vision and AI features for Think Decor, an interior design company.</p>
             <ul class="chips"><li>Computer Vision</li><li>Artificial Intelligence</li><li>Python</li></ul>
           </div>
           <div class="role-where caps">Remote · UK</div>
         </li>
-        <li class="role rv" data-role="flyrank">
-          <div class="role-when caps" data-role-when>Jul — Sep 2026</div>
+        <li class="role rv">
+          <div class="role-when caps">Jul — Sep 2026</div>
           <div>
-            <h3>Back-End AI Engineering Intern <span class="tag caps" data-role-tag>Completed</span><em>FlyRank AI</em></h3>
-            <p>Built backend AI services and APIs in Python: LLM-powered apps, API design and testing. Finished with a certificate of completion.</p>
+            <h3>Back-End AI Engineering Intern <span class="tag caps">Completed</span><em>FlyRank AI</em></h3>
+            <p>Selected for the FlyRank AI internship programme. Built backend AI services and APIs in Python: LLM-powered applications, API design and testing. Finished with a certificate of completion.</p>
             <ul class="chips"><li>Python</li><li>Agentic AI</li><li>REST APIs</li><li>Testing</li></ul>
           </div>
           <div class="role-where caps">Remote</div>
@@ -1066,7 +847,7 @@
           <div class="role-when caps">2024 — 2028</div>
           <div>
             <h3>B.Tech, AI &amp; Machine Learning <em>GGSIPU, New Delhi</em></h3>
-            <p>CGPA <span data-fact="cgpa">9.23</span> / 10. Machine learning, deep learning and data systems.</p>
+            <p>CGPA 9.23 / 10. Machine learning, deep learning and data systems.</p>
           </div>
           <div class="role-where caps">New Delhi</div>
         </li>
@@ -1074,11 +855,153 @@
     </div>
   </section>
 
-  <!-- ============ ABOUT ============ -->
-  <section id="about">
+  <!-- ============ WORK ============ -->
+  <section id="work" style="padding-bottom:0">
+    <div class="wrap head">
+      <p class="eyebrow caps rv"><b>03</b> Selected work</p>
+      <h2 class="rv">Things I've built, <em>and measured</em></h2>
+    </div>
+    <div class="work-pin" id="work-pin">
+      <div class="track" id="track">
+
+        <article class="panel" data-seed="7">
+          <svg class="sky" aria-hidden="true"></svg>
+          <div class="panel-body">
+            <div class="panel-top caps"><span>01 / 03</span><span>Evaluation · Razorpay Open Track</span></div>
+            <div class="panel-main">
+              <h3>ClauseGuard</h3>
+              <p class="lede">A test suite for agents that can promise money.</p>
+              <ul class="chips"><li>Python</li><li>LLM-as-judge</li><li>RAG</li><li>Structured retrieval</li></ul>
+            </div>
+            <div class="panel-main">
+              <div class="metric"><b>11 → 2</b><span>over-promises in 30 probes, naive 7B RAG agent vs. 120B agent with structured retrieval</span></div>
+              <p class="desc">A policy-conformance harness and deploy gate. Every failing row carries the policy clause and the contradicting sentence, both verified as literal substrings.</p>
+              <p class="note">Reported as a lower bound; limitations documented in the repo.</p>
+              <div class="panel-links caps"><button class="ulink case-open" type="button" data-case="PromiseCheck-clauseguard-">Read case study →</button><a class="ulink" href="https://github.com/ashishsoni-ai/PromiseCheck-clauseguard-" target="_blank" rel="noopener">Repository ↗</a></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel" data-seed="21">
+          <svg class="sky" aria-hidden="true"></svg>
+          <div class="panel-body">
+            <div class="panel-top caps"><span>02 / 03</span><span>Adversarial ML · Fraud</span></div>
+            <div class="panel-main">
+              <h3>HYDRA</h3>
+              <p class="lede">An adaptive adversarial fraud lab.</p>
+              <ul class="chips"><li>Python</li><li>Quality-diversity search</li><li>Anomaly detection</li><li>pytest</li></ul>
+            </div>
+            <div class="panel-main">
+              <div class="metric"><b>680</b><span>tests passing, every figure traced to a committed results file</span></div>
+              <p class="desc">Breeds synthetic fraud behaviours that target a detector's blind spots, maps them as a 120-cell atlas, hardens the detector, then tests transfer to an unseen attack family at a fixed false-positive budget.</p>
+              <p class="note">Simulator-only; fidelity is calibrated to the simulator, not real card traffic.</p>
+              <div class="panel-links caps">
+                <button class="ulink case-open" type="button" data-case="Hydra">Read case study →</button>
+                <a class="ulink" href="https://hydra-fraud-lab.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
+                <a class="ulink" href="https://github.com/ashishsoni-ai/Hydra" target="_blank" rel="noopener">Repository ↗</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel" data-seed="42">
+          <svg class="sky" aria-hidden="true"></svg>
+          <div class="panel-body">
+            <div class="panel-top caps"><span>03 / 03</span><span>Agents · Data &amp; documents</span></div>
+            <div class="panel-main">
+              <h3>AI Data Analyst</h3>
+              <p class="lede">Dashboards from spreadsheets, answers from documents.</p>
+              <ul class="chips"><li>LangGraph</li><li>FastAPI</li><li>DuckDB</li><li>Qdrant</li><li>Next.js</li></ul>
+            </div>
+            <div class="panel-main">
+              <div class="metric"><b>Cited</b><span>every document answer cites its page; every numeric answer is consistency-checked</span></div>
+              <p class="desc">A LangGraph router sends each question to SQL, sandboxed statistics or grounded retrieval, with OCR for scanned pages and Groq-to-Mistral failover.</p>
+              <div class="panel-links caps"><button class="ulink case-open" type="button" data-case="ai-data-analyst">Read case study →</button><a class="ulink" href="https://github.com/ashishsoni-ai/ai-data-analyst" target="_blank" rel="noopener">Repository ↗</a></div>
+            </div>
+          </div>
+        </article>
+
+        <div class="panel-end">
+          <p>Fourteen more projects, from <em>agents</em> to <em>audio</em>.</p>
+          <a href="#index" class="cta" data-scroll style="margin-top:0">
+            <span class="cta-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg></span>
+            <span class="cta-label">See the index</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="index-section" id="index">
     <div class="wrap">
-      <p class="eyebrow caps rv"><b>04</b> About</p>
-      <p class="statement" id="statement">I started with CNNs and captioning models. Now I build <span class="hl">multi-agent pipelines</span> and <span class="hl">retrieval systems</span>, and I spend just as long measuring them. I report numbers with their denominators, and caveats with their numbers.</p>
+      <div class="index-head rv">
+        <h3>Index</h3>
+        <div class="filters caps" role="group" aria-label="Filter projects">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="agents" aria-pressed="false">Agents &amp; LLMs</button>
+          <button class="filter" type="button" data-filter="vision" aria-pressed="false">Vision &amp; audio</button>
+          <button class="filter" type="button" data-filter="systems" aria-pressed="false">Backend &amp; tools</button>
+        </div>
+      </div>
+      <ol class="index rv" id="project-index">
+        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/MedGuard" target="_blank" rel="noopener"><span class="row-n">04</span><span class="row-t">MedGuard</span><span class="row-d">Five-agent LangGraph pipeline to cut false alarms in camera-based emergency detection.<small>LangGraph · YOLOv8-Pose · Gemini · FastAPI</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/ai-resume-screener" target="_blank" rel="noopener"><span class="row-n">05</span><span class="row-t">AI Resume Screener</span><span class="row-d">Parses resumes, extracts structured profiles, scores skills and writes a recruiter report.<small>LangGraph · Groq · FastAPI · Streamlit</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/AI_Reasearch_Agent" target="_blank" rel="noopener"><span class="row-n">06</span><span class="row-t">AI Research Agent</span><span class="row-d">Search, scrape, write and critique, with a rewrite loop until the critic is satisfied.<small>LangGraph · Tavily · Mistral · Streamlit</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/pdfchat-groq-rag" target="_blank" rel="noopener"><span class="row-n">07</span><span class="row-t">PDF Chat Assistant</span><span class="row-d">RAG over multiple PDFs with summarised chunks, persistent vectors and source attribution.<small>LangChain · ChromaDB · Groq Llama 3.3 · Gradio</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="agents"><a class="row" href="https://github.com/ashishsoni-ai/closira-assignment" target="_blank" rel="noopener"><span class="row-n">08</span><span class="row-t">Clinic Support Workflow</span><span class="row-d">SOP-grounded support agent: FAQs, lead qualification, escalation detection, session summaries.<small>Python · Claude API · JSONL logging</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/deeplense-gsoc-2027" target="_blank" rel="noopener"><span class="row-n">09</span><span class="row-t">DeepLense · GSoC tests</span><span class="row-d">Gravitational-lensing classifier at 92.77% validation accuracy, plus an agentic simulation workflow.<small>PyTorch · CNN · Pydantic · ML4Sci</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/speech-asr-pipeline" target="_blank" rel="noopener"><span class="row-n">10</span><span class="row-t">Speech Recognition Pipeline</span><span class="row-d">Reproducible wav2vec 2.0 inference and evaluation, reporting WER, CER and latency.<small>Hugging Face · wav2vec2 · jiwer</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/deepfake-face-detector" target="_blank" rel="noopener"><span class="row-n">11</span><span class="row-t">Deepfake Face Detector</span><span class="row-d">Real-vs-fake faces, comparing MobileNetV3, Xception and EfficientNetB4.<small>TensorFlow · Keras · Transfer learning</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/Image_Captioning_Model" target="_blank" rel="noopener"><span class="row-n">12</span><span class="row-t">Image Captioning</span><span class="row-d">Xception encoder and LSTM decoder on Flickr8k, with beam search.<small>TensorFlow · CNN · LSTM</small></span><span class="row-y">2025</span></a></li>
+        <li data-cat="vision"><a class="row" href="https://github.com/ashishsoni-ai/Audio_Genre_Classification" target="_blank" rel="noopener"><span class="row-n">13</span><span class="row-t">Audio Genre Classification</span><span class="row-d">Music genre recognition from MFCCs and mel spectrograms.<small>Librosa · TensorFlow · CNN</small></span><span class="row-y">2025</span></a></li>
+        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/ai-data-health-detector" target="_blank" rel="noopener"><span class="row-n">14</span><span class="row-t">OpsLens</span><span class="row-d">CSV health audit with Isolation Forest anomaly detection and cleaned exports.<small>FastAPI · React · scikit-learn · Docker</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/meshery-ai" target="_blank" rel="noopener"><span class="row-n">15</span><span class="row-t">meshery-ai</span><span class="row-d">Early AI adapter bridging Meshery to local LLMs over gRPC.<small>Go · gRPC · Ollama</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/promptpin" target="_blank" rel="noopener"><span class="row-n">16</span><span class="row-t">PromptPin</span><span class="row-d">A Pinterest-style board for AI image prompts, with LLM prompt remixing.<small>Next.js · FastAPI · Supabase · R2</small></span><span class="row-y">2026</span></a></li>
+        <li data-cat="systems"><a class="row" href="https://github.com/ashishsoni-ai/Social-Media-Studio" target="_blank" rel="noopener"><span class="row-n">17</span><span class="row-t">Social Media Studio</span><span class="row-d">Content scheduling across eleven platforms, with a calendar and dashboard.<small>Django · PostgreSQL · Render</small></span><span class="row-y">2026</span></a></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ OPEN SOURCE ============ -->
+  <section id="open-source">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow caps rv"><b>04</b> Open source</p>
+        <h2 class="rv">Small fixes in <em>other people's code</em></h2>
+        <p class="sub rv">Compatibility fixes, input validation, flaky tests and missing coverage. The unglamorous kind, which is how I learn a codebase.</p>
+      </div>
+      <div class="oss-stats rv">
+        <div><b data-count="19">19</b><span>pull requests merged</span></div>
+        <div><b data-count="15">15</b><span>in c2siorg/TensorMap</span></div>
+        <div><b data-count="4">4</b><span>other projects merged</span></div>
+        <div><b data-count="10" data-suffix="+">10+</b><span>more in review</span></div>
+      </div>
+      <div class="oss-grid">
+        <div class="rv">
+          <h3 class="caps">Merged</h3>
+          <ul class="prs">
+            <li><a href="https://github.com/c2siorg/tensormap/pull/412" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #412 · #413</span><span class="pr-t">Keras 3 compatibility for SavedModel and TFLite export</span></a></li>
+            <li><a href="https://github.com/c2siorg/tensormap/pull/407" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #407</span><span class="pr-t">Validate hyperparameter-tuning search spaces</span></a></li>
+            <li><a href="https://github.com/c2siorg/tensormap/pull/392" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #392 · #401</span><span class="pr-t">Reject disconnected and malformed canvas graphs instead of crashing</span></a></li>
+            <li><a href="https://github.com/c2siorg/tensormap/pull/405" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #405</span><span class="pr-t">Deterministic training-jobs ordering, and a de-flaked test</span></a></li>
+            <li><a href="https://github.com/NNPDF/eko/pull/570" target="_blank" rel="noopener"><span class="pr-r">NNPDF/eko #570</span><span class="pr-t">Pass plain ints instead of enums to Numba kernels</span></a></li>
+            <li><a href="https://github.com/Dharanish-AM/Logara-AI/pull/117" target="_blank" rel="noopener"><span class="pr-r">Logara-AI #117 · #68</span><span class="pr-t">Normalise Unix epoch timestamps; deep-copy on redaction</span></a></li>
+            <li><a href="https://github.com/Arnav-Singh-5080/CricScope/pull/141" target="_blank" rel="noopener"><span class="pr-r">CricScope #141</span><span class="pr-t">Ball-by-ball CSV export for win-probability predictions</span></a></li>
+          </ul>
+        </div>
+        <div class="rv">
+          <h3 class="caps">In review</h3>
+          <ul class="prs">
+            <li><a href="https://github.com/c2siorg/tensormap/pull/419" target="_blank" rel="noopener"><span class="pr-r">c2siorg/tensormap #419</span><span class="pr-t">Static graph analysis with live shapes and diagnostics</span></a></li>
+            <li><a href="https://github.com/meshery/meshery/pull/20399" target="_blank" rel="noopener"><span class="pr-r">meshery/meshery #20399</span><span class="pr-t">Design spec for AI adapter error, status and event semantics</span></a></li>
+            <li><a href="https://github.com/deepchem/deepchem/pull/5075" target="_blank" rel="noopener"><span class="pr-r">deepchem/deepchem #5075</span><span class="pr-t">Fix ModularTorchModel.fit_generator ignoring its loss argument</span></a></li>
+            <li><a href="https://github.com/mesa/mesa-llm/pull/328" target="_blank" rel="noopener"><span class="pr-r">mesa/mesa-llm #328</span><span class="pr-t">Render real communication history in long-term memory</span></a></li>
+            <li><a href="https://github.com/JdeRobot/PerceptionMetrics/pull/641" target="_blank" rel="noopener"><span class="pr-r">JdeRobot/PerceptionMetrics #641</span><span class="pr-t">Public COCO128 dataset and YOLOv8n model in the YOLO tutorial</span></a></li>
+            <li><a href="https://github.com/invesalius/invesalius3/pulls?q=author%3Aashishsoni-ai" target="_blank" rel="noopener"><span class="pr-r">invesalius/invesalius3 · 4 PRs</span><span class="pr-t">Crash fixes for tracker coordinates, copy naming and date parsing</span></a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="rv caps" style="margin-top:2.5rem"><a class="ulink" href="https://github.com/search?q=author%3Aashishsoni-ai+type%3Apr+-user%3Aashishsoni-ai&amp;type=pullrequests" target="_blank" rel="noopener">All pull requests ↗</a></p>
     </div>
   </section>
 
@@ -1116,15 +1039,13 @@
   </section>
 
   <!-- ============ TOOLKIT ============ -->
-  <section class="toolkit" id="toolkit">
-    <div class="wrap">
+  <section class="toolkit" id="toolkit" style="padding-top:0">
+    <div class="wrap head">
       <p class="eyebrow caps rv"><b>06</b> Toolkit</p>
-      <div class="kit rv">
-        <div><h3 class="caps">Agents &amp; LLMs</h3><p>LangGraph · LangChain · RAG · LLM evaluation · Qdrant</p></div>
-        <div><h3 class="caps">Machine learning</h3><p>PyTorch · TensorFlow · scikit-learn · OpenCV · Hugging Face</p></div>
-        <div><h3 class="caps">Backend</h3><p>Python · FastAPI · PostgreSQL · Docker · pytest</p></div>
-      </div>
     </div>
+    <div class="marquee" data-dir="-1"><div class="marquee-inner"><span>LangGraph</span><span>LangChain</span><span>RAG</span><span>LLM evaluation</span><span>Qdrant</span><span>ChromaDB</span><span>Groq · Gemini · Claude</span></div></div>
+    <div class="marquee alt" data-dir="1"><div class="marquee-inner"><span>PyTorch</span><span>TensorFlow</span><span>scikit-learn</span><span>YOLOv8</span><span>OpenCV</span><span>Hugging Face</span><span>wav2vec2</span></div></div>
+    <div class="marquee" data-dir="-1"><div class="marquee-inner"><span>Python</span><span>FastAPI</span><span>Django</span><span>DuckDB</span><span>PostgreSQL</span><span>Celery</span><span>Docker</span><span>Next.js</span><span>Go</span></div></div>
   </section>
 
   <!-- ============ CONTACT ============ -->
@@ -1139,7 +1060,7 @@
       <h2 class="rv">Let's build something <em>careful.</em></h2>
       <div class="contact-grid">
         <div class="contact-left rv">
-          <p class="avail"><span class="pulse" aria-hidden="true"></span><span data-fact="availabilityDetail">Available now · remote or in India · replies within a day</span></p>
+          <p class="avail"><span class="pulse" aria-hidden="true"></span>Available for internships · usually replies within a day</p>
           <p class="sub">Looking for AI/ML engineering and research internships, remote or in India. If you're working on agents, evaluation or applied vision, I'd love to hear about it.</p>
           <div class="mail-card">
             <span class="caps mail-label">Email</span>
@@ -1219,10 +1140,10 @@
   </header>
   <div class="chat-log" id="chat-log" data-lenis-prevent aria-live="polite"></div>
   <div class="chat-suggest" id="chat-suggest">
-    <button type="button">Show me proof of his best work</button>
-    <button type="button">What did he contribute to TensorMap?</button>
-    <button type="button">What did he do in his internships?</button>
-    <button type="button">Is he available now?</button>
+    <button type="button">What did he do at Think Decor?</button>
+    <button type="button">Best projects?</button>
+    <button type="button">Open-source work</button>
+    <button type="button">Is he open to internships?</button>
   </div>
   <form class="chat-form" id="chat-form">
     <label for="chat-input" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label>
@@ -1408,7 +1329,8 @@
     document.getElementById('st-longest').textContent = st.longest + (st.longest === 1 ? ' day' : ' days');
     document.getElementById('st-active').textContent = active;
     var about = document.getElementById('about-contrib');
-    if (about) { about.dataset.count = yearTotal; about.dataset.suffix = ''; if (about.dataset.done || !motion) about.textContent = yearTotal.toLocaleString(); }
+    about.dataset.count = yearTotal; about.dataset.suffix = '';
+    if (about.dataset.done || !motion) about.textContent = yearTotal.toLocaleString();
     var sc = document.getElementById('cal-scroll');
     requestAnimationFrame(function () { sc.scrollLeft = sc.scrollWidth; });
     if (motion) {
@@ -1441,6 +1363,7 @@
   var intro = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
     .fromTo('#hero-media', { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.6, ease: 'power2.out' }, 0)
     .to('.hero .line > span', { y: 0, duration: 1.4, stagger: .14 }, .35)
+    .to('.hero .rule', { scaleX: 1, duration: 1.1, ease: 'power3.inOut' }, .9)
     .to('.hero .fade-in', { opacity: 1, duration: 1.2, stagger: .1, ease: 'power2.out' }, 1.1)
     .from('.nav-inner', { opacity: 0, duration: 1, ease: 'power2.out' }, .6);
   if (root.classList.contains('preloading')) document.addEventListener('preloader:done', function () { intro.play(); }, { once: true });
@@ -1501,10 +1424,23 @@
     } });
   });
 
-  // Featured project cards rise in and light their constellations
-  gsap.utils.toArray('.panel').forEach(function (p) {
-    gsap.from(p, { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out',
-      scrollTrigger: { trigger: p, start: 'top 88%', onEnter: function () { p.classList.add('lit'); } } });
+  // Horizontal work track on wide screens; simple rises on small ones
+  var mm = gsap.matchMedia();
+  mm.add('(min-width: 961px)', function () {
+    var track = document.getElementById('track');
+    var distance = function () { return Math.max(0, track.scrollWidth - window.innerWidth); };
+    var tween = gsap.to(track, { x: function () { return -distance(); }, ease: 'none',
+      scrollTrigger: { trigger: '#work-pin', start: 'center center', end: function () { return '+=' + distance(); }, pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 } });
+    gsap.utils.toArray('.panel').forEach(function (p) {
+      ScrollTrigger.create({ trigger: p, containerAnimation: tween, start: 'left 75%', onEnter: function () { p.classList.add('lit'); } });
+      gsap.fromTo(p.querySelector('.sky'), { xPercent: 6 }, { xPercent: -6, ease: 'none', scrollTrigger: { trigger: p, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true } });
+    });
+  });
+  mm.add('(max-width: 960px)', function () {
+    gsap.utils.toArray('.panel').forEach(function (p) {
+      gsap.from(p, { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out',
+        scrollTrigger: { trigger: p, start: 'top 88%', onEnter: function () { p.classList.add('lit'); } } });
+    });
   });
 
   // Toolkit marquees: slow drift, nudged by scroll speed
@@ -1998,7 +1934,7 @@ window.PROJECTS = [
       setTimeout(function () { star.remove(); }, 2200);
       schedule();
     }
-    function schedule() { clearTimeout(timer); timer = setTimeout(spawn, 9000 + Math.random() * 9000); }
+    function schedule() { clearTimeout(timer); timer = setTimeout(spawn, 3200 + Math.random() * 5200); }
     new IntersectionObserver(function (es) {
       visible = es[0].isIntersecting;
       if (visible && !timer) { timer = setTimeout(spawn, 1600); }
@@ -2014,7 +1950,7 @@ window.PROJECTS = [
     var tx = G.quickTo('.hero-wrap', 'x', { duration: 1.6, ease: 'power3' }), ty = G.quickTo('.hero-wrap', 'y', { duration: 1.6, ease: 'power3' });
     hero.addEventListener('mousemove', function (e) {
       var nx = e.clientX / window.innerWidth - 0.5, ny = e.clientY / window.innerHeight - 0.5;
-      mx(nx * -12); my(ny * -8); tx(nx * 5); ty(ny * 4);
+      mx(nx * -26); my(ny * -18); tx(nx * 14); ty(ny * 10);
     });
     hero.addEventListener('mouseleave', function () { mx(0); my(0); tx(0); ty(0); });
   }
@@ -2027,7 +1963,7 @@ window.PROJECTS = [
       G.set(panel, { transformPerspective: 1100 });
       panel.addEventListener('mousemove', function (e) {
         var r = panel.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        ry((px - 0.5) * 3); rx((0.5 - py) * 2.5);
+        ry((px - 0.5) * 7); rx((0.5 - py) * 6);
         panel.style.setProperty('--gx', (px * 100) + '%'); panel.style.setProperty('--gy', (py * 100) + '%');
       });
       panel.addEventListener('mouseleave', function () { rx(0); ry(0); });
@@ -2058,39 +1994,6 @@ window.PROJECTS = [
 </script>
 
 <script>
-/* ---------- Live facts: /api/stats fills every [data-fact] and internship status ---------- */
-(function () {
-  function set(name, val) {
-    if (val === undefined || val === null) return;
-    document.querySelectorAll('[data-fact="' + name + '"]').forEach(function (el) {
-      if (el.hasAttribute('data-count')) {
-        el.dataset.count = val;
-        if (el.dataset.done || !window.gsap) el.textContent = val + (el.dataset.suffix || '');
-      } else el.textContent = val;
-    });
-  }
-  fetch('/api/stats').then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); }).then(function (d) {
-    var g = d.github || {};
-    set('cgpa', d.cgpa);
-    set('internshipCount', d.internshipCount);
-    set('mergedPRs', g.mergedPRs);
-    set('tensormapPRs', g.tensormapPRs);
-    set('otherProjects', g.otherProjects);
-    set('openPRs', g.openPRs);
-    if (typeof g.openPRs === 'number') set('openPRsMore', Math.max(0, g.openPRs - 3));
-    if (d.availability) { set('availabilityHeadline', d.availability.headline); set('availabilityDetail', d.availability.detail); }
-    (d.internships || []).forEach(function (r) {
-      var li = document.querySelector('[data-role="' + r.id + '"]');
-      if (!li) return;
-      var when = li.querySelector('[data-role-when]'), tag = li.querySelector('[data-role-tag]');
-      if (when) when.textContent = r.when;
-      if (tag) tag.textContent = r.status === 'current' ? 'Now' : 'Completed';
-    });
-  }).catch(function () { /* the static values in the HTML are the fallback */ });
-})();
-</script>
-
-<script>
 /* ---------- Portfolio assistant (streams from /api/chat) ---------- */
 (function () {
   var API = '/api/chat';
@@ -2105,7 +2008,7 @@ window.PROJECTS = [
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var history = [];
   var busy = false, controller = null;
-  var GREETING = "Hi! I'm Ashish's portfolio assistant. Ask me about his projects, open-source work or internships. I answer from his portfolio and link the evidence.";
+  var GREETING = "Hi! I'm Ashish's portfolio assistant. Ask me about his projects, internships at Think Decor and FlyRank AI, open-source work, or whether he's available.";
 
   /* --- Where each knowledge-base section lives on the page --- */
   var ANCHORS = [
