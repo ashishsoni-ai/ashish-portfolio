@@ -1,0 +1,58 @@
+{
+  "_readme": "Single source of truth for facts shown on the site and used by the chatbot. Edit this file, push, and everything updates. Internship status (current/completed) is computed from the dates; GitHub numbers are fetched live by /api/stats and these github.fallback values are only used if GitHub is unreachable.",
+  "name": "Ashish Soni",
+  "location": "New Delhi, India",
+  "email": "ashishsoni243k@gmail.com",
+  "links": {
+    "github": "https://github.com/ashishsoni-ai",
+    "linkedin": "https://linkedin.com/in/ashish-soni-engineer",
+    "resume": "ashish_soni_resume.pdf"
+  },
+  "education": {
+    "degree": "B.Tech, Artificial Intelligence & Machine Learning",
+    "school": "GGSIPU, New Delhi",
+    "start": "2024",
+    "end": "2028",
+    "cgpa": "9.23",
+    "cgpaScale": "10"
+  },
+  "availability": {
+    "open": true,
+    "headline": "Open to AI/ML internships",
+    "detail": "Available now · remote or in India · replies within a day"
+  },
+  "internships": [
+    {
+      "id": "thinkdecor",
+      "role": "AI Development Intern",
+      "company": "Think Decor",
+      "start": "2026-07-01",
+      "end": "2026-09-28",
+      "location": "Remote · UK",
+      "summary": "Built computer vision and AI features for Think Decor, an interior design company.",
+      "skills": ["Computer Vision", "Artificial Intelligence", "Python"]
+    },
+    {
+      "id": "flyrank",
+      "role": "Back-End AI Engineering Intern",
+      "company": "FlyRank AI",
+      "start": "2026-07-01",
+      "end": "2026-09-30",
+      "location": "Remote",
+      "summary": "Selected for the FlyRank AI internship programme. Built backend AI services and APIs in Python: LLM-powered applications, API design and testing. Finished with a certificate of completion.",
+      "skills": ["Python", "Agentic AI", "REST APIs", "Testing"]
+    }
+  ],
+  "github": {
+    "user": "ashishsoni-ai",
+    "spotlightRepo": "c2siorg/tensormap",
+    "fallback": {
+      "mergedPRs": 19,
+      "tensormapPRs": 15,
+      "otherProjects": 3,
+      "openPRs": 16,
+      "contributionsLastYear": 651,
+      "asOf": "2026-10-06"
+    }
+  }
+}

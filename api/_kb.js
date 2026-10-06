@@ -4,9 +4,9 @@
 
 module.exports = `
 ## Profile summary
-Ashish Soni is an AI engineer and B.Tech student in Artificial Intelligence & Machine Learning at GGSIPU (Guru Gobind Singh Indraprastha University), New Delhi, India. He expects to graduate in 2028 and has a CGPA of 9.19 / 10.
+Ashish Soni is an AI engineer and B.Tech student in Artificial Intelligence & Machine Learning at GGSIPU (Guru Gobind Singh Indraprastha University), New Delhi, India. He expects to graduate in 2028 (his current CGPA is in Live facts).
 He builds AI systems that "show their work": multi-agent pipelines, retrieval-augmented generation (RAG), computer vision, and the evaluations and tests that keep them honest. He reports numbers with their denominators and caveats.
-He is currently an AI Development Intern at Think Decor, and previously completed a Back-End AI Engineering internship at FlyRank AI.
+In 2026 he completed two AI engineering internships, at Think Decor and at FlyRank AI (dates and status are in Live facts).
 Portfolio: https://ashish-portfolio-sigma.vercel.app
 
 ## Availability and hiring
@@ -21,20 +21,20 @@ LinkedIn: https://linkedin.com/in/ashish-soni-engineer
 Résumé (PDF): https://ashish-portfolio-sigma.vercel.app/ashish_soni_resume.pdf
 Location: New Delhi, India.
 
-## Experience: Think Decor (current)
+## Experience: Think Decor
 Role: AI Development Intern at Think Decor, an interior design company.
-Dates: July 2026 to present. Remote, company based in the United Kingdom.
-Work: building computer vision and AI features for Think Decor's products.
+Dates: July 2026 to 28 September 2026. Remote, company based in the United Kingdom.
+Work: built computer vision and AI features for Think Decor's products.
 Skills: computer vision, artificial intelligence, Python.
 
-## Experience: FlyRank AI (completed)
+## Experience: FlyRank AI
 Role: Back-End AI Engineering Intern at FlyRank AI.
 Dates: July 2026 to September 2026. Remote.
 He was selected for the FlyRank AI internship programme and built backend AI services and APIs in Python: LLM-powered applications, API design and testing. He completed it and received a certificate of completion.
 Skills: Python, agentic AI development, REST APIs, testing.
 
 ## Education
-B.Tech in Artificial Intelligence & Machine Learning, GGSIPU, New Delhi, 2024 to 2028 (expected). CGPA 9.19 / 10.
+B.Tech in Artificial Intelligence & Machine Learning, GGSIPU, New Delhi, 2024 to 2028 (expected). CGPA: see Live facts.
 Studies machine learning, deep learning and data systems.
 
 ## Project: ClauseGuard (featured)
@@ -123,14 +123,14 @@ Social Media Studio: a Django app for scheduling posts across eleven social plat
 Links: https://github.com/ashishsoni-ai/meshery-ai  https://github.com/ashishsoni-ai/promptpin  https://github.com/ashishsoni-ai/Social-Media-Studio
 
 ## Open-source contributions
-Ashish has 19 merged pull requests in other people's open-source projects: 15 in c2siorg/TensorMap, plus NNPDF/eko, Logara-AI (2) and CricScope.
+Ashish contributes small, careful fixes to other people's open-source projects. Most of his merged pull requests are in c2siorg/TensorMap, a web app for building machine-learning models visually; others are in NNPDF/eko, Logara-AI and CricScope. Current counts are in Live facts.
 TensorMap highlights: Keras 3 compatibility for SavedModel and TFLite export (#412, #413), validation of hyperparameter-tuning search spaces (#407), rejecting disconnected or malformed canvas graphs instead of crashing (#392, #401), deterministic ordering for the training-jobs endpoint with a de-flaked test (#405), SQLite-compatible migrations, and several missing unit tests.
 NNPDF/eko #570: pass plain ints instead of enums to Numba kernels. Logara-AI: normalise Unix epoch timestamps; deep-copy on redaction. CricScope: ball-by-ball CSV export for win-probability predictions.
 In review: TensorMap #419 static graph analysis with live shapes, Meshery #20399 AI adapter design spec and unit tests, DeepChem #5075 loss-argument fix, mesa-llm #328 memory fix, JdeRobot PerceptionMetrics tutorial fixes, and four InVesalius crash fixes.
 All PRs: https://github.com/search?q=author%3Aashishsoni-ai+type%3Apr+-user%3Aashishsoni-ai&type=pullrequests
 
 ## GitHub activity
-Ashish made about 650 public GitHub contributions in the last year, with a longest streak of 76 days (30 June to 13 September 2026) and around 150 active days. He also practises data structures and algorithms daily in his LeetCode_Solutions repository. The portfolio shows a live contribution calendar.
+Ashish commits to GitHub most days; his yearly contribution count is in Live facts and the portfolio shows a live contribution calendar. He also practises data structures and algorithms daily in his LeetCode_Solutions repository. The portfolio shows a live contribution calendar.
 
 ## Skills and toolkit
 Agents and LLMs: LangGraph, LangChain, RAG and retrieval, LLM evaluation, tool calling, prompt engineering, Groq, Gemini, Mistral, Claude, ChromaDB, Qdrant, FAISS.
