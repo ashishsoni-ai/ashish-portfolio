@@ -249,6 +249,9 @@ module.exports = async function handler(req, res) {
     const info = { ok: true, providers: { groq: !!process.env.GROQ_API_KEY, gemini: !!process.env.GEMINI_API_KEY } };
     // GET /api/chat?diag=1 — tries a 1-token call per model and reports only status codes (never keys).
     if (/[?&]diag=1/.test(req.url || '')) {
+      // Same per-IP limit as chat, so the check can't be used to drain the free quota.
+      const dip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+      if (limited(dip)) return res.status(429).json({ ok: false, error: 'Too many checks, try again in a minute.' });
       info.models = {};
       const probe = [{ role: 'user', content: 'Say OK' }];
       const tries = [
